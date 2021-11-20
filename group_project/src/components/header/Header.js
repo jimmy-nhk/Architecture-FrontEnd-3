@@ -84,22 +84,22 @@ function Header() {
           {/* The list of category */}
           <ul className="nav-list">
             <li>
-              <a id="sst" className="nav-link">
-                School of Science, Engineering and Technology
+              <a id="sst" className="nav-link major">
+                Engineering
               </a>
             </li>
             <li>
               <a
                 id="sbm"
                 href="../ServiceCategoryPage/serviceCategoryPage.html"
-                className="nav-link"
+                className="nav-link major"
               >
-                School of Business and Management
+                Computer Science
               </a>
             </li>
             <li>
-              <a id="scd" className="nav-link">
-                School of Design and Communication
+              <a id="scd" className="nav-link major">
+                Design
               </a>
             </li>
 
