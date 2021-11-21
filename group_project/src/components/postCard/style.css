@@ -1,7 +1,7 @@
 
 .media {
-    height: "250px";
 
+    height: "40%";
 }
 
 .card {
@@ -11,9 +11,17 @@
 
 }
 
+.cardPost{
+    margin-bottom: 50px;
+}
+
 @media screen and (max-width: 1000px){
     .media {
-        height: "150px";
+        height: "200vh";
     
+    }
+
+    .cardPost{
+        flex-direction: column;
     }
 }

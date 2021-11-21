@@ -11,7 +11,7 @@ function PostContainer() {
 
     const children = [];
     let i;
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < 100; i++) {
       children.push(<Post />);
     }
 
@@ -24,7 +24,7 @@ function PostContainer() {
     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="post-container">
 
         {posts.map((post) => {
-          return <Grid item item xs={4} key={post}>{post}</Grid>;
+          return <Grid item item xs={8} key={post}>{post}</Grid>;
         })}
 
     </Grid>

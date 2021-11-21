@@ -1,5 +1,7 @@
 import React from "react";
 import "./style.css";
+import logo from "../../images/Showcase_Logo.png"
+
 export default function Footer() {
   return (
     <footer class="footer">
@@ -38,6 +40,28 @@ export default function Footer() {
                 <a href="#">Design</a>
               </li>
             </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4>Major</h4>
+            <ul>
+              <li>
+                <a href="#">Robotics</a>
+              </li>
+              <li>
+                <a href="#">Electrical</a>
+              </li>
+              <li>
+                <a href="#">Psychology</a>
+              </li>
+              <li>
+                <a href="#">Aviation</a>
+              </li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <img className="footer-logo" src={logo} width="80%"   />
           </div>
         </div>
       </div>

@@ -1,5 +1,7 @@
 
 .post-container {
     display: flex;
-    
+    justify-content: center;
+    padding-top: 50px !important;
+    background-color: #262626
 }
