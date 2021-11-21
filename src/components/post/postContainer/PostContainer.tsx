@@ -4,7 +4,7 @@ import "./style.css";
 import Grid from "@mui/material/Grid";
 
 function PostContainer() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<any[]>([]);
 
   useEffect(() => {
 
@@ -12,7 +12,7 @@ function PostContainer() {
     const children = [];
     let i;
     for (i = 0; i < 100; i++) {
-      children.push(<Post />);
+      children.push(<Post key={i} />);
     }
 
     setPosts(children);
@@ -23,8 +23,8 @@ function PostContainer() {
   return (
     <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }} className="post-container">
 
-        {posts.map((post) => {
-          return <Grid item item xs={8} key={post}>{post}</Grid>;
+        {posts.map((post, index) => {
+          return <Grid item xs={8} key={index}>{post}</Grid>;
         })}
 
     </Grid>

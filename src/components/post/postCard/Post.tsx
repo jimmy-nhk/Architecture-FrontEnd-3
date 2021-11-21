@@ -1,28 +1,22 @@
 import React from "react";
 // import theme from "../theme";
-import { makeStyles } from "@mui/styles";
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, CardActions } from "@mui/material";
-import { Button } from "@material-ui/core";
+import { Button, CardActionArea, CardActions } from "@mui/material";
 import "./style.css";
-import photo from "../../images/dummy-post.png";
 import Box from '@mui/material/Box';
 
 function Post() {
   return (
-
-
     <Card sx={{ display: "flex" }} className="cardPost" >
             <CardMedia
         component="img"
           className="media"
-          image={photo}
+          image="/images/dummy-post.png"
           title="My Post"
-          
           
         />
       <Box sx={{ display: "flex", flexDirection: "column" }}>

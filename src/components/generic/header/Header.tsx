@@ -1,8 +1,9 @@
+import { Search } from "@mui/icons-material";
 import React, { useState, useEffect } from "react";
-import { Search } from "@material-ui/icons";
-
 
 import "./style.css";
+
+// FIXME: @jimmy, please convert all the js code (ones with the "!") into ts
 
 function Header() {
   // open navigation bar
@@ -16,27 +17,25 @@ function Header() {
     console.log(isSearched);
     const searchedText = document.querySelector("#searchText");
 
-    if (isSearched === true) {
-      searchedText.style.display = "block";
-      document.querySelector(".nav-list").classList.add(".nav-list-search");
+    // if (isSearched === true) {
+    //   searchedText!.style!.display! = "block";
+    //   document!.querySelector(".nav-list")!.classList.add(".nav-list-search");
+    //   document!.querySelector("#sbm")!.style.display = "none";
+    //   document!.querySelector("#sst")!.style.display = "none";
+    //   document!.querySelector("#scd")!.style.display = "none";
+    //   document!.querySelector("#join-logout")!.style!.display = "none";
+    //   document!.querySelector("#signin-profile")!.style!.display = "none";
+    // } else {
+    //   searchedText!.style.display = "none";
+    //   document!.querySelector(".nav-list")!.classList.remove(".nav-list-search");
 
-
-      document.querySelector("#sbm").style.display = "none";
-      document.querySelector("#sst").style.display = "none";
-      document.querySelector("#scd").style.display = "none";
-      document.querySelector("#join-logout").style.display = "none";
-      document.querySelector("#signin-profile").style.display = "none";
-    } else {
-      searchedText.style.display = "none";
-      document.querySelector(".nav-list").classList.remove(".nav-list-search");
-
-      document.querySelector(".nav-list").style.display = "flex";
-      document.querySelector("#sbm").style.display = "block";
-      document.querySelector("#sst").style.display = "block";
-      document.querySelector("#scd").style.display = "block";
-      document.querySelector("#join-logout").style.display = "block";
-      document.querySelector("#signin-profile").style.display = "block";
-    }
+    //   document!.querySelector(".nav-list")!.style!.display = "flex";
+    //   document!.querySelector("#sbm")!.style!.display = "block";
+    //   document!.querySelector("#sst")!.style!.display = "block";
+    //   document!.querySelector("#scd")!.style!.display = "block";
+    //   document!.querySelector("#join-logout")!.style!.display = "block";
+    //   document!.querySelector("#signin-profile")!.style!.display = "block";
+    // }
   };
 
   const burgerClicked = () => {
@@ -45,16 +44,16 @@ function Header() {
     // Toggle navigation bar
 
     if (isNavActive === false) {
-      nav.classList.add("nav-active");
-      nav.classList.remove("nav-inactive");
+      nav!.classList.add("nav-active");
+      nav!.classList.remove("nav-inactive");
       // isNavActive = true;
       setIsNavActive(true);
     } else {
-      nav.classList.add("nav-inactive");
-      nav.classList.remove("nav-active");
+      nav!.classList.add("nav-inactive");
+      nav!.classList.remove("nav-active");
 
       setTimeout(function () {
-        nav.classList.remove("nav-inactive");
+        nav!.classList.remove("nav-inactive");
       }, 600);
 
       // isNavActive = false;
@@ -62,7 +61,7 @@ function Header() {
     }
 
     // Burger animation
-    burger.classList.toggle("toggle");
+    burger!.classList.toggle("toggle");
 
     console.log(isNavActive);
   };
