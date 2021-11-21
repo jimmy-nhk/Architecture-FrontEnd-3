@@ -16,13 +16,13 @@ function Post() {
   return (
 
 
-    <Card sx={{ display: "flex" }} className="cardPost">
+    <Card sx={{ display: "flex" }} className="cardPost" >
             <CardMedia
         component="img"
           className="media"
           image={photo}
           title="My Post"
-          height="500vh"
+          
           
         />
       <Box sx={{ display: "flex", flexDirection: "column" }}>
