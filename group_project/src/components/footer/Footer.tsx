@@ -4,10 +4,10 @@ import logo from "../../images/Showcase_Logo.png"
 
 export default function Footer() {
   return (
-    <footer class="footer">
-      <div class="footer-container">
-        <div class="row">
-          <div class="footer-col">
+    <footer className="footer">
+      <div className="footer-container">
+        <div className="row">
+          <div className="footer-col">
             <h4>company</h4>
             <ul>
               <li>
@@ -27,7 +27,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div class="footer-col">
+          <div className="footer-col">
             <h4>category</h4>
             <ul>
               <li>
@@ -42,7 +42,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div class="footer-col">
+          <div className="footer-col">
             <h4>Major</h4>
             <ul>
               <li>
@@ -60,7 +60,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div class="footer-col">
+          <div className="footer-col">
             <img className="footer-logo" src={logo} width="80%"   />
           </div>
         </div>

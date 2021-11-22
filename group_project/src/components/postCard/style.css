@@ -1,27 +1,54 @@
 
-.media {
-
-    height: "40%";
-}
-
 .card {
     margin-bottom: 5px;
     text-align: center;
-   
-
 }
 
 .cardPost{
     margin-bottom: 50px;
 }
 
-@media screen and (max-width: 1000px){
-    .media {
-        height: "200vh";
-    
+.media {
+    height: 30vw !important;
+    width: 30vw !important;
+}
+
+@media screen and (max-width: 1600px){
+    .cardMedia {
+        height: "200vw";
+        
     }
 
     .cardPost{
         flex-direction: column;
+    }
+}
+
+
+
+@media screen and (max-width: 1000px){
+    .cardMedia {
+        height: "200vw";
+        
+    }
+
+    .cardPost{
+        flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 800px){
+    .cardMedia {
+        height: 200vw !important;
+        width: auto;
+        display: none;
+    }
+
+    .cardPost{
+        flex-direction: column;
+    }
+
+    .media {
+        display: none;
     }
 }
