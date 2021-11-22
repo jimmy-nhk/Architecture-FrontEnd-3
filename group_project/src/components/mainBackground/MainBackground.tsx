@@ -9,7 +9,7 @@ function MainBackground() {
       <div className="main-background-container">
         <div className="overlay"></div>
         <div className="text-container">
-          <h2>Enginneering</h2>
+          <h2>Engineering</h2>
           <p>The most innovative minds</p>
         </div>
       </div>

@@ -94,12 +94,18 @@ padding-top: 2px;
   right: 1rem;
 }
 
+.searchedIconWhenClicked{
+  margin-left: -10rem;
+
+}
+
 #searchText{
     color: #fff;
     width: 40%;
     display: none;
     background-color: #313131;
-    border-radius: 10px;
+    border-radius: 3px;
+    font-size: 20px;
 }
 
 #join-logout {
@@ -198,6 +204,8 @@ padding-top: 2px;
     margin-left: 2rem;
   }
 }
+
+
 
 @media screen and (max-width: 1200px) {
   .major {

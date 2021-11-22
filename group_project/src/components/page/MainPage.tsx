@@ -11,8 +11,7 @@ function MainPage() {
       <Header />
       <MainBackground />
 
-    <CategoryPost />
-<CategoryContainer />
+      <CategoryContainer />
       <Footer />
     </div>
   );

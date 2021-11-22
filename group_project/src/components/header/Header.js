@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Search } from "@material-ui/icons";
+import SearchIcon from '@mui/icons-material/Search';
 
 
 import "./style.css";
+
 
 function Header() {
   // open navigation bar
@@ -16,10 +17,13 @@ function Header() {
     console.log(isSearched);
     const searchedText = document.querySelector("#searchText");
 
+    const searchIcon = document.querySelector("#searchIcon");
+
+
     if (isSearched === true) {
       searchedText.style.display = "block";
       document.querySelector(".nav-list").classList.add(".nav-list-search");
-
+      searchIcon.classList.add("searchedIconWhenClicked")
 
       document.querySelector("#sbm").style.display = "none";
       document.querySelector("#sst").style.display = "none";
@@ -42,6 +46,7 @@ function Header() {
   const burgerClicked = () => {
     const nav = document.querySelector(".nav-list");
     const burger = document.querySelector(".burger");
+
     // Toggle navigation bar
 
     if (isNavActive === false) {
@@ -115,7 +120,7 @@ function Header() {
 
             <input type="text" placeholder="Search…" id="searchText" />
 
-            <Search id="searchIcon" onClick={searchedClick} />
+            <SearchIcon id="searchIcon" onClick={searchedClick} />
           </ul>
 
           <div className="burger" onClick={burgerClicked}>

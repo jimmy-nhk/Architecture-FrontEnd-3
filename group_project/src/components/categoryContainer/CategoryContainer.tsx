@@ -4,15 +4,18 @@ import CategoryPost from '../postCategory/CategoryPost';
 
 function CategoryContainer() {
     return (
-        <div style={{marginBottom: "10px"}}>
+        <div  style={{marginLeft: "10%", marginRight: "15%" , marginTop:"2vw"}}>
       <Box
         sx={{
+          width:"100%",
           display: 'flex',
+
           flexDirection: 'row',
           flexWrap: 'wrap',
           alignContent: 'flex-start',
 
         }}
+
       >
         <CategoryPost />
         <CategoryPost />
