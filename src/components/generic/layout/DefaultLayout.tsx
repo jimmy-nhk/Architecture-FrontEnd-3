@@ -1,19 +1,20 @@
-import { Container } from "@mui/material";
 import React from "react";
 import Footer from "../footer/Footer";
 import Header from "../header/Header";
 
 type Props = {
-  children: React.ReactElement
+  children: React.ReactElement,
+  style?: any
 }
 
-const PostLayout = ({
-  children
+const DefaultLayout = ({
+  children, 
+  style
 }: Props) => {
   return (
     <>
       <Header />
-        <div>
+        <div style={style}>
           { children }
         </div>
       <Footer />
@@ -21,4 +22,4 @@ const PostLayout = ({
   );
 }
 
-export default PostLayout;
+export default DefaultLayout;
