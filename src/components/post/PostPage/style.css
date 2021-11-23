@@ -1,0 +1,59 @@
+.hero {
+  height: 100vh;
+  minHeight: 560px;
+  backgroundRepeat: no-repeat;
+  backgroundSize: cover;
+  backgroundPosition: center; 
+  display: flex; 
+  flexWrap: wrap; 
+  flexDirection: column; 
+  justifyContent: center;
+}
+
+.hero-text-container {
+  width: 100%;
+  height: 100%; 
+  position: absolute;
+  left: 0; 
+  top: 0;
+  display: flex;
+  flexWrap: wrap; 
+  flexDirection: column; 
+  justifyContent: center;
+}
+
+.hero-text {
+  margin: 150px;
+              display: flex; flexWrap: nowrap;
+              bottom: 0; left: 0; position: absolute; 
+              backgroundColor: white
+}
+
+.hero-text h1 {
+  fontWeight: bold; 
+                textAlign: left;
+}
+
+.post-detail-body {
+  margin: 100px auto
+}
+
+.post-detail-body .post-title {
+  fontWeight: bold; 
+  textAlign: left;
+}
+
+.post-detail-body .post-subtitle {
+  fontSize: 21px;
+  color: gray; 
+  marginBottom: 40px
+}
+
+.post-detail-body .post-like-text {
+  fontWeight: bold;
+  textAlign: center;
+}
+
+.post-detail-body .post-cards-container {
+  marginBottom: 50px; display: flex; flexDirection: row
+}
