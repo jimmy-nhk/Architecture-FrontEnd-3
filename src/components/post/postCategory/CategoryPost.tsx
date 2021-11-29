@@ -3,7 +3,10 @@ import Grid from "@mui/material/Grid";
 
 import "./style.css";
 
-function CategoryPost() {
+function CategoryPost(props:any) {
+  let category = props['category']
+  
+
   return (
     <div
       style={{
@@ -21,8 +24,8 @@ function CategoryPost() {
       >
         <div className="overlay"></div>
         <div className="text" style={{justifyItems: "center" }}>
-          <h2>Engineering</h2>
-          <p>The most innovative minds</p>
+          <h2>{category.name}</h2>
+          <p>{category.description}</p>
         </div>
       </div>
     </div>

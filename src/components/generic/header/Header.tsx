@@ -1,5 +1,6 @@
 import { Search } from "@mui/icons-material";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import "./style.css";
 
@@ -78,9 +79,12 @@ function Header() {
     <header>
       <div className="container">
         <div className="nav-container">
-          <a id="logo-text" className="logo">
-            Showcase
-          </a>
+          <Link to="/">          
+            <a id="logo-text" className="logo">
+              Showcase
+            </a>
+          </Link>
+
           {/* The list of category */}
           <ul className="nav-list">
             <li>
