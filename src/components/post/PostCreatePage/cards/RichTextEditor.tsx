@@ -54,7 +54,7 @@ const uploadImageToServer = (file: File) => {
     console.log(`Uploading image ${file.name} ...`);
     setTimeout(() => {
       console.log("Upload successful");
-      resolve(`https://return_uploaded_image_url/${file.name}`);
+      resolve(`https://return_uploaded_image_url/${file.name}`); 
     }, 2000);
   });
 };

@@ -9,7 +9,7 @@ export default function TitleAndContentCard() {
         <TextField fullWidth id="postTitle" label="New post title" variant="filled" />
         <Box sx={{ height: "500px", marginTop: "10px", border: "1px solid gray" ,overflowY: "scroll"}}>
           <RichTextEditor/>
-        </Box>
+        </Box> 
       </CardContent>
     </Card>
   );
