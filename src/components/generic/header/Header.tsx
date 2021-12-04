@@ -113,7 +113,7 @@ function Header() {
               </a>
             </li>
 
-            <a href="#" id="join-logout">
+            <a href="/login" id="join-logout">
               Join
             </a>
 
