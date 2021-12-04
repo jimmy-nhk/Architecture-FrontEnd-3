@@ -1,24 +1,25 @@
 import React from "react";
 
 import "./style.css";
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { Checkbox } from "@mui/material";
 
+// style for modal
 const style = {
-  position: 'absolute' as 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute" as "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
@@ -26,30 +27,73 @@ const style = {
 function LoginPage() {
   let navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
-
-  const username = useRef<HTMLInputElement>(null);
-  const password = useRef<HTMLInputElement>(null);
+  const email = useRef<HTMLInputElement>(null);
+  const password = useRef<HTMLInputElement | null>(null);
+  const passwordError = useRef<HTMLParagraphElement>(null);
+  const emailError = useRef<HTMLParagraphElement>(null);
 
   const validateLoginForm = () => {
-    console.log(username.current?.value);
+    // setOpen(true);
+    console.log(email.current?.value);
     console.log("Direct to main");
     console.log(password.current?.value);
+
+    var emailCurrentValue = email.current?.value;
+    var passwordCurrentValue = password.current?.value;
+
+    var passwordElement = document.querySelector("#password");
+
+    if (
+      null !== email.current &&
+      null !== emailError.current &&
+      null !== password.current &&
+      null !== passwordError.current
+    ) {
+      if (emailCurrentValue?.length === 0) {
+        displayError(email.current, emailError.current, "Email must be filled");
+      }
+
+      if (passwordCurrentValue?.length === 0) {
+        console.log(passwordCurrentValue?.length + " length");
+
+        // validate the null value
+
+        console.log(passwordCurrentValue?.length + " length");
+
+        displayError(
+          password.current,
+          passwordError.current,
+          "Password must be filled"
+        );
+      }
+    }
+
+
     // navigate("/", { replace: true });
   };
-  
+
+  // display error upon invalid inputs
+  const displayError = (
+    field: HTMLElement,
+    text: HTMLElement,
+    message: string
+  ) => {
+    field.style.borderColor = "#c92432";
+    field.style.borderWidth = "2px";
+    field.style.outline = "none";
+    text.innerHTML = message;
+    field.focus();
+  };
+
   // validate the toggle password
   const togglePasswordVisibility = () => {
-
-    if(password.current?.type === "password"){
+    if (password.current?.type === "password") {
       password.current.type = "text";
-
-    } else if(password.current?.type === "text" ){
+    } else if (password.current?.type === "text") {
       password.current.type = "password";
     }
-  }
+  };
 
   return (
     <div>
@@ -66,7 +110,8 @@ function LoginPage() {
         <div className="right">
           <form
             id="login-form"
-            onSubmit={() => {
+            onSubmit={(event) => {
+              event.preventDefault();
               return false;
             }}
           >
@@ -75,9 +120,9 @@ function LoginPage() {
             </section>
             <div className="input-container email">
               <label htmlFor="email">Email</label>
-              <input id="email" type="email" maxLength={40} ref={username} />
+              <input id="email" type="email" maxLength={40} ref={email} />
             </div>
-            <p id="email-error" className="error-text"></p>
+            <p ref={emailError} id="email-error" className="error-text"></p>
             <div className="input-container password">
               <label htmlFor="password">Password</label>
               <input
@@ -93,12 +138,20 @@ function LoginPage() {
                 className="far fa-eye-slash"
               ></i> */}
             </div>
-            <span>
-              <input type="checkbox" id="passwordVisibility" onClick={togglePasswordVisibility}  />
-               <span style={{marginLeft: "10px"}}>Show Password</span>
-            </span>
-            <p id="password-error" className="error-text"></p>
 
+            <p
+              ref={passwordError}
+              id="password-error"
+              className="error-text"
+            ></p>
+            <span>
+              <input
+                type="checkbox"
+                id="passwordVisibility"
+                onClick={togglePasswordVisibility}
+              />
+              <span style={{ marginLeft: "10px" }}>Show Password</span>
+            </span>
             {/* <div className="input-container cta">
               <label className="checkbox-container">
                 <input id="remember-me" type="checkbox" value="isRememberMe" />
@@ -129,7 +182,7 @@ function LoginPage() {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
-        onClose={handleClose}
+        onClose={() => setOpen(false)}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
