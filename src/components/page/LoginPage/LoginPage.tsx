@@ -1,16 +1,11 @@
-import React from "react";
+import React, { Dispatch, FunctionComponent } from "react";
 
 import "./style.css";
-import Backdrop from "@mui/material/Backdrop";
-import Box from "@mui/material/Box";
-import Modal from "@mui/material/Modal";
-import Fade from "@mui/material/Fade";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { Checkbox } from "@mui/material";
-
+import axios from "axios";
+// import { Account } from "../../../App"; 
 // style for modal
 const style = {
   position: "absolute" as "absolute",
@@ -24,7 +19,16 @@ const style = {
   p: 4,
 };
 
+// interface setAccountFunction {
+//   setAccount : React.Dispatch<React.SetStateAction<Account>>;
+// }
+
+
+
 function LoginPage() {
+  var url = 'http://localhost:8080/'
+  var database = `accounts/`
+
   let navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
 
@@ -32,6 +36,8 @@ function LoginPage() {
   const password = useRef<HTMLInputElement | null>(null);
   const passwordError = useRef<HTMLParagraphElement>(null);
   const emailError = useRef<HTMLParagraphElement>(null);
+
+  const loginError = useRef<HTMLSpanElement>(null);
 
   const validateLoginForm = () => {
     // setOpen(true);
@@ -41,6 +47,8 @@ function LoginPage() {
 
     var emailCurrentValue = email.current?.value;
     var passwordCurrentValue = password.current?.value;
+
+    
 
     var passwordElement = document.querySelector("#password");
 
@@ -52,6 +60,9 @@ function LoginPage() {
     ) {
       if (emailCurrentValue?.length === 0) {
         displayError(email.current, emailError.current, "Email must be filled");
+        return;
+      } else {
+        hideError(email.current!, emailError.current!);
       }
 
       if (passwordCurrentValue?.length === 0) {
@@ -66,12 +77,50 @@ function LoginPage() {
           passwordError.current,
           "Password must be filled"
         );
+        return;
+      } else {
+        hideError(password.current!, passwordError.current!);
       }
+
+      var accountObject = {
+        gmail: email.current.value,
+        password: password.current.value
+      }
+
+      // fetch the data from the backend to check the result
+      axios.post(url + database + `login`, accountObject)
+        .then(res => {
+          console.log(res.data)
+
+          if(res.data === true){
+
+            // setAccount(accountObject);
+            window.location.href = '/'
+          } else {
+            
+            
+            loginError.current!.style.borderColor = "#c92432";
+            loginError.current!.style.borderWidth = "2px";
+            loginError.current!.style.outline = "none";
+            loginError.current!.style.color = "red";
+            loginError.current!.innerHTML = ("The account cannot be found or the password is incorrect.\nPlease try again!")
+            
+          }
+        })
+
     }
 
 
     // navigate("/", { replace: true });
   };
+
+    // hide the error if validate the result
+    const hideError = (field: HTMLElement, text: HTMLElement) => {
+      text.innerHTML = ""
+      field.style.borderColor = "#c4c4c4";
+      field.style.borderWidth = "1px";
+    };
+
 
   // display error upon invalid inputs
   const displayError = (
@@ -152,6 +201,9 @@ function LoginPage() {
               />
               <span style={{ marginLeft: "10px" }}>Show Password</span>
             </span>
+            <br/>
+            <span id="showLoginError" ref={loginError}>
+            </span>
             {/* <div className="input-container cta">
               <label className="checkbox-container">
                 <input id="remember-me" type="checkbox" value="isRememberMe" />
@@ -177,29 +229,6 @@ function LoginPage() {
           </form>
         </div>
       </div>
-
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={open}
-        onClose={() => setOpen(false)}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={open}>
-          <Box sx={style}>
-            <Typography id="transition-modal-title" variant="h6" component="h2">
-              Text in a modal
-            </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-            </Typography>
-          </Box>
-        </Fade>
-      </Modal>
     </div>
   );
 }
