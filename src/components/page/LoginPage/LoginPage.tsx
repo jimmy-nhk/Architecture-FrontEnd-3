@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { Checkbox } from "@mui/material";
 import axios from "axios";
+import { Account } from "../../../App";
 // import { Account } from "../../../App"; 
 // style for modal
 const style = {
@@ -23,9 +24,12 @@ const style = {
 //   setAccount : React.Dispatch<React.SetStateAction<Account>>;
 // }
 
+type AccountProp = {
+  setAccount: (account: Account) => void
+}
 
 
-function LoginPage() {
+function LoginPage( {setAccount} : AccountProp) {
   var url = 'http://localhost:8080/'
   var database = `accounts/`
 
@@ -94,8 +98,8 @@ function LoginPage() {
 
           if(res.data === true){
 
-            // setAccount(accountObject);
-            window.location.href = '/'
+            setAccount(accountObject);
+            navigate('/')
           } else {
             
             
