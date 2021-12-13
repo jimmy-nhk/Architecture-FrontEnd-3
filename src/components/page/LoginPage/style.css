@@ -221,6 +221,22 @@ label {
   cursor: pointer;
 }
 
+.google-btn{
+  text-align: center;
+  display: block;
+  width: 100%;
+  border: #233975;
+  background: whitesmoke;
+  color: black;
+  font-weight: 700;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+  margin-top: 50px;
+}
+
 .legal {
   margin-top: 1rem;
 }

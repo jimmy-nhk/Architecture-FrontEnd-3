@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import { Checkbox } from "@mui/material";
 import axios from "axios";
 import { Account } from "../../../App";
+import { AppConstants } from "../../../app/common/app.constants";
 // import { Account } from "../../../App"; 
 // style for modal
 const style = {
@@ -230,6 +231,9 @@ function LoginPage( {setAccount} : AccountProp) {
                 </span>
               </p>
             </section>
+            <a className="google-btn" href={AppConstants.GOOGLE_AUTH_URL}>
+              Sign in with Google
+            </a>
           </form>
         </div>
       </div>
