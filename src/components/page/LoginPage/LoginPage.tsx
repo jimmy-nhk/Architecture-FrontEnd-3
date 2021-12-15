@@ -64,6 +64,8 @@ function LoginPage( {setAccount} : AccountProp) {
     } else if (token){
       console.log("User not found, but found token, should redirect to main page")
       tokenStorage.saveToken(token);
+      navigate('/')
+      // BUG WITH API, FULL AUTHORIZATION IS REQUIRED
       axios.get(AppConstants.API_URL+'user/me',{
         headers:{
             'Content-Type':'application/json'
