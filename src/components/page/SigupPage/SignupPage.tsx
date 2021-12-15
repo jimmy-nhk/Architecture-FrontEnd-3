@@ -1,11 +1,25 @@
 import axios from "axios";
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { AppConstants } from "../../../app/common/app.constants";
 import { AuthService } from "../../../app/service/auth.service";
+import { TokenStorageService } from "../../../app/service/token-storage.service";
 
 function SignupPage() {
   var url = "http://localhost:8080/";
   var database = `accounts/`;
+
+  let tokenStorage = new TokenStorageService()
+  let authService = new AuthService()
+
+  useEffect(() => {
+    if (tokenStorage.getToken()){
+      console.log("User found, should redirect to main page")
+      // Navigate to main page here
+      navigate('/')
+    }
+  }, [])
+
 
   const fnameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -92,8 +106,24 @@ function SignupPage() {
       password: passwordRef.current!.value,
       matchingPassword: passwordRef.current!.value
     }
-    let authService = new AuthService()
-    console.log(authService.register(userCredential))
+
+    axios.post(AppConstants.AUTH_API+'signup',{
+      displayName: userCredential.displayName,
+      email: userCredential.email,
+      password: userCredential.password,
+      matchingPassword: userCredential.matchingPassword,
+      socialProvider: 'LOCAL'
+    }, {
+      headers:{
+          'Content-Type':'application/json'
+      }
+    }).then(res =>{
+        console.log(res)
+        navigate('/login')
+        
+    })
+
+    // authService.register(userCredential)
   };
 
   // hide the error if validate the result

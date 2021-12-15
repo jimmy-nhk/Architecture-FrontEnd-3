@@ -59,7 +59,6 @@ function LoginPage( {setAccount} : AccountProp) {
       // Navigate to main page here
       navigate('/')
 
-
     // If user is not found, but there is token, store token and login
     } else if (token){
       console.log("User not found, but found token, should redirect to main page")
@@ -148,26 +147,43 @@ function LoginPage( {setAccount} : AccountProp) {
         password: password.current.value
       }
 
-      // fetch the data from the backend to check the result
-      axios.post(url + database + `login`, accountObject)
-        .then(res => {
-          console.log(res.data)
-
-          if(res.data === true){
-
-            setAccount(accountObject);
-            navigate('/')
-          } else {
-            
-            
-            loginError.current!.style.borderColor = "#c92432";
-            loginError.current!.style.borderWidth = "2px";
-            loginError.current!.style.outline = "none";
-            loginError.current!.style.color = "red";
-            loginError.current!.innerHTML = ("The account cannot be found or the password is incorrect.\nPlease try again!")
-            
+      axios.post(AppConstants.AUTH_API+'signin', {
+        email: accountObject.gmail,
+        password: accountObject.gmail
+      },{
+          headers:{
+              'Content-Type':'application/json'
           }
-        })
+      }).then(res=>{
+          console.log("Logged in")
+          console.log(res)
+          navigate('/login')
+      }, err=>{
+        console.log("Log in failed")
+        console.log(err)
+        isLoggedIn = false
+      })
+
+      // fetch the data from the backend to check the result
+      // axios.post(url + database + `login`, accountObject)
+      //   .then(res => {
+      //     console.log(res.data)
+
+      //     if(res.data === true){
+
+      //       setAccount(accountObject);
+      //       navigate('/')
+      //     } else {
+            
+            
+      //       loginError.current!.style.borderColor = "#c92432";
+      //       loginError.current!.style.borderWidth = "2px";
+      //       loginError.current!.style.outline = "none";
+      //       loginError.current!.style.color = "red";
+      //       loginError.current!.innerHTML = ("The account cannot be found or the password is incorrect.\nPlease try again!")
+            
+      //     }
+      //   })
 
     }
 
