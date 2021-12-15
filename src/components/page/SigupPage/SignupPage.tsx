@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthService } from "../../../app/service/auth.service";
 
 function SignupPage() {
   var url = "http://localhost:8080/";
@@ -9,10 +10,12 @@ function SignupPage() {
   const fnameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  // const repeatPasswordRef = useRef<HTMLInputElement>(null);
 
   const fnameErrorRef = useRef<HTMLParagraphElement>(null);
   const emailErrorRef = useRef<HTMLParagraphElement>(null);
   const passwordErrorRef = useRef<HTMLParagraphElement>(null);
+  // const repeatPasswordErrorRef = useRef<HTMLParagraphElement>(null);
 
   const signUpErrorRef = useRef<HTMLSpanElement>(null);
 
@@ -22,6 +25,7 @@ function SignupPage() {
     var emailCurrentValue = emailRef.current!.value;
     var passwordCurrentValue = passwordRef.current!.value;
     var fnameCurrentValue = fnameRef.current!.value;
+    // var repeatPasswordValue = repeatPasswordRef.current!.value;
 
     if (fnameCurrentValue.length === 0) {
       displayError(
@@ -69,18 +73,27 @@ function SignupPage() {
     };
 
     // create account in backend
-    axios.post(url + database + "create", accountObject).then((res) => {
-      console.log(res.data);
+    // axios.post(url + database + "create", accountObject).then((res) => {
+    //   console.log(res.data);
 
-      if (res.data) {
-        navigate("/login", { replace: true });
-      } else {
+    //   if (res.data) {
+    //     navigate("/login", { replace: true });
+    //   } else {
         
-        signUpErrorRef.current!.style.color = "#c92432";
-        signUpErrorRef.current!.innerHTML = "This email is already registed!"
-      }
+    //     signUpErrorRef.current!.style.color = "#c92432";
+    //     signUpErrorRef.current!.innerHTML = "This email is already registed!"
+    //   }
 
-    });
+    // });
+
+    var userCredential ={
+      displayName: fnameRef.current!.value,
+      email: emailRef.current!.value,
+      password: passwordRef.current!.value,
+      matchingPassword: passwordRef.current!.value
+    }
+    let authService = new AuthService()
+    console.log(authService.register(userCredential))
   };
 
   // hide the error if validate the result
