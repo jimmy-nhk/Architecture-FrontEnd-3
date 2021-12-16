@@ -55,6 +55,15 @@ function LoginPage( {setAccount} : AccountProp) {
     if (tokenStorage.getToken()){
       console.log("User found, should redirect to main page")
       isLoggedIn = true
+      axios.interceptors.request.use(request =>{
+        if (tokenStorage.getToken()){
+          // request.headers.common.Authorization = `Bearer ${tokenStorage.getToken()}`
+          if (request.headers){
+            request.headers['Authorization'] = `Bearer ${tokenStorage.getToken()}`
+          }
+        }
+        return request
+      })
       currentUser = tokenStorage.getUser()
       // Navigate to main page here
       navigate('/')
@@ -63,8 +72,19 @@ function LoginPage( {setAccount} : AccountProp) {
     } else if (token){
       console.log("User not found, but found token, should redirect to main page")
       tokenStorage.saveToken(token);
-      navigate('/')
-      // BUG WITH API, FULL AUTHORIZATION IS REQUIRED
+
+      axios.interceptors.request.use(request =>{
+        if (tokenStorage.getToken()){
+          // request.headers.common.Authorization = `Bearer ${tokenStorage.getToken()}`
+          if (request.headers){
+            request.headers['Authorization'] = `Bearer ${tokenStorage.getToken()}`
+          }
+        }
+        return request
+      })
+
+
+      // navigate('/')
       axios.get(AppConstants.API_URL+'user/me',{
         headers:{
             'Content-Type':'application/json'

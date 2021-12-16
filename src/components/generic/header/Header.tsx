@@ -1,9 +1,10 @@
-import { Search } from "@mui/icons-material";
+import { Logout, Search } from "@mui/icons-material";
 import { join } from "path";
 import React, { useState, useEffect, useRef  } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {Account} from "../../../App"
+import { TokenStorageService } from "../../../app/service/token-storage.service";
 import "./style.css";
 
 // FIXME: @jimmy, please convert all the js code (ones with the "!") into ts
@@ -29,6 +30,8 @@ function Header({account, setAccount} : HeaderProps) {
   var computer = useRef<HTMLAnchorElement | null>(null);
   var scd = useRef<HTMLAnchorElement | null>(null)
   var searchText = useRef<HTMLInputElement |null>(null)
+
+  var tokenStorage = new TokenStorageService()
 
   const searchedClick = () => {
     setIsSearched(!isSearched);
@@ -83,35 +86,58 @@ function Header({account, setAccount} : HeaderProps) {
 
   const joinUser = () => {
 
-    if(account === null){
-      navigate('/login')
+    // if(account === null){
+    //   navigate('/login')
+    // } else{
+
+    //   var accountObject = {
+    //     gmail: "email.current.value",
+    //     password: "password.current.value"
+    //   }
+
+    //   //TODO: set the account to null
+    //   join_logout!.current!.innerHTML = "JOIN"
+
+    //   // to check if the null value is used for the setAccount
+    //   if(setAccount){
+    //     setAccount(accountObject)
+    //   }
+    // }
+
+    if (tokenStorage.getToken()){
+      logout();
     } else{
-
-      var accountObject = {
-        gmail: "email.current.value",
-        password: "password.current.value"
-      }
-
-      //TODO: set the account to null
-      join_logout!.current!.innerHTML = "JOIN"
-
-      // to check if the null value is used for the setAccount
-      if(setAccount){
-        setAccount(accountObject)
-      }
+      navigate('/login');
     }
+  }
+
+  let logout = () =>{
+    tokenStorage.signOut();
+    window.location.reload();
   }
 
   // This useEffect is used for setting up the textInput
   useEffect(() => {
-    console.log("Hello");
+    console.log("Check if user is logged in...");
 
-    if(account === null){
-      join_logout!.current!.innerHTML = "JOIN"
-    } else{
+    if (tokenStorage.getToken()){
+      console.log("User is logged in")
+      console.log("User info:", tokenStorage.getUser())
       join_logout!.current!.innerHTML = "Sign out"
-
+    } else{
+      console.log("User is not logged in")
+      join_logout!.current!.innerHTML = "JOIN"
     }
+
+
+    // if(account === null){
+    //   join_logout!.current!.innerHTML = "JOIN"
+    // } else{
+    //   join_logout!.current!.innerHTML = "Sign out"
+
+    // }
+
+    
 
   }, []);
 
