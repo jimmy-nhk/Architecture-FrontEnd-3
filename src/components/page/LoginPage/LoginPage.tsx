@@ -169,7 +169,7 @@ function LoginPage( {setAccount} : AccountProp) {
 
       axios.post(AppConstants.AUTH_API+'signin', {
         email: accountObject.gmail,
-        password: accountObject.gmail
+        password: accountObject.password
       },{
           headers:{
               'Content-Type':'application/json'
@@ -177,7 +177,8 @@ function LoginPage( {setAccount} : AccountProp) {
       }).then(res=>{
           console.log("Logged in")
           console.log(res)
-          navigate('/login')
+          tokenStorage.saveToken(res.data.accessToken)
+          login(res.data.user)
       }, err=>{
         console.log("Log in failed")
         console.log(err)
