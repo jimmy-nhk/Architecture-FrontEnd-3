@@ -6,6 +6,10 @@ import { useEffect, useRef } from "react";
 import { Checkbox } from "@mui/material";
 import axios from "axios";
 import { Account } from "../../../App";
+import { AppConstants } from "../../../app/common/app.constants";
+import { TokenStorageService } from "../../../app/service/token-storage.service";
+import { useLocation } from "react-router";
+
 // import { Account } from "../../../App"; 
 // style for modal
 const style = {
@@ -36,6 +40,81 @@ function LoginPage( {setAccount} : AccountProp) {
   let navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
 
+  var isLoggedIn = false;
+  var isLoginFailed = false;
+  var currentUser: any;
+
+  let tokenStorage = new TokenStorageService()
+
+  let search = useLocation().search;
+  useEffect(()=>{
+    const token = new URLSearchParams(search).get("token")
+    const error = new URLSearchParams(search).get("error")
+
+    // If user token was already stored => navigate to main page
+    if (tokenStorage.getToken()){
+      console.log("User found, should redirect to main page")
+      isLoggedIn = true
+      axios.interceptors.request.use(request =>{
+        if (tokenStorage.getToken()){
+          // request.headers.common.Authorization = `Bearer ${tokenStorage.getToken()}`
+          if (request.headers){
+            request.headers['Authorization'] = `Bearer ${tokenStorage.getToken()}`
+          }
+        }
+        return request
+      })
+      currentUser = tokenStorage.getUser()
+      // Navigate to main page here
+      navigate('/')
+
+    // If user is not found, but there is token, store token and login
+    } else if (token){
+      console.log("User not found, but found token, should redirect to main page")
+      tokenStorage.saveToken(token);
+
+      axios.interceptors.request.use(request =>{
+        if (tokenStorage.getToken()){
+          // request.headers.common.Authorization = `Bearer ${tokenStorage.getToken()}`
+          if (request.headers){
+            request.headers['Authorization'] = `Bearer ${tokenStorage.getToken()}`
+          }
+        }
+        return request
+      })
+
+
+      // navigate('/')
+      axios.get(AppConstants.API_URL+'user/me',{
+        headers:{
+            'Content-Type':'application/json'
+        }
+      }).then(data =>{
+          console.log("user/me", data)
+          login(data)
+      }, err=>{
+          console.log("Log in failed")
+          console.log(err)
+          isLoggedIn = false
+      })
+    } else{
+      console.log("User not found, login page operate as normal")
+    }
+
+    console.log("Token: ", token)
+    console.log("Error: ", error)
+    
+  }, []);
+
+  const login = (user:any)=>{
+    console.log("At login function")
+    tokenStorage.saveUser(user)
+    isLoggedIn = true
+    currentUser = tokenStorage.getUser();
+    // Navigate to main page here
+    navigate('/')
+  }
+
   const email = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement | null>(null);
   const passwordError = useRef<HTMLParagraphElement>(null);
@@ -51,9 +130,6 @@ function LoginPage( {setAccount} : AccountProp) {
 
     var emailCurrentValue = email.current?.value;
     var passwordCurrentValue = password.current?.value;
-
-    
-
     var passwordElement = document.querySelector("#password");
 
     if (
@@ -91,26 +167,44 @@ function LoginPage( {setAccount} : AccountProp) {
         password: password.current.value
       }
 
-      // fetch the data from the backend to check the result
-      axios.post(url + database + `login`, accountObject)
-        .then(res => {
-          console.log(res.data)
-
-          if(res.data === true){
-
-            setAccount(accountObject);
-            navigate('/')
-          } else {
-            
-            
-            loginError.current!.style.borderColor = "#c92432";
-            loginError.current!.style.borderWidth = "2px";
-            loginError.current!.style.outline = "none";
-            loginError.current!.style.color = "red";
-            loginError.current!.innerHTML = ("The account cannot be found or the password is incorrect.\nPlease try again!")
-            
+      axios.post(AppConstants.AUTH_API+'signin', {
+        email: accountObject.gmail,
+        password: accountObject.password
+      },{
+          headers:{
+              'Content-Type':'application/json'
           }
-        })
+      }).then(res=>{
+          console.log("Logged in")
+          console.log(res)
+          tokenStorage.saveToken(res.data.accessToken)
+          login(res.data.user)
+      }, err=>{
+        console.log("Log in failed")
+        console.log(err)
+        isLoggedIn = false
+      })
+
+      // fetch the data from the backend to check the result
+      // axios.post(url + database + `login`, accountObject)
+      //   .then(res => {
+      //     console.log(res.data)
+
+      //     if(res.data === true){
+
+      //       setAccount(accountObject);
+      //       navigate('/')
+      //     } else {
+            
+            
+      //       loginError.current!.style.borderColor = "#c92432";
+      //       loginError.current!.style.borderWidth = "2px";
+      //       loginError.current!.style.outline = "none";
+      //       loginError.current!.style.color = "red";
+      //       loginError.current!.innerHTML = ("The account cannot be found or the password is incorrect.\nPlease try again!")
+            
+      //     }
+      //   })
 
     }
 
@@ -147,6 +241,12 @@ function LoginPage( {setAccount} : AccountProp) {
       password.current.type = "password";
     }
   };
+
+  const checkStorage = () =>{
+    let tokenStorage = new TokenStorageService()
+    console.log(tokenStorage.getToken())
+  }
+  checkStorage()
 
   return (
     <div>
@@ -230,6 +330,9 @@ function LoginPage( {setAccount} : AccountProp) {
                 </span>
               </p>
             </section>
+            <a className="google-btn" href={AppConstants.GOOGLE_AUTH_URL}>
+              Sign in with Google
+            </a>
           </form>
         </div>
       </div>
