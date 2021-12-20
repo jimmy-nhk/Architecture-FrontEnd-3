@@ -18,11 +18,33 @@ import BackupIcon from "@mui/icons-material/Backup";
 import DoneIcon from "@mui/icons-material/Done";
 import CloseIcon from "@mui/icons-material/Close";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { convertToRaw } from "draft-js";
+import { useForm, Controller } from "react-hook-form";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getStorage,ref,uploadBytesResumable, getDownloadURL  } from "firebase/storage";
 
+//Firebase config 
+const firebaseConfig = {
+  apiKey: "AIzaSyDgrrJN3aVUu4zLjQ_go6cUtfcPAOyR0bE",
+  authDomain: "sead-c470a.firebaseapp.com",
+  databaseURL: "https://sead-c470a-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "sead-c470a",
+  storageBucket: "sead-c470a.appspot.com",
+  messagingSenderId: "431948638881",
+  appId: "1:431948638881:web:6f352458ae3a211539dee0",
+  measurementId: "G-B8TSFYDFVE"
+};
 
 interface IUploadImagePopoverProps {
   anchor: TAnchor;
   onSubmit: (data: TUploadImageData, insert: boolean) => void;
+
+}
+
+interface IRichTextEditorProps {
+  content: string
+  updatePostContent: (arg: string) => void
 }
 
 type TUploadImagePopoverState = {
@@ -49,12 +71,35 @@ const cardPopverStyles = makeStyles({
   },
 });
 
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const storage = getStorage();
 const uploadImageToServer = (file: File) => {
   return new Promise((resolve) => {
     console.log(`Uploading image ${file.name} ...`);
     setTimeout(() => {
+      const spaceRef = ref(storage, `images/${file.name}`);
+
+      const uploadTask = uploadBytesResumable(spaceRef, file);
+      //
+      //initiates the firebase side uploading 
+      uploadTask.on('state_changed',
+        (snapShot: any) => {
+          //takes a snap shot of the process as it is happening
+          console.log(snapShot)
+        }, (err: any) => {
+          //catches the errors
+          console.log(err)
+        }, () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log('File available at', downloadURL);
+            resolve(downloadURL);
+          }); 
+        })
       console.log("Upload successful");
-      resolve(`https://return_uploaded_image_url/${file.name}`); 
+
     }, 2000);
   });
 };
@@ -170,10 +215,15 @@ const UploadImagePopover: FunctionComponent<IUploadImagePopoverProps> = (
     </Popover>
   );
 };
-
-export default function RichTextEditor() {
+const defaultValues = {
+  RTE1: ""
+};
+const RichTextEditor: React.FC<IRichTextEditorProps> = ({ content, updatePostContent }) => {
   const ref = useRef<TMUIRichTextEditorRef>(null);
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+
+  // parent params
+  const [postContent, setPostContent] = useState<string>("")
 
   const handleFileUpload = (file: File) => {
     ref.current?.insertAtomicBlockAsync(
@@ -181,10 +231,27 @@ export default function RichTextEditor() {
       uploadImage(file),
       "Uploading now..."
     );
+    console.log(file)
   };
 
+  //Firebase helper
+  const handleFireBaseUpload = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    console.log('start of upload')
+    // async magic goes here...
+
+  }
+
+  //////////////////////////////////-- /////////////////////////////////////////////////////////////////
+  useEffect(() => {
+    setPostContent(content);
+  }, [content])
   const myTheme = createTheme({
     // Set up your custom MUI theme here
+  });
+
+  const { handleSubmit, reset, register, setValue } = useForm({
+    defaultValues
   });
 
   return (
@@ -200,6 +267,19 @@ export default function RichTextEditor() {
           }}
         />
         <MUIRichTextEditor
+          onChange={value => {
+            //get json of RTE content
+            console.log(value.getCurrentContent());
+            const content = JSON.stringify(
+              convertToRaw(value.getCurrentContent())
+            );
+            setValue("RTE1", content);
+            updatePostContent(content);
+
+            // const content = value.getCurrentContent().getPlainText();
+            // setValue("RTE1", content);
+            // updatePostContent(content);
+          }}
           label="Start typing..."
           ref={ref}
           controls={[
@@ -244,3 +324,4 @@ export default function RichTextEditor() {
     </div>
   );
 }
+export default RichTextEditor;
