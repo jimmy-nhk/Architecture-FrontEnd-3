@@ -20,10 +20,28 @@ const PostCreatePage = () => {
     setPostContent(content)
   }
 
+//   interface ContentObject {
+//     myString: string;
+//     myNumber: number;
+// }
+
   //useEffect
   useEffect(() => {
+    console.log("postCreatePage:")
     console.log("postTitle update: " + postTitle);
-    console.log("postContent update: " + postContent);
+    console.log("postContent update: ", postContent);
+    // var blockObj = JSON.parse(postContent)['blocks']
+    // var entityMapObj = JSON.parse(postContent)['entityMap']
+    // console.log("entityMapObj=", entityMapObj);
+    
+    // console.log("blockObj=", blockObj);
+
+    // blockObj.map((val: any) => {
+    //   console.log('val=', val)
+    // }); 
+    
+    // console.log("postContent update: ", JSON.parse(postContent)['blocks']);
+    
   }, [postTitle, postContent])
 
   return (

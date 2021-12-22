@@ -1,8 +1,3 @@
-// import React, { useState } from 'react';
-// import { createTheme, ThemeProvider } from '@mui/material/styles'
-// import MUIRichTextEditor from 'mui-rte'
-import { stateToHTML } from 'draft-js-export-html'
-
 import React, { useRef, useState, FunctionComponent, useEffect } from "react";
 import MUIRichTextEditor, {
   TMUIRichTextEditorRef,
@@ -23,40 +18,37 @@ import { convertToRaw } from "draft-js";
 import { useForm, Controller } from "react-hook-form";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getStorage,ref,uploadBytesResumable, getDownloadURL  } from "firebase/storage";
+import {
+  getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+} from "firebase/storage";
 
-import 'quill';
+import { Editor } from "@tinymce/tinymce-react";
+import tinymce from "tinymce/tinymce";
 
-declare var require: any;
-
-let Quill: any;
-
-if (!Quill) {
-  Quill = require('quill');
-}
-
-
-//Firebase config 
+//Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyDgrrJN3aVUu4zLjQ_go6cUtfcPAOyR0bE",
   authDomain: "sead-c470a.firebaseapp.com",
-  databaseURL: "https://sead-c470a-default-rtdb.asia-southeast1.firebasedatabase.app",
+  databaseURL:
+    "https://sead-c470a-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "sead-c470a",
   storageBucket: "sead-c470a.appspot.com",
   messagingSenderId: "431948638881",
   appId: "1:431948638881:web:6f352458ae3a211539dee0",
-  measurementId: "G-B8TSFYDFVE"
+  measurementId: "G-B8TSFYDFVE",
 };
 
 interface IUploadImagePopoverProps {
   anchor: TAnchor;
   onSubmit: (data: TUploadImageData, insert: boolean) => void;
-
 }
 
 interface IRichTextEditorProps {
-  content: string
-  updatePostContent: (arg: string) => void
+  content: string;
+  updatePostContent: (arg: string) => void;
 }
 
 type TUploadImagePopoverState = {
@@ -94,24 +86,27 @@ const uploadImageToServer = (file: File) => {
 
       const uploadTask = uploadBytesResumable(spaceRef, file);
       //
-      //initiates the firebase side uploading 
-      uploadTask.on('state_changed',
+      //initiates the firebase side uploading
+      uploadTask.on(
+        "state_changed",
         (snapShot: any) => {
           //takes a snap shot of the process as it is happening
-          console.log(snapShot)
-        }, (err: any) => {
+          console.log(snapShot);
+        },
+        (err: any) => {
           //catches the errors
-          console.log(err)
-        }, () => {
+          console.log(err);
+        },
+        () => {
           // Handle successful uploads on complete
           // For instance, get the download URL: https://firebasestorage.googleapis.com/...
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            console.log('File available at', downloadURL);
+            console.log("File available at", downloadURL);
             resolve(downloadURL);
-          }); 
-        })
+          });
+        }
+      );
       console.log("Upload successful");
-
     }, 2000);
   });
 };
@@ -228,14 +223,17 @@ const UploadImagePopover: FunctionComponent<IUploadImagePopoverProps> = (
   );
 };
 const defaultValues = {
-  RTE1: ""
+  RTE1: "",
 };
-const RichTextEditor: React.FC<IRichTextEditorProps> = ({ content, updatePostContent }) => {
+const TinyEditor: React.FC<IRichTextEditorProps> = ({
+  content,
+  updatePostContent,
+}) => {
   const ref = useRef<TMUIRichTextEditorRef>(null);
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
 
   // parent params
-  const [postContent, setPostContent] = useState<string>("")
+  const [postContent, setPostContent] = useState<string>("");
 
   const handleFileUpload = (file: File) => {
     ref.current?.insertAtomicBlockAsync(
@@ -243,103 +241,130 @@ const RichTextEditor: React.FC<IRichTextEditorProps> = ({ content, updatePostCon
       uploadImage(file),
       "Uploading now..."
     );
-    console.log(file)
+    console.log(file);
   };
 
   //Firebase helper
   const handleFireBaseUpload = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log('start of upload')
+    e.preventDefault();
+    console.log("start of upload");
     // async magic goes here...
-
-  }
+  };
 
   //////////////////////////////////-- /////////////////////////////////////////////////////////////////
   useEffect(() => {
     setPostContent(content);
-    var rte = (document.getElementById('muirte') as HTMLFormElement)
-    console.log("rte=", rte)
-  }, [content])
+    var rte = document.getElementById("muirte") as HTMLFormElement;
+    console.log("rte=", rte);
+  }, [content]);
   const myTheme = createTheme({
     // Set up your custom MUI theme here
   });
 
   const { handleSubmit, reset, register, setValue } = useForm({
-    defaultValues
+    defaultValues,
   });
+
+  // const editorRef = useRef<HTMLDivElement>(null);
+  // const log = () => {
+  //   if (editorRef.current) {
+  //     console.log(editorRef.current.getContent());
+  //   }
+  // };
+
+  const handleEditorChange = (content: any, editor: any) => {
+    console.log("Content was updated:", content);
+  };
+  tinymce.init({
+    selector: '#tinyEditor',
+    statusbar: false,
+    plugins: [
+      "advlist autolink lists link image charmap print preview anchor",
+      "searchreplace visualblocks code fullscreen textcolor ",
+      "insertdatetime media table paste code help wordcount",
+    ],
+    toolbar: 'undo redo | image code',
+    image_title: true,
+    file_picker_types: 'image',
+    // file_picker_callback: function (cb, value, meta) {
+    //   var input = document.createElement('input') as HTMLInputElement;
+    //   input.setAttribute('type', 'file');
+    //   input.setAttribute('accept', 'image/*');
+    //   input.onchange = function() {
+    //     var res = this;
+    //     var file:File = res.files[0];
+    //     var reader = new FileReader();
+    //     reader.onload = function () {
+    //       var base64 = reader.result.split(',')[1];
+    //       // call the callback and populate the Title field with the file name
+    //       cb('data:image/png;base64,'+base64, { title: file.name });
+    //     };
+    //     reader.readAsDataURL(file);
+    //   };
+  
+    //   input.click();
+    // },
+    // images_upload_url: 'postAcceptor.php',
+
+    images_upload_handler: function (blobInfo, success, failure) {
+      // setTimeout(function () {
+      //   // var input = document.createElement('input')
+      //   // input.setAttribute('type', 'file');
+      //   // input.setAttribute('accept', 'image/*');
+      //   // input.onchange = function () {
+      //   //   // var file = input.files[0]
+      //   //   console.log('input.files', input.files)
+      //   // }
+      //   // uploadImage()
+        
+      //   success('http://moxiecode.cachefly.net/tinymce/v9/images/logo.png');
+      // }, 2000);
+    },
+    setup:function(ed) {
+      ed.on('change', function(e) {
+          console.log('the event object ', e);
+          console.log('the editor object ', ed);
+          console.log('the content ', ed.getContent());
+      });
+    }
+  });
+
+  const onChangeHandler = (inst: any) => {
+    console.log("Some one modified something");
+    console.log("The HTML is now:" + inst.getBody().innerHTML);
+  }
 
   return (
     <div>
-      <ThemeProvider theme={myTheme}>
-        <UploadImagePopover
-          anchor={anchor}
-          onSubmit={(data, insert) => {
-            if (insert && data.file) {
-              handleFileUpload(data.file);
-            }
-            setAnchor(null);
-          }}
-        />
-        {/* <MUIRichTextEditor
-          id="muirte"
-          // onSave={value => {
-          //   console.log("to HTML=", value)
-          // }}
-          onChange={value => {
-            //get json of RTE content
-            console.log("to HTML=", stateToHTML(value.getCurrentContent()));
-            const content = JSON.stringify(
-              convertToRaw(value.getCurrentContent())
-            );
-            setValue("RTE1", content);
-            updatePostContent(content);
-            // const content = value.getCurrentContent().getPlainText();
-            // setValue("RTE1", content);
-            // updatePostContent(content);
-          }}
-          label="Start typing..."
-          ref={ref}
-          controls={[
-            "title",
-            "bold",
-            "italic",
-            "underline",
-            "strikethrough",
-            "highlight",
-            "undo",
-            "redo",
-            "numberList",
-            "bulletList",
-            "quote",
-            "code",
-            "clear",
-            "link",
-            "media",
-            "upload-image"
-          ]}
-          customControls={[
-            {
-              name: "upload-image",
-              icon: <BackupIcon />,
-              type: "callback",
-              onClick: (_editorState, _name, anchor) => {
-                setAnchor(anchor);
-              },
-            },
-          ]}
-          draftEditorProps={{
-            handleDroppedFiles: (_selectionState, files) => {
-              if (files.length && (files[0] as File).name !== undefined) {
-                handleFileUpload(files[0] as File);
-                return "handled";
-              }
-              return "not-handled";
-            },
-          }}
-        /> */}
-        
-      </ThemeProvider>
+      <textarea id="tinyEditor">Hello, World!</textarea>
+      {/* <textarea id="tinyEditor" value={data} onChange={() => console.log(tinymce.get("tinyEditor").getContent())}>Hello, World!</textarea> */}
+
+      {/* <Editor
+        apiKey="6p92ky39gv2q8cy92nl4mrnkdlrm7s3uqy5mjzbvgxa8nvvk"
+        // tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
+        initialValue="<p>This is the initial content of the editor</p>"
+        init={{
+          skin: "snow",
+          icons: "thin",
+          placeholder: "Ask a question or post an update...",
+          statusbar: false,
+
+          height: 400,
+          menubar: true,
+          plugins: [
+            "advlist autolink lists link image charmap print preview anchor",
+            "searchreplace visualblocks code fullscreen textcolor ",
+            "insertdatetime media table paste code help wordcount",
+          ],
+          textcolor_rows: "4",
+
+          toolbar:
+            "undo redo | styleselect | fontsizeselect| code | bold italic | alignleft aligncenter alignright alignjustify | outdent indent ",
+        }}
+        onEditorChange={handleEditorChange}
+        outputFormat="html"
+      /> */}
     </div>
   );
-}
-export default RichTextEditor;
+};
+export default TinyEditor;
