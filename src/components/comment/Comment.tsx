@@ -69,7 +69,7 @@ function Comment(props: {
             {/* TODO: change to user name */}
             Username: {comment.userId}
           </div>
-          <div>{comment.datePosted}</div>
+          <div style={{"paddingTop": "4px"}}>{comment.datePosted}</div>
         </div>
         {!isEditing && <div className="comment-text">{comment.body}</div>}
         {isEditing && (

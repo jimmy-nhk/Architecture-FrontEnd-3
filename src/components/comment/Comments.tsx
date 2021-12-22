@@ -108,7 +108,10 @@ function Comments({ currentUserId, postId }: CommentsProp) {
 
   return (
     <div className="comments">
-      <h3 className="comments-title">Comments {currentUserId} userId</h3>
+      <div style={{"paddingLeft" : "10%", "paddingRight" : "10%"}}>
+
+      
+      <h3 className="comments-title">Comments</h3>
 
       <div className="comment-form-title">Write Comment</div>
       <CommentForm
@@ -134,6 +137,7 @@ function Comments({ currentUserId, postId }: CommentsProp) {
             addComment={addComment}
           />
         ))}
+      </div>
       </div>
     </div>
   );

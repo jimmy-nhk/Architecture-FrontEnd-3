@@ -30,6 +30,7 @@ function CommentForm({
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
+      <br/>
 
       <button className="comment-form-button" disabled={isTextareaDisable}>
         {submitLabel}

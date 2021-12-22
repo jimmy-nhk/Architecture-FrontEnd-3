@@ -51,8 +51,7 @@ function App() {
         <Route path="/login" element={<LoginPage setAccount={setAccount}/>}  />
 
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/comment" element={<Comments currentUserId={1} postId={1}/>}/>
-      </Routes>
+       </Routes>
       
     </div>
   );

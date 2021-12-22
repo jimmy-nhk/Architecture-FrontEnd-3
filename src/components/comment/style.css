@@ -1,6 +1,7 @@
 .comments {
     margin-top: 20px;
     background-color: white !important ;
+    margin: 10%;
   }
   
   .comments-title {
@@ -17,7 +18,7 @@
   }
   
   .comment-form-textarea {
-    width: 100%;
+    width: 60%;
     height: 80px;
     margin-bottom: 8px;
     margin-top: 8px;
