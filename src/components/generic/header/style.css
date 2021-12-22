@@ -64,7 +64,7 @@ header {
 }
 
 .nav-list-search {
-    flex-direction: row-reverse;
+  flex-direction: row-reverse;
 }
 
 .nav-link {
@@ -89,23 +89,22 @@ header {
 }
 
 #searchIcon {
-padding-top: 2px;
+  padding-top: 2px;
   color: #fff;
   right: 1rem;
 }
 
-.searchedIconWhenClicked{
+.searchedIconWhenClicked {
   margin-left: -10rem;
-
 }
 
-#searchText{
-    color: #fff;
-    width: 40%;
-    display: none;
-    background-color: #313131;
-    border-radius: 3px;
-    font-size: 20px;
+#searchText {
+  color: #fff;
+  width: 40%;
+  display: none;
+  background-color: #313131;
+  border-radius: 3px;
+  font-size: 20px;
 }
 
 #join-logout {
@@ -177,7 +176,6 @@ padding-top: 2px;
   }
 
   #searchIcon {
-
     margin-left: 1rem;
   }
 
@@ -203,19 +201,21 @@ padding-top: 2px;
   #join-logout {
     margin-left: 2rem;
   }
+
+  #searchText {
+    display: none;
+  }
 }
-
-
 
 @media screen and (max-width: 1200px) {
   .major {
     display: block;
   }
 
-  #searchText{
-      display: block;
-      color: #313131;
-      background-color: white;
+  #searchText {
+    display: block;
+    color: #313131;
+    background-color: white;
   }
   .nav-list {
     position: absolute;
