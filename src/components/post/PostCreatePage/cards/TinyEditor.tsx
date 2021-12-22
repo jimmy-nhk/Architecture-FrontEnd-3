@@ -25,8 +25,9 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 
-import { Editor } from "@tinymce/tinymce-react";
+// import { Editor } from "@tinymce/tinymce-react";
 import tinymce from "tinymce/tinymce";
+import {url} from "inspector";
 
 //Firebase config
 const firebaseConfig = {
@@ -78,7 +79,7 @@ const cardPopverStyles = makeStyles({
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const storage = getStorage();
-const uploadImageToServer = (file: File) => {
+const uploadImageToServer = async (file: File) => {
   return new Promise((resolve) => {
     console.log(`Uploading image ${file.name} ...`);
     setTimeout(() => {
@@ -111,23 +112,13 @@ const uploadImageToServer = (file: File) => {
   });
 };
 
-const uploadImage = (file: File) => {
-  return new Promise<TAsyncAtomicBlockResponse>(async (resolve, reject) => {
+const uploadImage = async (file: File) => {
     const url = await uploadImageToServer(file);
     if (!url) {
-      reject();
       return;
     }
-    resolve({
-      data: {
-        url: url,
-        width: 300,
-        height: 200,
-        alignment: "left", // or "center", "right"
-        type: "image", // or "video"
-      },
-    });
-  });
+    console.log("uploadImage")
+    return url;
 };
 
 const UploadImagePopover: FunctionComponent<IUploadImagePopoverProps> = (
@@ -235,14 +226,14 @@ const TinyEditor: React.FC<IRichTextEditorProps> = ({
   // parent params
   const [postContent, setPostContent] = useState<string>("");
 
-  const handleFileUpload = (file: File) => {
-    ref.current?.insertAtomicBlockAsync(
-      "IMAGE",
-      uploadImage(file),
-      "Uploading now..."
-    );
-    console.log(file);
-  };
+  // const handleFileUpload = (file: File) => {
+  //   ref.current?.insertAtomicBlockAsync(
+  //     "IMAGE",
+  //     uploadImage(file),
+  //     "Uploading now..."
+  //   );
+  //   console.log(file);
+  // };
 
   //Firebase helper
   const handleFireBaseUpload = (e: React.FormEvent<HTMLFormElement>) => {
@@ -286,45 +277,60 @@ const TinyEditor: React.FC<IRichTextEditorProps> = ({
     toolbar: 'undo redo | image code',
     image_title: true,
     file_picker_types: 'image',
-    // file_picker_callback: function (cb, value, meta) {
-    //   var input = document.createElement('input') as HTMLInputElement;
-    //   input.setAttribute('type', 'file');
-    //   input.setAttribute('accept', 'image/*');
-    //   input.onchange = function() {
-    //     var res = this;
-    //     var file:File = res.files[0];
-    //     var reader = new FileReader();
-    //     reader.onload = function () {
-    //       var base64 = reader.result.split(',')[1];
-    //       // call the callback and populate the Title field with the file name
-    //       cb('data:image/png;base64,'+base64, { title: file.name });
-    //     };
-    //     reader.readAsDataURL(file);
-    //   };
-  
-    //   input.click();
-    // },
-    // images_upload_url: 'postAcceptor.php',
+    images_upload_url: 'postAcceptor.php',
+    convert_urls: false,
+    async: true,
 
-    images_upload_handler: function (blobInfo, success, failure) {
-      // setTimeout(function () {
-      //   // var input = document.createElement('input')
-      //   // input.setAttribute('type', 'file');
-      //   // input.setAttribute('accept', 'image/*');
-      //   // input.onchange = function () {
-      //   //   // var file = input.files[0]
-      //   //   console.log('input.files', input.files)
-      //   // }
-      //   // uploadImage()
-        
-      //   success('http://moxiecode.cachefly.net/tinymce/v9/images/logo.png');
-      // }, 2000);
+    file_picker_callback: function (cb, value, meta) {
+      var input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.setAttribute('accept', 'image/*');
+
+      /*
+        Note: In modern browsers input[type="file"] is functional without
+        even adding it to the DOM, but that might not be the case in some older
+        or quirky browsers like IE, so you might want to add it to the DOM
+        just in case, and visually hide it. And do not forget do remove it
+        once you do not need it anymore.
+      */
+      input.onchange = async function () {
+        if (input.files !== null) {
+          var file = input.files[0];
+          var reader = new FileReader();
+          reader.onload = await async function () {
+            /*
+              Note: Now we need to register the blob in TinyMCEs image blob
+              registry. In the next release this part hopefully won't be
+              necessary, as we are looking to handle it internally.
+            */
+            var id = 'blobid' + (new Date()).getTime();
+            var blobCache = tinymce.activeEditor.editorUpload.blobCache;
+            // @ts-ignore
+            var base64 = reader.result.split(',')[1];
+            var blobInfo = blobCache.create(id, file, base64);
+            blobCache.add(blobInfo);
+
+            //upload file to server
+            uploadImage(file) //Promise here
+              .then(url => {
+                console.log("url",url)
+                cb(url, { title: file.name });
+              })
+            /* call the callback and populate the Title field with the file name */
+
+          };
+          await reader.readAsDataURL(file);
+
+        }
+
+      };
+      input.click();
     },
-    setup:function(ed) {
-      ed.on('change', function(e) {
-          console.log('the event object ', e);
-          console.log('the editor object ', ed);
-          console.log('the content ', ed.getContent());
+    setup: function (ed: any) {
+      ed.on('change', function (e: any) {
+        console.log('the event object ', e);
+        console.log('the editor object ', ed);
+        console.log('the content ', ed.getContent());
       });
     }
   });

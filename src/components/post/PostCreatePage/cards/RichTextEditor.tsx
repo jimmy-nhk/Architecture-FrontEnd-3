@@ -1,7 +1,6 @@
 // import React, { useState } from 'react';
 // import { createTheme, ThemeProvider } from '@mui/material/styles'
 // import MUIRichTextEditor from 'mui-rte'
-import { stateToHTML } from 'draft-js-export-html'
 
 import React, { useRef, useState, FunctionComponent, useEffect } from "react";
 import MUIRichTextEditor, {
