@@ -6,7 +6,7 @@ import CommentForm from "./CommentForm";
 import "./style.css";
 //
 type CommentsProp = {
-  currentUserId?: number ;
+  currentUserId?: number;
   postId: number;
 };
 
@@ -20,14 +20,16 @@ export type CommentClass = {
 };
 
 export type ActiveCommentClass = {
-    id: number;
-    type: "replying" | "editing"
-}
+  id: number;
+  type: "replying" | "editing";
+};
 
 function Comments({ currentUserId, postId }: CommentsProp) {
   const [backendComments, setBackendComments] = useState<CommentClass[]>([]);
   const [isReloaded, setIsReloaded] = useState(false);
-  const [activeComment, setActiveComment] = useState<ActiveCommentClass | null>(null)
+  const [activeComment, setActiveComment] = useState<ActiveCommentClass | null>(
+    null
+  );
 
   // this variable below shows the roots comments without parent id
   const rootComments = backendComments.filter(
@@ -47,6 +49,7 @@ function Comments({ currentUserId, postId }: CommentsProp) {
   var getAllCommentsAPI = commentsAPI + "/getAllComments/postId=" + 1;
   var createCommentAPI = commentsAPI + "/createComment";
   var deleteCommentAPI = commentsAPI + "/deleteComments/commentId=";
+  var updateCommentAPI = commentsAPI + "/updateComment/commentId=";
   useEffect(() => {
     if (isReloaded) {
       return;
@@ -75,31 +78,48 @@ function Comments({ currentUserId, postId }: CommentsProp) {
     axios.post(createCommentAPI, commentObj).then((res) => {
       setBackendComments([res.data, ...backendComments]);
       setIsReloaded(false);
-      setActiveComment(null)
+      setActiveComment(null);
     });
   };
 
   // delete the comment
   const deleteComment = (commentId: number) => {
-
-    if(window.confirm('Are you sure that you want to remove comment ?')){
-        axios.delete(deleteCommentAPI + commentId )
-        .then(res => {
-            setIsReloaded(false)
-        })
+    if (window.confirm("Are you sure that you want to remove comment ?")) {
+      axios.delete(deleteCommentAPI + commentId).then((res) => {
+        setIsReloaded(false);
+      });
     }
+  };
 
-  }
+  const updateComment = (text: string, commentId: number) => {
+    axios.put(updateCommentAPI + commentId + "/body=" + text).then((res) => {
+      console.log(res.data);
+      var updatedBackendComments: CommentClass[];
+      updatedBackendComments = backendComments.map((backendComment) => {
+        if (backendComment.id === commentId) {
+          return { ...backendComment, body: text };
+        }
+        return backendComment;
+      });
+      setBackendComments(updatedBackendComments);
+      setActiveComment(null);
+    });
+  };
 
   return (
     <div className="comments">
       <h3 className="comments-title">Comments {currentUserId} userId</h3>
 
       <div className="comment-form-title">Write Comment</div>
-      <CommentForm submitLabel="Write" handleSubmit={addComment} />
+      <CommentForm
+        submitLabel="Write"
+        handleSubmit={addComment}
+        hasCancelButton = {false}
+        initialText={""}
+        handleCancel={() => setActiveComment(null)}
+      />
       <div className="comments-container">
         {rootComments.map((rootComment) => (
-
           <Comment
             key={rootComment.id}
             comment={rootComment}
@@ -107,6 +127,7 @@ function Comments({ currentUserId, postId }: CommentsProp) {
             backendComments={backendComments}
             currentUserId={currentUserId}
             deleteComment={deleteComment}
+            updateComment={updateComment}
             activeComment={activeComment}
             setActiveComment={setActiveComment}
             parentId={rootComment.id}

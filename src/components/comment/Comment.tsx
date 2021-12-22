@@ -10,9 +10,10 @@ function Comment(props: {
   backendComments: CommentClass[];
   currentUserId?: number;
   deleteComment: (commentId: number) => void;
+  updateComment: (text: string, commentId: number) => void;
   activeComment: ActiveCommentClass | null;
-  setActiveComment: (activeComment: ActiveCommentClass) => void;
-  parentId: number  ;
+  setActiveComment: (activeComment: ActiveCommentClass | null) => void;
+  parentId: number;
   addComment: (text: string, parentId: number) => void;
 }) {
   var comment = props.comment;
@@ -24,18 +25,19 @@ function Comment(props: {
   var setActiveComment = props.setActiveComment;
   var parentId = props.parentId;
   var addComment = props.addComment;
+  var updateComment = props.updateComment;
   var isReplying =
     activeComment &&
     activeComment.type === "replying" &&
     activeComment.id === comment.id;
 
-var isEditing =
+  var isEditing =
     activeComment &&
     activeComment.type === "editing" &&
     activeComment.id === comment.id;
 
-    // check parentId null
-const replyId = parentId == 0 ? parentId : comment.id
+  // check parentId null
+  const replyId = parentId == 0 ? parentId : comment.id;
 
   // validate if this is null, that cannot reply
   const canReply = Boolean(currentUserId);
@@ -69,7 +71,16 @@ const replyId = parentId == 0 ? parentId : comment.id
           </div>
           <div>{comment.datePosted}</div>
         </div>
-        <div className="comment-text">{comment.body}</div>
+        {!isEditing && <div className="comment-text">{comment.body}</div>}
+        {isEditing && (
+          <CommentForm
+            submitLabel="Update"
+            hasCancelButton
+            initialText={comment.body}
+            handleSubmit={(text) => updateComment(text, comment.id)}
+            handleCancel={() => setActiveComment(null)}
+          />
+        )}
         <div className="comment-actions">
           {canReply && (
             <div
@@ -103,6 +114,9 @@ const replyId = parentId == 0 ? parentId : comment.id
         {isReplying && (
           <CommentForm
             submitLabel="Reply"
+            hasCancelButton= {false}
+            initialText={""}
+            handleCancel={() => setActiveComment(null)}
             handleSubmit={(text) => addComment(text, replyId)}
           />
         )}
@@ -116,6 +130,7 @@ const replyId = parentId == 0 ? parentId : comment.id
                 backendComments={backendComments}
                 currentUserId={currentUserId}
                 deleteComment={deleteComment}
+                updateComment={updateComment}
                 activeComment={activeComment}
                 setActiveComment={setActiveComment}
                 parentId={comment.id}
