@@ -22,7 +22,7 @@ const TitleAndContentCard: React.FC<ITitleAndContentCardProps> = ({ title, conte
     <Card>
       <CardContent>
         <TextField fullWidth id="postTitle" value={postTitle} onChange={e => updatePostTitle(e.target.value)} label="New post title" variant="filled" />
-        <Box sx={{ height: "500px", marginTop: "10px", border: "1px solid gray", overflowY: "scroll" }}>
+        <Box sx={{ height: "500px", marginTop: "10px", border: "1px solid gray" }}>
           {/* <RichTextEditor content={postContent} updatePostContent={updatePostContent} /> */}
           <TinyEditor content={postContent} updatePostContent={updatePostContent}/>
         </Box>
