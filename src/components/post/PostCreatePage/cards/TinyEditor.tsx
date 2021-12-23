@@ -4,20 +4,17 @@ import MUIRichTextEditor, {
   TAsyncAtomicBlockResponse,
 } from "mui-rte";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Grid from "@mui/material/Grid";
-import { makeStyles } from "@mui/styles";
-import Popover from "@mui/material/Popover";
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import Button from "@mui/material/Button";
-import BackupIcon from "@mui/icons-material/Backup";
-import DoneIcon from "@mui/icons-material/Done";
-import CloseIcon from "@mui/icons-material/Close";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import { convertToRaw } from "draft-js";
+// import Grid from "@mui/material/Grid";
+// import { makeStyles } from "@mui/styles";
+// import Popover from "@mui/material/Popover";
+// import TextField from "@mui/material/TextField";
+// import IconButton from "@mui/material/IconButton";
+// import Button from "@mui/material/Button";
+// import DoneIcon from "@mui/icons-material/Done";
+// import CloseIcon from "@mui/icons-material/Close";
+// import AttachFileIcon from "@mui/icons-material/AttachFile";
 import { useForm, Controller } from "react-hook-form";
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import {
   getStorage,
   ref,
@@ -27,7 +24,6 @@ import {
 
 // import { Editor } from "@tinymce/tinymce-react";
 import tinymce from "tinymce/tinymce";
-import {url} from "inspector";
 
 //Firebase config
 const firebaseConfig = {
@@ -42,39 +38,39 @@ const firebaseConfig = {
   measurementId: "G-B8TSFYDFVE",
 };
 
-interface IUploadImagePopoverProps {
-  anchor: TAnchor;
-  onSubmit: (data: TUploadImageData, insert: boolean) => void;
-}
+// interface IUploadImagePopoverProps {
+//   anchor: TAnchor;
+//   onSubmit: (data: TUploadImageData, insert: boolean) => void;
+// }
 
 interface IRichTextEditorProps {
   content: string;
   updatePostContent: (arg: string) => void;
 }
 
-type TUploadImagePopoverState = {
-  anchor: TAnchor;
-  isCancelled: boolean;
-};
+// type TUploadImagePopoverState = {
+//   anchor: TAnchor;
+//   isCancelled: boolean;
+// };
 
 type TUploadImageData = {
   file?: File;
 };
 
-type TAnchor = HTMLElement | null;
+// type TAnchor = HTMLElement | null;
 
-const cardPopverStyles = makeStyles({
-  root: {
-    padding: 10,
-    maxWidth: 350,
-  },
-  textField: {
-    width: "100%",
-  },
-  input: {
-    display: "none",
-  },
-});
+// const cardPopverStyles = makeStyles({
+//   root: {
+//     padding: 10,
+//     maxWidth: 350,
+//   },
+//   textField: {
+//     width: "100%",
+//   },
+//   input: {
+//     display: "none",
+//   },
+// });
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -113,106 +109,106 @@ const uploadImageToServer = async (file: File) => {
 };
 
 const uploadImage = async (file: File) => {
-    const url = await uploadImageToServer(file);
-    if (!url) {
-      return;
-    }
-    console.log("uploadImage")
-    return url;
+  const url = await uploadImageToServer(file);
+  if (!url) {
+    return;
+  }
+  console.log("uploadImage");
+  return url;
 };
 
-const UploadImagePopover: FunctionComponent<IUploadImagePopoverProps> = (
-  props
-) => {
-  const classes = cardPopverStyles(props);
-  const [state, setState] = useState<TUploadImagePopoverState>({
-    anchor: null,
-    isCancelled: false,
-  });
-  const [data, setData] = useState<TUploadImageData>({});
+// const UploadImagePopover: FunctionComponent<IUploadImagePopoverProps> = (
+//   props
+// ) => {
+//   const classes = cardPopverStyles(props);
+//   const [state, setState] = useState<TUploadImagePopoverState>({
+//     anchor: null,
+//     isCancelled: false,
+//   });
+//   const [data, setData] = useState<TUploadImageData>({});
 
-  useEffect(() => {
-    setState({
-      anchor: props.anchor,
-      isCancelled: false,
-    });
-    setData({
-      file: undefined,
-    });
-  }, [props.anchor]);
+//   useEffect(() => {
+//     setState({
+//       anchor: props.anchor,
+//       isCancelled: false,
+//     });
+//     setData({
+//       file: undefined,
+//     });
+//   }, [props.anchor]);
 
-  return (
-    <Popover
-      anchorEl={state.anchor}
-      open={state.anchor !== null}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "right",
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "left",
-      }}
-    >
-      <Grid container spacing={1} className={classes.root}>
-        <Grid item xs={10}>
-          <TextField
-            className={classes.textField}
-            disabled
-            value={data.file?.name || ""}
-            placeholder="Click icon to attach image"
-          />
-        </Grid>
-        <Grid item xs={2}>
-          <input
-            accept="image/*"
-            className={classes.input}
-            id="contained-button-file"
-            type="file"
-            onChange={(event) => {
-              setData({
-                ...data,
-                file: event.target.files![0],
-              });
-            }}
-          />
-          <label htmlFor="contained-button-file">
-            <IconButton
-              color="primary"
-              aria-label="upload image"
-              component="span"
-            >
-              <AttachFileIcon />
-            </IconButton>
-          </label>
-        </Grid>
-        <Grid item container xs={12} justifyContent="flex-end">
-          <Button
-            onClick={() => {
-              setState({
-                anchor: null,
-                isCancelled: true,
-              });
-            }}
-          >
-            <CloseIcon />
-          </Button>
-          <Button
-            onClick={() => {
-              setState({
-                anchor: null,
-                isCancelled: false,
-              });
-              props.onSubmit(data, !state.isCancelled);
-            }}
-          >
-            <DoneIcon />
-          </Button>
-        </Grid>
-      </Grid>
-    </Popover>
-  );
-};
+//   return (
+//     <Popover
+//       anchorEl={state.anchor}
+//       open={state.anchor !== null}
+//       anchorOrigin={{
+//         vertical: "bottom",
+//         horizontal: "right",
+//       }}
+//       transformOrigin={{
+//         vertical: "top",
+//         horizontal: "left",
+//       }}
+//     >
+//       <Grid container spacing={1} className={classes.root}>
+//         <Grid item xs={10}>
+//           <TextField
+//             className={classes.textField}
+//             disabled
+//             value={data.file?.name || ""}
+//             placeholder="Click icon to attach image"
+//           />
+//         </Grid>
+//         <Grid item xs={2}>
+//           <input
+//             accept="image/*"
+//             className={classes.input}
+//             id="contained-button-file"
+//             type="file"
+//             onChange={(event) => {
+//               setData({
+//                 ...data,
+//                 file: event.target.files![0],
+//               });
+//             }}
+//           />
+//           <label htmlFor="contained-button-file">
+//             <IconButton
+//               color="primary"
+//               aria-label="upload image"
+//               component="span"
+//             >
+//               <AttachFileIcon />
+//             </IconButton>
+//           </label>
+//         </Grid>
+//         <Grid item container xs={12} justifyContent="flex-end">
+//           <Button
+//             onClick={() => {
+//               setState({
+//                 anchor: null,
+//                 isCancelled: true,
+//               });
+//             }}
+//           >
+//             <CloseIcon />
+//           </Button>
+//           <Button
+//             onClick={() => {
+//               setState({
+//                 anchor: null,
+//                 isCancelled: false,
+//               });
+//               props.onSubmit(data, !state.isCancelled);
+//             }}
+//           >
+//             <DoneIcon />
+//           </Button>
+//         </Grid>
+//       </Grid>
+//     </Popover>
+//   );
+// };
 const defaultValues = {
   RTE1: "",
 };
@@ -220,12 +216,6 @@ const TinyEditor: React.FC<IRichTextEditorProps> = ({
   content,
   updatePostContent,
 }) => {
-  const ref = useRef<TMUIRichTextEditorRef>(null);
-  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
-
-  // parent params
-  const [postContent, setPostContent] = useState<string>("");
-
   //Firebase helper
   const handleFireBaseUpload = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -233,113 +223,74 @@ const TinyEditor: React.FC<IRichTextEditorProps> = ({
     // async magic goes here...
   };
 
-  //////////////////////////////////-- /////////////////////////////////////////////////////////////////
-  useEffect(() => {
-    setPostContent(content);
-    var rte = document.getElementById("muirte") as HTMLFormElement;
-    console.log("rte=", rte);
-  }, [content]);
-  const myTheme = createTheme({
-    // Set up your custom MUI theme here
-  });
-
-  const { handleSubmit, reset, register, setValue } = useForm({
-    defaultValues,
-  });
-
-  const handleEditorChange = (content: any, editor: any) => {
-    console.log("Content was updated:", content);
-  };
   tinymce.init({
-    selector: '#tinyEditor',
+    selector: "#tinyEditor",
     placeholder: "Enter your post content here...",
     statusbar: false,
-    height: '500',
+    height: "500",
     plugins: [
       "advlist autolink lists link image charmap print preview anchor",
       "searchreplace visualblocks code fullscreen textcolor ",
       "insertdatetime media table paste code help wordcount",
     ],
-    toolbar: 'undo redo | styleselect | fontsizeselect | image code | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist',
+    toolbar:
+      "undo redo | styleselect | fontsizeselect | image code | bold italic underline | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist",
     image_title: true,
-    file_picker_types: 'image',
+    file_picker_types: "image",
     convert_urls: false,
     async: true,
 
     file_picker_callback: function (cb, value, meta) {
-      var input = document.createElement('input');
-      input.setAttribute('type', 'file');
-      input.setAttribute('accept', 'image/*');
+      var input = document.createElement("input");
+      input.setAttribute("type", "file");
+      input.setAttribute("accept", "image/*");
 
       input.onchange = async function () {
         if (input.files !== null) {
           var file = input.files[0];
           var reader = new FileReader();
           reader.onload = await async function () {
-            var id = 'blobid' + (new Date()).getTime();
+            var id = "blobid" + new Date().getTime();
             var blobCache = tinymce.activeEditor.editorUpload.blobCache;
             // @ts-ignore
-            var base64 = reader.result.split(',')[1];
+            var base64 = reader.result.split(",")[1];
             var blobInfo = blobCache.create(id, file, base64);
             blobCache.add(blobInfo);
 
             //upload file to server
             uploadImage(file) //Promise here
-              .then(url => {
-                console.log("url",url)
+              .then((url) => {
+                console.log("url", url);
                 cb(url, { title: file.name });
-              })
+              });
           };
           await reader.readAsDataURL(file);
         }
-
       };
       input.click();
     },
     setup: function (ed: any) {
-      ed.on('change', function (e: any) {
-        console.log('the event object ', e);
-        console.log('the editor object ', ed);
-        console.log('the content ', ed.getContent());
+      ed.on("change", function (e: any) {
+        updatePostContent(ed.getContent());
       });
-    }
+      ed.on("keyup", function (e: any) {
+        updatePostContent(ed.getContent());
+      });
+      ed.on("copy", function (e: any) {
+        updatePostContent(ed.getContent());
+      });
+      ed.on("paste", function (e: any) {
+        updatePostContent(ed.getContent());
+      });
+      ed.on("cut", function (e: any) {
+        updatePostContent(ed.getContent());
+      });
+    },
   });
-
-  const onChangeHandler = (inst: any) => {
-    console.log("Some one modified something");
-    console.log("The HTML is now:" + inst.getBody().innerHTML);
-  }
 
   return (
     <div>
       <textarea id="tinyEditor"></textarea>
-      {/* <textarea id="tinyEditor" value={data} onChange={() => console.log(tinymce.get("tinyEditor").getContent())}>Hello, World!</textarea> */}
-
-      {/* <Editor
-        apiKey="6p92ky39gv2q8cy92nl4mrnkdlrm7s3uqy5mjzbvgxa8nvvk"
-        // tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
-        initialValue="<p>This is the initial content of the editor</p>"
-        init={{
-          skin: "snow",
-          icons: "thin",
-          placeholder: "Ask a question or post an update...",
-          statusbar: false,
-
-          height: 400,
-          menubar: true,
-          plugins: [
-            "advlist autolink lists link image charmap print preview anchor",
-            "searchreplace visualblocks code fullscreen textcolor ",
-            "insertdatetime media table paste code help wordcount",
-          ],
-          textcolor_rows: "4",
-
-          toolbar:
-            "undo redo | styleselect | fontsizeselect| code | bold italic | alignleft aligncenter alignright alignjustify | outdent indent ",
-        }}
-        onEditorChange={handleEditorChange}
-        outputFormat="html"
-      /> */}
     </div>
   );
 };

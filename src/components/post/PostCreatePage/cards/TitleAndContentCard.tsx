@@ -1,11 +1,9 @@
 import { Card, CardContent, Box, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import * as React from 'react';
-import RichTextEditor from './RichTextEditor';
 import TinyEditor from './TinyEditor'
 
 interface ITitleAndContentCardProps {
-
   title: string
   updatePostTitle: (arg: string) => void
   content: string
@@ -23,7 +21,6 @@ const TitleAndContentCard: React.FC<ITitleAndContentCardProps> = ({ title, conte
       <CardContent>
         <TextField fullWidth id="postTitle" value={postTitle} onChange={e => updatePostTitle(e.target.value)} label="New post title" variant="filled" />
         <Box sx={{ height: "500px", marginTop: "10px", border: "1px solid gray" }}>
-          {/* <RichTextEditor content={postContent} updatePostContent={updatePostContent} /> */}
           <TinyEditor content={postContent} updatePostContent={updatePostContent}/>
         </Box>
       </CardContent>

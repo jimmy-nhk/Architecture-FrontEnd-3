@@ -20,28 +20,23 @@ const PostCreatePage = () => {
     setPostContent(content)
   }
 
-//   interface ContentObject {
-//     myString: string;
-//     myNumber: number;
-// }
+  interface IPostData {
+    id?: any | null,
+    title: string,
+    description: string,
+    published?: boolean,
+  }
+
+  const handleCreatePost = () => {
+    
+  }
 
   //useEffect
   useEffect(() => {
     console.log("postCreatePage:")
     console.log("postTitle update: " + postTitle);
     console.log("postContent update: ", postContent);
-    // var blockObj = JSON.parse(postContent)['blocks']
-    // var entityMapObj = JSON.parse(postContent)['entityMap']
-    // console.log("entityMapObj=", entityMapObj);
-    
-    // console.log("blockObj=", blockObj);
-
-    // blockObj.map((val: any) => {
-    //   console.log('val=', val)
-    // }); 
-    
-    // console.log("postContent update: ", JSON.parse(postContent)['blocks']);
-    
+  
   }, [postTitle, postContent])
 
   return (
@@ -51,7 +46,7 @@ const PostCreatePage = () => {
           <Typography variant="h4" sx={{ flexGrow: 1, alignSelf: "flex-end" }}>
             Create a post
           </Typography>
-          <Button variant="contained" size="large">
+          <Button variant="contained" size="large" onClick={() => handleCreatePost}>
             Create
           </Button>
         </Box>
