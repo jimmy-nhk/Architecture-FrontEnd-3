@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import { Contributor } from "../PostCreatePage";
+import IconButton from "@mui/material/IconButton";
+import ClearIcon from "@mui/icons-material/Clear";
 
 interface IContributorCardProps {
   contributors: Contributor[];
@@ -27,14 +29,23 @@ const AddContributorCard: React.FC<IContributorCardProps> = ({
   };
 
   const handleAddContributor = (e: any) => {
-    const maxId = contributors.length
-    var contributorList:Contributor[] = contributors;
+    const maxId = contributors.length;
+    var contributorList: Contributor[] = contributors;
     contributorList.push({
       id: maxId,
-      name: ''
-    })
+      name: "",
+    });
     updatePostContributors(contributorList);
-  }
+  };
+
+  const handleDeleteContributor = (contributorId: number) => {
+    var contributorList: Contributor[] = contributors;
+    contributorList = contributorList.filter((c) => c.id != contributorId);
+    contributorList.map((c, i) => {
+      c.id = i;
+    });
+    updatePostContributors(contributorList);
+  };
 
   return (
     <Card sx={{ marginTop: "20px" }}>
@@ -44,7 +55,6 @@ const AddContributorCard: React.FC<IContributorCardProps> = ({
         </Typography>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           {contributors.map((c) => {
-            console.log(c);
             return (
               <Box
                 sx={{
@@ -62,6 +72,14 @@ const AddContributorCard: React.FC<IContributorCardProps> = ({
                   value={c.name}
                   onChange={(e) => onContributorChange(e, c)}
                 />
+                {contributors.length == 1 ? null : (
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => handleDeleteContributor(c.id)}
+                  >
+                    <ClearIcon />
+                  </IconButton>
+                )}
               </Box>
             );
           })}

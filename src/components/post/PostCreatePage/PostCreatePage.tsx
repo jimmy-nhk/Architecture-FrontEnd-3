@@ -62,8 +62,8 @@ const PostCreatePage = () => {
 
   //useEffect
   useEffect(() => {
-    console.log("postCreatePage:");
-    console.log("postContributor update: ", postContributors);
+    // console.log("postCreatePage:");
+    // console.log("postContributors update: ", postContributors);
   }, [postTitle, postContent, postContributors]);
 
   return (
