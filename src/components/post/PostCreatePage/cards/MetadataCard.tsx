@@ -3,6 +3,8 @@ import * as React from 'react';
 import TagsInput from './TagsInput';
 
 export default function MetadataCard() {
+  const CATEGORIES = ['Engineering', 'Computer Science', 'Design', 'Business', 'Professional Communication']
+
   return (
     <Card sx={{ marginTop: "20px" }}>
       <CardContent>
@@ -17,9 +19,10 @@ export default function MetadataCard() {
             id="demo-simple-select"
             label="Category"
           >
-            <MenuItem value={10}>Category 1</MenuItem>
-            <MenuItem value={20}>Category 2</MenuItem>
-            <MenuItem value={30}>Category 3</MenuItem>
+            {CATEGORIES.map((category, index) => {
+              console.log((index + 1)*10)
+              return (<MenuItem value={(index + 1)*10}>{category}</MenuItem>)
+            })}
           </Select>
         </FormControl>
         <TagsInput />
