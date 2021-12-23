@@ -67,7 +67,8 @@ const PostCreatePage = () => {
   useEffect(() => {
     console.log("postCreatePage:");
     console.log("postContributor update: ", postContributor);
-  }, [postTitle, postContent, postContributor]);
+    console.log("postCover update: ", postCoverUrl);
+  }, [postTitle, postContent, postContributor,postCoverUrl]);
 
   return (
     <DefaultLayout style={{ backgroundColor: "#f3f3f4" }}>
