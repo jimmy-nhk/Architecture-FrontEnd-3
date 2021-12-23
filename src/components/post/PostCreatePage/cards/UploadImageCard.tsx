@@ -1,7 +1,12 @@
 import { Card, CardContent, Typography, FormControl, Button } from '@mui/material';
 import * as React from 'react';
 
-export default function UploadImageCard() {
+interface IUploadImageCardProps {
+  coverUrl: string;
+  updateCoverUrl: (arg: string) => void
+}
+
+const UploadImageCard: React.FC<IUploadImageCardProps> = ({ coverUrl, updateCoverUrl }) => {
   return (
     <Card>
       <CardContent>
@@ -20,3 +25,5 @@ export default function UploadImageCard() {
     </Card>
   );
 }
+
+export default UploadImageCard;

@@ -7,46 +7,81 @@ import MetadataCard from "./cards/MetadataCard";
 import TitleAndContentCard from "./cards/TitleAndContentCard";
 import UploadImageCard from "./cards/UploadImageCard";
 
+interface Contributor {
+  id: number;
+  name: string;
+}
+
 const PostCreatePage = () => {
   // Declare hook of title and content card params
-  //title
-  const [postTitle, setPostTitle] = useState<string>("")
+  // Post title
+  const [postTitle, setPostTitle] = useState<string>("");
   const updatePostTitle = (title: string): void => {
-    setPostTitle(title)
-  }
-  //title
-  const [postContent, setPostContent] = useState<string>("")
+    setPostTitle(title);
+  };
+  // Post content
+  const [postContent, setPostContent] = useState<string>("");
   const updatePostContent = (content: string): void => {
-    setPostContent(content)
-  }
+    setPostContent(content);
+  };
+  // Post category
+  const [postCategory, setPostCategory] = useState<string>("");
+  const updatePostCategory = (category: string): void => {
+    setPostCategory(category);
+  };
+  // Post directors
+  const [postContributor, setPostContributor] = useState<Contributor[]>([{
+    id: 0,
+    name: ''
+  }, {
+    id: 1,
+    name: ''
+  }]);
+  const updatePostContributor = (contributors: Contributor[]): void => {
+    console.log('contributorList=', contributors)
+    setPostContributor(contributors);
+    // setPostContributor([{
+    //   id: 0,
+    //   name: ''
+    // }, {
+    //   id: 1,
+    //   name: ''
+    // }])
+  };
+  // Post thumbnail url
+  const [postCoverUrl, setPostCoverUrl] = useState<string>("");
+  const updatePostCoverUrl = (coverUrl: string): void => {
+    setPostCoverUrl(coverUrl);
+  };
 
   interface IPostData {
-    id?: any | null,
-    title: string,
-    description: string,
-    published?: boolean,
+    id?: any | null;
+    title: string;
+    description: string;
+    published?: boolean;
   }
 
-  const handleCreatePost = () => {
-    
-  }
+  const handleCreatePost = () => {};
 
   //useEffect
   useEffect(() => {
-    console.log("postCreatePage:")
-    console.log("postTitle update: " + postTitle);
-    console.log("postContent update: ", postContent);
-  
-  }, [postTitle, postContent])
+    console.log("postCreatePage:");
+    console.log("postContributor update: ", postContributor);
+  }, [postTitle, postContent, postContributor]);
 
   return (
     <DefaultLayout style={{ backgroundColor: "#f3f3f4" }}>
       <Container maxWidth="lg" sx={{ padding: "6.5rem 0", margin: "0 auto" }}>
-        <Box sx={{ display: "flex", paddingTop: "50px", paddingBottom: "20px" }}>
+        <Box
+          sx={{ display: "flex", paddingTop: "50px", paddingBottom: "20px" }}
+        >
           <Typography variant="h4" sx={{ flexGrow: 1, alignSelf: "flex-end" }}>
             Create a post
           </Typography>
-          <Button variant="contained" size="large" onClick={() => handleCreatePost}>
+          <Button
+            variant="contained"
+            size="large"
+            onClick={() => handleCreatePost}>
             Create
           </Button>
         </Box>
@@ -56,17 +91,21 @@ const PostCreatePage = () => {
               title={postTitle}
               updatePostTitle={updatePostTitle}
               content={postContent}
-              updatePostContent={updatePostContent} />
+              updatePostContent={updatePostContent}/>
           </Grid>
-          <Grid item xs={12} md={4} >
-            <UploadImageCard />
-            <AddContributorCard />
+          <Grid item xs={12} md={4}>
+            <UploadImageCard
+              coverUrl={postCoverUrl}
+              updateCoverUrl={updatePostCoverUrl}/>
+            <AddContributorCard
+              contributor={postContributor}
+              updatePostContributor={updatePostContributor}/>
             <MetadataCard />
           </Grid>
         </Grid>
       </Container>
     </DefaultLayout>
   );
-}
+};
 
 export default PostCreatePage;
