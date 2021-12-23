@@ -7,7 +7,7 @@ import MetadataCard from "./cards/MetadataCard";
 import TitleAndContentCard from "./cards/TitleAndContentCard";
 import UploadImageCard from "./cards/UploadImageCard";
 
-interface Contributor {
+export interface Contributor {
   id: number;
   name: string;
 }
@@ -30,24 +30,21 @@ const PostCreatePage = () => {
     setPostCategory(category);
   };
   // Post directors
-  const [postContributor, setPostContributor] = useState<Contributor[]>([{
+  const [postContributors, setPostContributors] = useState<Contributor[]>([{
     id: 0,
     name: ''
   }, {
     id: 1,
     name: ''
   }]);
-  const updatePostContributor = (contributors: Contributor[]): void => {
-    console.log('contributorList=', contributors)
-    setPostContributor(contributors);
-    // setPostContributor([{
-    //   id: 0,
-    //   name: ''
-    // }, {
-    //   id: 1,
-    //   name: ''
-    // }])
+  const updatePostContributors = (contributorList: Contributor[]): void => {
+    const arrayMap = contributorList.map((c) => ({
+      id: c.id,
+      name: c.name
+    }))
+    setPostContributors(arrayMap)
   };
+
   // Post thumbnail url
   const [postCoverUrl, setPostCoverUrl] = useState<string>("");
   const updatePostCoverUrl = (coverUrl: string): void => {
@@ -66,8 +63,8 @@ const PostCreatePage = () => {
   //useEffect
   useEffect(() => {
     console.log("postCreatePage:");
-    console.log("postContributor update: ", postContributor);
-  }, [postTitle, postContent, postContributor]);
+    console.log("postContributor update: ", postContributors);
+  }, [postTitle, postContent, postContributors]);
 
   return (
     <DefaultLayout style={{ backgroundColor: "#f3f3f4" }}>
@@ -98,8 +95,8 @@ const PostCreatePage = () => {
               coverUrl={postCoverUrl}
               updateCoverUrl={updatePostCoverUrl}/>
             <AddContributorCard
-              contributor={postContributor}
-              updatePostContributor={updatePostContributor}/>
+              contributors={postContributors}
+              updatePostContributors={updatePostContributors}/>
             <MetadataCard />
           </Grid>
         </Grid>

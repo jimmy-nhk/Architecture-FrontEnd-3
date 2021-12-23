@@ -9,30 +9,32 @@ import {
   TextField,
 } from "@mui/material";
 import * as React from "react";
-
-interface Contributor {
-  id: number;
-  name: string;
-}
+import { Contributor } from "../PostCreatePage";
 
 interface IContributorCardProps {
-  contributor: Contributor[];
-  updatePostContributor: (arg: Contributor[]) => void;
+  contributors: Contributor[];
+  updatePostContributors: (arg: Contributor[]) => void;
 }
 
 const AddContributorCard: React.FC<IContributorCardProps> = ({
-  contributor,
-  updatePostContributor,
+  contributors: contributors,
+  updatePostContributors: updatePostContributors,
 }) => {
-  const onContributorChange = (e: any, c:Contributor) => {
-    console.log('onContributorChange=', e.target.value)
-    var contributorList = contributor
-    contributorList[c.id].name = e.target.value
-    // contributor[c.id].name = e.target.value
-    updatePostContributor(contributorList);
-   
-
+  const onContributorChange = (e: any, c: Contributor) => {
+    var contributorList: Contributor[] = contributors;
+    contributorList[c.id].name = e.target.value;
+    updatePostContributors(contributorList);
   };
+
+  const handleAddContributor = (e: any) => {
+    const maxId = contributors.length
+    var contributorList:Contributor[] = contributors;
+    contributorList.push({
+      id: maxId,
+      name: ''
+    })
+    updatePostContributors(contributorList);
+  }
 
   return (
     <Card sx={{ marginTop: "20px" }}>
@@ -41,25 +43,34 @@ const AddContributorCard: React.FC<IContributorCardProps> = ({
           Contributors
         </Typography>
         <Box sx={{ display: "flex", flexDirection: "column" }}>
-          {contributor.map((c) => {
-            console.log(c)
+          {contributors.map((c) => {
+            console.log(c);
             return (
-            <Box
-              sx={{ display: "flex", alignItems: "flex-end", marginTop: "5px" }}>
-              <Avatar sx={{ marginRight: "10px" }} alt="?" src="" />
-              <TextField
-                fullWidth
-                id={String(c.id)}
-                label={"Contributor " + (c.id + 1)} 
-                variant="standard"
-                value={c.name}
-                onChange={(e) => onContributorChange(e, c)}/>
-            </Box>
-          )})}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "flex-end",
+                  marginTop: "5px",
+                }}
+              >
+                <Avatar sx={{ marginRight: "10px" }} alt="?" src="" />
+                <TextField
+                  fullWidth
+                  id={String(c.id)}
+                  label={"Contributor " + (c.id + 1)}
+                  variant="standard"
+                  value={c.name}
+                  onChange={(e) => onContributorChange(e, c)}
+                />
+              </Box>
+            );
+          })}
         </Box>
       </CardContent>
       <CardActions>
-        <Button size="small">Add contributor</Button>
+        <Button size="small" onClick={(e) => handleAddContributor(e)}>
+          Add contributor
+        </Button>
       </CardActions>
     </Card>
   );
