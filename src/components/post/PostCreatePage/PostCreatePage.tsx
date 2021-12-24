@@ -29,20 +29,28 @@ const PostCreatePage = () => {
   const updatePostCategory = (category: string): void => {
     setPostCategory(category);
   };
+  // Post tags
+  const [postTags, setPostTags] = useState<string[]>([]);
+  const updatePostTags = (tags: string[]): void => {
+    setPostTags(tags);
+  };
   // Post directors
-  const [postContributors, setPostContributors] = useState<Contributor[]>([{
-    id: 0,
-    name: ''
-  }, {
-    id: 1,
-    name: ''
-  }]);
+  const [postContributors, setPostContributors] = useState<Contributor[]>([
+    {
+      id: 0,
+      name: "",
+    },
+    {
+      id: 1,
+      name: "",
+    },
+  ]);
   const updatePostContributors = (contributorList: Contributor[]): void => {
     const arrayMap = contributorList.map((c) => ({
       id: c.id,
-      name: c.name
-    }))
-    setPostContributors(arrayMap)
+      name: c.name,
+    }));
+    setPostContributors(arrayMap);
   };
 
   // Post thumbnail url
@@ -62,10 +70,12 @@ const PostCreatePage = () => {
 
   //useEffect
   useEffect(() => {
-    console.log("postCreatePage:");
-    console.log("postContributor update: ", postContributors);
-    console.log("postCover update: ", postCoverUrl);
-  }, [postTitle, postContent, postContributors,postCoverUrl]);
+    // console.log("postCreatePage:");
+    // console.log("postContributor update: ", postContributors);
+    // console.log("postCategory update: ", postCategory);
+    // console.log("postTags update: ", postTags);
+    // console.log("postCover update: ", postCoverUrl);
+  }, [postTitle, postContent, postContributors, postCoverUrl, postCategory, postTags]);
 
   return (
     <DefaultLayout style={{ backgroundColor: "#f3f3f4" }}>
@@ -79,7 +89,8 @@ const PostCreatePage = () => {
           <Button
             variant="contained"
             size="large"
-            onClick={() => handleCreatePost}>
+            onClick={() => handleCreatePost}
+          >
             Create
           </Button>
         </Box>
@@ -89,16 +100,24 @@ const PostCreatePage = () => {
               title={postTitle}
               updatePostTitle={updatePostTitle}
               content={postContent}
-              updatePostContent={updatePostContent}/>
+              updatePostContent={updatePostContent}
+            />
           </Grid>
           <Grid item xs={12} md={4}>
             <UploadImageCard
               coverUrl={postCoverUrl}
-              updateCoverUrl={updatePostCoverUrl}/>
+              updateCoverUrl={updatePostCoverUrl}
+            />
             <AddContributorCard
               contributors={postContributors}
-              updatePostContributors={updatePostContributors}/>
-            <MetadataCard />
+              updatePostContributors={updatePostContributors}
+            />
+            <MetadataCard
+              category={postCategory}
+              updatePostCategory={updatePostCategory}
+              tags={postTags}
+              updatePostTags={updatePostTags}
+            />
           </Grid>
         </Grid>
       </Container>
