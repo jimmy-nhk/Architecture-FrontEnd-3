@@ -1,16 +1,6 @@
 import React from "react";
-// import Grid from "@mui/material/Grid";
-// import { makeStyles } from "@mui/styles";
-// import Popover from "@mui/material/Popover";
-// import TextField from "@mui/material/TextField";
-// import IconButton from "@mui/material/IconButton";
-// import Button from "@mui/material/Button";
-// import DoneIcon from "@mui/icons-material/Done";
-// import CloseIcon from "@mui/icons-material/Close";
-// import AttachFileIcon from "@mui/icons-material/AttachFile";
 import {initializeApp} from "firebase/app";
 import {getDownloadURL, getStorage, ref, uploadBytesResumable,} from "firebase/storage";
-// import { Editor } from "@tinymce/tinymce-react";
 import tinymce from "tinymce/tinymce";
 
 //Firebase config
@@ -26,39 +16,14 @@ const firebaseConfig = {
     measurementId: "G-B8TSFYDFVE",
 };
 
-// interface IUploadImagePopoverProps {
-//   anchor: TAnchor;
-//   onSubmit: (data: TUploadImageData, insert: boolean) => void;
-// }
-
 interface IRichTextEditorProps {
     content: string;
     updatePostContent: (arg: string) => void;
 }
 
-// type TUploadImagePopoverState = {
-//   anchor: TAnchor;
-//   isCancelled: boolean;
-// };
-
 type TUploadImageData = {
     file?: File;
 };
-
-// type TAnchor = HTMLElement | null;
-
-// const cardPopverStyles = makeStyles({
-//   root: {
-//     padding: 10,
-//     maxWidth: 350,
-//   },
-//   textField: {
-//     width: "100%",
-//   },
-//   input: {
-//     display: "none",
-//   },
-// });
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -68,9 +33,8 @@ const uploadImageToServer = async (file: File) => {
         console.log(`Uploading image ${file.name} ...`);
         setTimeout(() => {
             const spaceRef = ref(storage, `images/${file.name}`);
-
             const uploadTask = uploadBytesResumable(spaceRef, file);
-            //
+            
             //initiates the firebase side uploading
             uploadTask.on(
                 "state_changed",
@@ -105,101 +69,6 @@ const uploadImage = async (file: File) => {
     return url;
 };
 
-// const UploadImagePopover: FunctionComponent<IUploadImagePopoverProps> = (
-//   props
-// ) => {
-//   const classes = cardPopverStyles(props);
-//   const [state, setState] = useState<TUploadImagePopoverState>({
-//     anchor: null,
-//     isCancelled: false,
-//   });
-//   const [data, setData] = useState<TUploadImageData>({});
-
-//   useEffect(() => {
-//     setState({
-//       anchor: props.anchor,
-//       isCancelled: false,
-//     });
-//     setData({
-//       file: undefined,
-//     });
-//   }, [props.anchor]);
-
-//   return (
-//     <Popover
-//       anchorEl={state.anchor}
-//       open={state.anchor !== null}
-//       anchorOrigin={{
-//         vertical: "bottom",
-//         horizontal: "right",
-//       }}
-//       transformOrigin={{
-//         vertical: "top",
-//         horizontal: "left",
-//       }}
-//     >
-//       <Grid container spacing={1} className={classes.root}>
-//         <Grid item xs={10}>
-//           <TextField
-//             className={classes.textField}
-//             disabled
-//             value={data.file?.name || ""}
-//             placeholder="Click icon to attach image"
-//           />
-//         </Grid>
-//         <Grid item xs={2}>
-//           <input
-//             accept="image/*"
-//             className={classes.input}
-//             id="contained-button-file"
-//             type="file"
-//             onChange={(event) => {
-//               setData({
-//                 ...data,
-//                 file: event.target.files![0],
-//               });
-//             }}
-//           />
-//           <label htmlFor="contained-button-file">
-//             <IconButton
-//               color="primary"
-//               aria-label="upload image"
-//               component="span"
-//             >
-//               <AttachFileIcon />
-//             </IconButton>
-//           </label>
-//         </Grid>
-//         <Grid item container xs={12} justifyContent="flex-end">
-//           <Button
-//             onClick={() => {
-//               setState({
-//                 anchor: null,
-//                 isCancelled: true,
-//               });
-//             }}
-//           >
-//             <CloseIcon />
-//           </Button>
-//           <Button
-//             onClick={() => {
-//               setState({
-//                 anchor: null,
-//                 isCancelled: false,
-//               });
-//               props.onSubmit(data, !state.isCancelled);
-//             }}
-//           >
-//             <DoneIcon />
-//           </Button>
-//         </Grid>
-//       </Grid>
-//     </Popover>
-//   );
-// };
-const defaultValues = {
-    RTE1: "",
-};
 const TinyEditor: React.FC<IRichTextEditorProps> = ({
                                                         content,
                                                         updatePostContent,
@@ -216,6 +85,8 @@ const TinyEditor: React.FC<IRichTextEditorProps> = ({
         placeholder: "Enter your post content here...",
         statusbar: false,
         height: "500",
+        content_style:
+        "body { font-family: Arial; }",
         plugins: [
             "advlist autolink lists link image charmap print preview anchor",
             "searchreplace visualblocks code fullscreen textcolor ",

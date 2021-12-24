@@ -1,7 +1,13 @@
 import { CssBaseline, Typography } from '@mui/material';
 import * as React from 'react';
 
-export default function HeroSection() {
+interface IHeroSectionProps {
+  title: string;
+}
+
+const HeroSection: React.FC<IHeroSectionProps> = ({
+  title
+}) => {
   return (
     <div style={{ 
         height: '100vh',
@@ -27,10 +33,13 @@ export default function HeroSection() {
               fontWeight: "bold", 
               textAlign: "left",
             }}>
-            Lorem ipsum dolor sit amet
+            {/* Lorem ipsum dolor sit amet */}
+            {title}
           </Typography>
         </div>
       </div>
     </div>
   );
 }
+
+export default HeroSection;
