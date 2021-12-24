@@ -85,22 +85,23 @@ const PostCreatePage = () => {
 
         const addPostAsync = () => {
             const postObject = {
-                title: postTitle,
+                title: postTitle.trim(),
                 bodyText: postContent,
                 category: postCategory,
-                directors: postContributors.map(c => c.name).join("; "),
+                directors: postContributors.map(c => c.name.trim()).join("; "),
                 coverUrl: postCoverUrl,
                 likedCount: 0,
                 viewCount: 0,
                 tags: postTags.join("; ")
             };
-            const postURL = "http://localhost:5000/post/";
-            // const postURL = URL + postPath;
-            console.log("Posting post to the server");
-            console.log(postObject);
-            console.log(postURL);
+            // const postURL = "http://localhost:5000/post/";
+            const postURL = URL + postPath;
+            const getURL = URL + "posts";
+            // console.log("Posting post to the server");
+            // console.log(postObject);
+            // console.log(postURL);
 
-            axios.post("http://localhost:5000/post/", postObject,
+            axios.post(postURL, postObject,
                 {headers: {
                         'Content-Type': 'application/json',
                         'Accept':'application/json'}
@@ -114,7 +115,7 @@ const PostCreatePage = () => {
                     console.log(err.response.data)
                     console.log(err)
                 })
-            axios.get("http://localhost:5000/posts/")
+            axios.get(getURL)
                 .then((response: AxiosResponse) => {
                     console.log(response.data);
                 });
