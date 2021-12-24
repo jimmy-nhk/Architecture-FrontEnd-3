@@ -259,19 +259,19 @@ const TinyEditor: React.FC<IRichTextEditorProps> = ({
         },
         setup: function (ed: any) {
             ed.on("change", function (e: any) {
-                updatePostContent(ed.getContent());
+                 updatePostContent(ed.getContent({ format: "raw" }));
             });
             ed.on("keyup", function (e: any) {
-                updatePostContent(ed.getContent());
+                updatePostContent(ed.getContent({ format: "raw" }));
             });
             ed.on("copy", function (e: any) {
-                updatePostContent(ed.getContent());
+                updatePostContent(ed.getContent({ format: "raw" }));
             });
             ed.on("paste", function (e: any) {
-                updatePostContent(ed.getContent());
+                updatePostContent(ed.getContent({ format: "raw" }));
             });
             ed.on("cut", function (e: any) {
-                updatePostContent(ed.getContent());
+                updatePostContent(ed.getContent({ format: "raw" }));
             });
         },
     });

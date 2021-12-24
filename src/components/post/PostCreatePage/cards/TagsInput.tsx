@@ -25,7 +25,7 @@ const TagsInput: React.FC<ITagsInputProps> = ({ tags, updatePostTags }) => {
         return;
       }
       updatePostTags([...tags, val.trim()]);
-      setRefs("null");
+      setRefs("");
     }
     // else if (e.key === "Backspace" && !val) {
     //   removeTag(tags.length - 1);
