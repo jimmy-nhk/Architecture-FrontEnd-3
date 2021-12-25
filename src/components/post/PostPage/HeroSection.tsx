@@ -3,16 +3,18 @@ import * as React from 'react';
 
 interface IHeroSectionProps {
   title: string;
+  coverUrl: string;
 }
 
 const HeroSection: React.FC<IHeroSectionProps> = ({
-  title
+  title, coverUrl
 }) => {
   return (
     <div style={{ 
         height: '100vh',
         minHeight: '560px',
-        backgroundImage: 'url(https://source.unsplash.com/random)',
+        // backgroundImage: 'url(https://source.unsplash.com/random)',
+        backgroundImage: `url(${coverUrl})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center', 
