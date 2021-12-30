@@ -1,6 +1,7 @@
 import axios from "axios";
 import { type } from "os";
 import React, { useState, useEffect } from "react";
+import { AppConstants } from "../../app/common/app.constants";
 import Comment from "./Comment";
 import CommentForm from "./CommentForm";
 import "./style.css";
@@ -44,12 +45,10 @@ function Comments({ currentUserId, postId }: CommentsProp) {
           new Date(a.datePosted).getTime() - new Date(b.datePosted).getTime()
       );
   };
-
-  var commentsAPI = "http://localhost:8080/comments";
-  var getAllCommentsAPI = commentsAPI + "/getAllComments/postId=" + 1;
-  var createCommentAPI = commentsAPI + "/createComment";
-  var deleteCommentAPI = commentsAPI + "/deleteComments/commentId=";
-  var updateCommentAPI = commentsAPI + "/updateComment/commentId=";
+  var getAllCommentsAPI = AppConstants.COMMENT_URL + "getAllComments/postId=" + 1;
+  var createCommentAPI = AppConstants.COMMENT_URL + "createComment";
+  var deleteCommentAPI = AppConstants.COMMENT_URL + "deleteComments/commentId=";
+  var updateCommentAPI = AppConstants.COMMENT_URL + "updateComment/commentId=";
   useEffect(() => {
     if (isReloaded) {
       return;

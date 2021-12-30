@@ -8,6 +8,7 @@ type CommentFormProps = {
   initialText: string;
   handleCancel: () => void;
 };
+
 function CommentForm({
   submitLabel,
   handleSubmit,
@@ -21,6 +22,7 @@ function CommentForm({
   const onSubmit = (event: FormEvent) => {
     event.preventDefault();
     handleSubmit(text, 0);
+    setText("")
   };
 
   return (
