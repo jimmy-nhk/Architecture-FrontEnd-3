@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import React, { DragEvent, FormEvent, useState } from "react";
 import { EventType } from "react-hook-form";
 
@@ -30,18 +31,19 @@ function CommentForm({
       <textarea
         className="comment-form-textarea"
         value={text}
+        placeholder="Leave a comment..."
         onChange={(e) => setText(e.target.value)}
       />
       <br/>
 
-      <button className="comment-form-button" disabled={isTextareaDisable}>
-        {submitLabel}
-      </button>
+      <Button variant="contained" size="large" className="comment-form-button" disabled={isTextareaDisable}>
+        Submit comment
+      </Button>
 
       {hasCancelButton && (
-              <button className="comment-form-button comment-form-cancel-button" onClick={handleCancel}>
-              Cancel
-            </button>
+        <Button variant="contained" size="large" className="comment-form-button comment-form-cancel-button" onClick={handleCancel}>
+          Cancel
+        </Button>
       )}
     </form>
   );

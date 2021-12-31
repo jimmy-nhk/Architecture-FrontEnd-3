@@ -54,13 +54,10 @@ header {
 .nav-list {
   list-style: none;
   display: flex;
-  justify-content: space-around;
   width: 100%;
-  /* margin-right: 1rem; */
-  /* margin-left: auto; */
+  justify-content: flex-end;
   align-items: center;
   position: relative;
-  top: 5px;
 }
 
 .nav-list-search {
@@ -68,6 +65,7 @@ header {
 }
 
 .nav-link {
+  margin: 2rem;
   position: relative;
 }
 
@@ -90,6 +88,7 @@ header {
 
 #searchIcon {
   padding-top: 2px;
+  margin-left: 1rem;
   color: #fff;
   right: 1rem;
 }
@@ -100,7 +99,8 @@ header {
 
 #searchText {
   color: #fff;
-  width: 40%;
+  width: 100%;
+  max-width:600px;
   display: none;
   background-color: #313131;
   border-radius: 3px;
@@ -112,7 +112,8 @@ header {
   background-color: #fff;
   color: #313131;
   padding: 0.5rem 2rem;
-  /* margin-left: 10px; */
+  cursor: pointer;
+  margin: 2rem;
   border-radius: 50px;
   transition: background-color 0.5s ease;
   transition: all 0.4s ease-in-out;
@@ -171,14 +172,6 @@ header {
     display: block;
   }
 
-  .nav-link {
-    margin: auto;
-  }
-
-  #searchIcon {
-    margin-left: 1rem;
-  }
-
   #signin-profile {
     display: block;
     text-align: center;
@@ -199,7 +192,7 @@ header {
   }
 
   #join-logout {
-    margin-left: 2rem;
+    margin: 2rem;
   }
 
   #searchText {
@@ -219,19 +212,20 @@ header {
   }
   .nav-list {
     position: absolute;
-    /* right: -15px; */
-    height: 85vh;
-    top: 15vh;
+    top: 100px;
+    left: 0;
     background-color: white;
-    display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+    padding: 0;
+    margin: 0;
     transform: translateX(100%);
+    border: 3px solid black;
   }
 
-  #join-logout {
-    margin-left: 0;
+  #searchText {
+    width: auto;
   }
 
   .scrolling-active #logo-text {

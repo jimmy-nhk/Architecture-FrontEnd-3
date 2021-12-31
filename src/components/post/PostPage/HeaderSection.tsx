@@ -1,6 +1,7 @@
 import { FavoriteOutlined } from "@mui/icons-material";
 import { Box, Typography, IconButton, AvatarGroup, Avatar, Link } from "@mui/material";
 import Tag from "./Tag";
+import "./style.css";
 
 const tags = [
   'lorem', 'ipsum', 'dolor','consectetur'
@@ -37,7 +38,7 @@ export default function HeaderSection() {
           </Typography>              
         </Box>
       </Box>
-      <Box sx={{ marginBottom: "50px", display: "flex", flexDirection: "row"}}>
+      <Box className="post-metadata">
         <Box sx={{ flexGrow: 1 }}>
           <Typography variant="button" sx={{ 
               fontWeight: "bold",

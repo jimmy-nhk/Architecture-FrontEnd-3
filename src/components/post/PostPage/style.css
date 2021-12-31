@@ -57,3 +57,18 @@
 .post-detail-body .post-cards-container {
   marginBottom: 50px; display: flex; flexDirection: row
 }
+
+.post-metadata {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+@media screen and (min-width: 1028px) {
+  .post-metadata {
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: row
+  }
+}

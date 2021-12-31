@@ -8,14 +8,14 @@ import HeroSection from "./HeroSection";
 
 const PostPage = () => {
   return (
-    <DefaultLayout>
+    <DefaultLayout style={{backgroundColor: "white"}}>
       <>
       <HeroSection />
       <Container maxWidth="lg" sx={{ margin: "100px auto" }}>
         <HeaderSection />
         <BodySection />
+        <Comments currentUserId={1} postId={1}/>
       </Container>
-      <Comments currentUserId={1} postId={1}/>
       </>
   </DefaultLayout>
   );

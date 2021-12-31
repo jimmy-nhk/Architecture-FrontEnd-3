@@ -273,7 +273,9 @@ function LoginPage( {setAccount} : AccountProp) {
             </section>
             <div className="input-container email">
               <label htmlFor="email">Email</label>
-              <input id="email" type="email" maxLength={40} ref={email} />
+              <input id="email" type="email" maxLength={40} ref={email} 
+                placeholder="Enter a valid email address"
+                />
             </div>
             <p ref={emailError} id="email-error" className="error-text"></p>
             <div className="input-container password">
