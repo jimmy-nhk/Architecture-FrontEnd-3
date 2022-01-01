@@ -68,27 +68,10 @@ const uploadImage = async (file: File) => {
 
 
 const UploadImageCard: React.FC<IUploadImageCardProps> = ({coverUrl, updateCoverUrl}) => {
-  const [postTagline, setPostTagline] = React.useState<string>("")
   const coverImageUploadHandler = async function (e: React.ChangeEvent<HTMLInputElement>) {
         console.log('coverImageUploadHandler');
         if (e.target.files !== null) {
             var file = e.target.files[0];
-            // var reader = new FileReader();
-            // reader.onload = await async function () {
-            //     var id = "blobid" + new Date().getTime();
-            //     var blobCache = tinymce.activeEditor.editorUpload.blobCache;
-            //     // @ts-ignore
-            //     var base64 = reader.result.split(",")[1];
-            //     var blobInfo = blobCache.create(id, file, base64);
-            //     blobCache.add(blobInfo);
-            //
-            //     //upload file to server
-            //     uploadImage(file) //Promise here
-            //         .then((url) => {
-            //             updateCoverUrl(url as string);
-            //         });
-            // };
-            // await reader.readAsDataURL(file);
             // upload file to server
             uploadImage(file) //Promise here
                 .then((url) => {
@@ -117,14 +100,10 @@ const UploadImageCard: React.FC<IUploadImageCardProps> = ({coverUrl, updateCover
                             Upload
                         </Button>
                     </label>
-                  <TextField fullWidth
-                             id="postTagline"
-                             value={postTagline}
-                             onChange={e => setPostTagline(e.target.value)}
-                             label="New post tagline" variant="filled" />
-
                 </FormControl>
             </CardContent>
         </Card>
     );
 }
+
+export default UploadImageCard;

@@ -19,7 +19,7 @@ interface IPost {
 }
 
 const URL = "https://sead-back-postservice.herokuapp.com/";
-const postId = 17;
+const postId = 21;
 
 const PostPage = () => {
   var post: IPost | undefined = undefined;

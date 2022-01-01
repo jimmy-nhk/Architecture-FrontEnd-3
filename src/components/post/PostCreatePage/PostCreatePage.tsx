@@ -22,6 +22,11 @@ const PostCreatePage = () => {
         const updatePostTitle = (title: string): void => {
             setPostTitle(title);
         };
+        // Post tagline
+        const [postTagline, setPostTagline] = useState<string>("");
+        const updatePostTagline = (tagline: string): void => {
+            setPostTagline(tagline);
+        };
         // Post content
         const [postContent, setPostContent] = useState<string>("");
         const updatePostContent = (content: string): void => {
@@ -62,17 +67,6 @@ const PostCreatePage = () => {
             setPostCoverUrl(coverUrl);
         };
 
-        interface IPostData {
-            id?: any | null;
-            title: string;
-            description: string;
-            published?: boolean;
-        }
-
-        const handleCreatePost = () => {
-            console.log("handleCreatePost");
-            addPostAsync();
-        };
 
         //useEffect
         useEffect(() => {
@@ -81,12 +75,13 @@ const PostCreatePage = () => {
             // console.log("postCategory update: ", postCategory);
             // console.log("postTags update: ", postTags);
             // console.log("postCover update: ", postCoverUrl);
-        }, [postTitle, postContent, postContributors, postCoverUrl, postCategory, postTags]);
+        }, [postTitle, postTagline, postContent, postContributors, postCoverUrl, postCategory, postTags]);
 
         const addPostAsync = () => {
             const postObject = {
                 title: postTitle.trim(),
-                bodyText: postContent,
+                tagline: postTagline.trim(),
+                bodyText: postContent.trim(),
                 category: postCategory,
                 directors: postContributors.map(c => c.name.trim()).join("; "),
                 coverUrl: postCoverUrl,
@@ -145,6 +140,8 @@ const PostCreatePage = () => {
                                 updatePostTitle={updatePostTitle}
                                 content={postContent}
                                 updatePostContent={updatePostContent}
+                                tagline={postTagline}
+                                updatePostTagline={updatePostTagline}
                             />
                         </Grid>
                         <Grid item xs={12} md={4}>
