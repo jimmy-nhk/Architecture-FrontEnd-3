@@ -1,12 +1,20 @@
 import { CssBaseline, Typography } from '@mui/material';
 import * as React from 'react';
 
-export default function HeroSection() {
+interface IHeroSectionProps {
+  title: string;
+  coverUrl: string;
+}
+
+const HeroSection: React.FC<IHeroSectionProps> = ({
+  title, coverUrl
+}) => {
   return (
     <div style={{ 
         height: '100vh',
         minHeight: '560px',
-        backgroundImage: 'url(https://source.unsplash.com/random)',
+        // backgroundImage: 'url(https://source.unsplash.com/random)',
+        backgroundImage: `url(${coverUrl})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center', 
@@ -27,10 +35,13 @@ export default function HeroSection() {
               fontWeight: "bold", 
               textAlign: "left",
             }}>
-            Lorem ipsum dolor sit amet
+            {/* Lorem ipsum dolor sit amet */}
+            {title}
           </Typography>
         </div>
       </div>
     </div>
   );
 }
+
+export default HeroSection;

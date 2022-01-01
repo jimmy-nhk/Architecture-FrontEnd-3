@@ -1,12 +1,33 @@
 import { FavoriteOutlined } from "@mui/icons-material";
 import { Box, Typography, IconButton, AvatarGroup, Avatar, Link } from "@mui/material";
+import { useEffect, useState } from "react";
 import Tag from "./Tag";
 
-const tags = [
-  'lorem', 'ipsum', 'dolor','consectetur'
-];
+interface IHeaderSectionProps {
+  category: string;
+  tags: string;
+  contributors: string;
+  likedCount: number;
+}
 
-export default function HeaderSection() {
+const HeaderSection: React.FC<IHeaderSectionProps> = ({
+  category, tags, contributors, likedCount
+}) => {
+  const [tagArr, setTagArr] = useState<string[]>(['', ''])
+  const [contributorArr, setContributorArr] = useState<string[]>(['', ''])
+
+  useEffect(() => {
+    var arr = tags.split(';');
+    arr = arr.map((x) => x.trim())
+    setTagArr(arr)
+  }, [tags])
+
+  useEffect(() => {
+    var arr = contributors.split(';');
+    arr = arr.map((x) => x.trim())
+    setContributorArr(arr)
+  }, [contributors])
+
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -33,7 +54,7 @@ export default function HeaderSection() {
               fontWeight: "bold",
               textAlign: "center",
             }}>
-            43 likes
+            {likedCount} likes
           </Typography>              
         </Box>
       </Box>
@@ -45,11 +66,9 @@ export default function HeaderSection() {
             Author(s)
           </Typography>
           <AvatarGroup max={4} sx={{ justifyContent: "flex-end" }}>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-            <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-            <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-            <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
+            {contributorArr.map((c, i) => 
+              <Avatar alt={c} src={`/static/images/avatar/${i + 1}.jpg`} />
+            )}
           </AvatarGroup>
         </Box>
         <Box sx={{ flexGrow: 1 }}>
@@ -60,7 +79,7 @@ export default function HeaderSection() {
           </Typography>
           <div>
             <Link sx={{ marginTop: "10px" }} underline="hover" href="#">
-              Sed ut perspiciatis
+              {category}
             </Link>
           </div>
         </Box>
@@ -71,7 +90,7 @@ export default function HeaderSection() {
             TAGS
           </Typography>
           <div style={{ marginTop: "10px" }}>
-            { tags.map((tag) => (
+            { tagArr.map((tag) => (
               <Tag key={tag} name={tag} />
             ))}
           </div>              
@@ -80,3 +99,5 @@ export default function HeaderSection() {
     </>
   )
 }
+
+export default HeaderSection;

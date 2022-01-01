@@ -1,83 +1,85 @@
-import * as React from 'react';
-import { Theme, useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Chip from '@mui/material/Chip';
+import { TextField, IconButton } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
+import * as React from "react";
+import { useState } from "react";
 
-const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
-  PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-      width: 250,
-    },
-  },
-};
-
-const tags = [
-  'lorem', 'ipsum', 'dolor', 'sit', 'amet', 'consectetur',
-  'adipiscing', 'elit', 'curabitur', 'vel', 'hendrerit'
-];
-
-function getStyles(name: string, tagName: readonly string[], theme: Theme) {
-  return {
-    fontWeight:
-      tagName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
-  };
+interface ITagsInputProps {
+  tags: string[];
+  updatePostTags: (arg: string[]) => void;
 }
 
-export default function TagsInput() {
-  const theme = useTheme();
-  const [tagName, setTagName] = React.useState<string[]>([]);
+const TagsInput: React.FC<ITagsInputProps> = ({ tags, updatePostTags }) => {
+  const [refs, setRefs] = useState("");
 
-  const handleChange = (event: SelectChangeEvent<typeof tagName>) => {
-    const {
-      target: { value },
-    } = event;
-    setTagName(
-      // On autofill we get a the stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
+  const removeTag = (i: number) => {
+    const newTags = [...tags];
+    newTags.splice(i, 1);
+
+    updatePostTags(newTags);
+  };
+
+  const inputKeyDown = (e: any) => {
+    const val = e.target.value;
+    if (e.key === "Enter" && val) {
+      if (tags.find((tag) => tag.toLowerCase() === val.toLowerCase())) {
+        return;
+      }
+      updatePostTags([...tags, val.trim()]);
+      setRefs("");
+    }
+    // else if (e.key === "Backspace" && !val) {
+    //   removeTag(tags.length - 1);
+    // }
   };
 
   return (
-    <div>
-      <FormControl fullWidth sx={{ marginTop: "20px" }}>
-        <InputLabel id="tags-label">Tags</InputLabel>
-        <Select
-          labelId="tags-label"
-          id="tags"
-          multiple
-          value={tagName}
-          onChange={handleChange}
-          input={<OutlinedInput id="tags-select" label="Chip" />}
-          renderValue={(selected) => (
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={value} label={value} />
-              ))}
-            </Box>
-          )}
-          MenuProps={MenuProps}
-        >
-          {tags.map((tag) => (
-            <MenuItem
-              key={tag}
-              value={tag}
-              style={getStyles(tag, tagName, theme)}
+    <>
+      <TextField
+        sx={{ marginTop: "20px" }}
+        label="Tags"
+        variant="outlined"
+        onKeyDown={inputKeyDown}
+        inputRef={(c) => {
+          setRefs(c);
+        }}
+      />
+      <ul
+        style={{
+          display: "inline-flex",
+          flexWrap: "wrap",
+          padding: "0px",
+        }}
+      >
+        {tags.map((tag, i) => (
+          <li
+            key={tag}
+            style={{
+              background: "#00000014",
+              margin: "5px 5px 0px 5px",
+              padding: "8px 8px 8px 12px",
+              color: "#000000DE",
+              fontStyle: 'none',
+              alignItems: "center",
+              borderRadius: "30px",
+              display: "inline-flex",
+              fontFamily: "Arial, sans-serif"
+            }}
+          >
+            {tag}
+            <IconButton
+              aria-label="delete"
+              style={{ padding: "2px" }}
+              onClick={() => {
+                removeTag(i);
+              }}
             >
-              {tag}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
+              <ClearIcon fontSize="small" />
+            </IconButton>
+          </li>
+        ))}
+      </ul>
+    </>
   );
-}
+};
+
+export default TagsInput;
