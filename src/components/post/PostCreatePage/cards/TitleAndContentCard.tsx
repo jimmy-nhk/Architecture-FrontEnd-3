@@ -25,14 +25,14 @@ const TitleAndContentCard: React.FC<ITitleAndContentCardProps> = ({title, conten
     return (
         <Card>
             <CardContent>
-                <TextField fullWidth id="postTitle" value={postTitle} onChange={e => updatePostTitle(e.target.value)}
-                           label="New post title" variant="filled"/>
+                <TextField fullWidth id="postTitle" sx={{ marginBottom:"1rem"}} value={postTitle} onChange={e => updatePostTitle(e.target.value)}
+                           label="Title" variant="filled"/>
                 <TextField fullWidth
                            id="postTagline"
                            value={postTagline}
                            onChange={e => updatePostTagline(e.target.value)}
-                           label="New post tagline" variant="filled"/>
-                <Box sx={{height: "500px", marginTop: "10px", border: "1px solid gray"}}>
+                           label="Tagline" variant="filled"/>
+                <Box sx={{height: "500px", marginTop: "1rem", border: "1px solid gray"}}>
                     <TinyEditor content={postContent} updatePostContent={updatePostContent}/>
                 </Box>
             </CardContent>

@@ -2,12 +2,12 @@ import { CssBaseline, Typography } from '@mui/material';
 import * as React from 'react';
 
 interface IHeroSectionProps {
-  title: string;
+  tagline: string;
   coverUrl: string;
 }
 
 const HeroSection: React.FC<IHeroSectionProps> = ({
-  title, coverUrl
+  tagline, coverUrl
 }) => {
   return (
     <div style={{ 
@@ -36,7 +36,7 @@ const HeroSection: React.FC<IHeroSectionProps> = ({
               textAlign: "left",
             }}>
             {/* Lorem ipsum dolor sit amet */}
-            {title}
+            {tagline}
           </Typography>
         </div>
       </div>

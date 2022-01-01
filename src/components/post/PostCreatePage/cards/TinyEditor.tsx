@@ -85,8 +85,7 @@ const TinyEditor: React.FC<IRichTextEditorProps> = ({
         placeholder: "Enter your post content here...",
         statusbar: false,
         height: "500",
-        content_style:
-        "body { font-family: Arial; }",
+        content_style: "body {  }",
         plugins: [
             "advlist autolink lists link image charmap print preview anchor",
             "searchreplace visualblocks code fullscreen textcolor ",

@@ -1,7 +1,7 @@
-import { TextField, IconButton } from "@mui/material";
+import { TextField, IconButton, Button,InputAdornment } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import * as React from "react";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 
 interface ITagsInputProps {
   tags: string[];
@@ -9,7 +9,7 @@ interface ITagsInputProps {
 }
 
 const TagsInput: React.FC<ITagsInputProps> = ({ tags, updatePostTags }) => {
-  const [refs, setRefs] = useState("");
+  const [input, setInput] = useState("");
 
   const removeTag = (i: number) => {
     const newTags = [...tags];
@@ -19,19 +19,24 @@ const TagsInput: React.FC<ITagsInputProps> = ({ tags, updatePostTags }) => {
   };
 
   const inputKeyDown = (e: any) => {
-    const val = e.target.value;
+    const val = e.target.value.trim();
     if (e.key === "Enter" && val) {
-      if (tags.find((tag) => tag.toLowerCase() === val.toLowerCase())) {
-        return;
-      }
-      updatePostTags([...tags, val.trim()]);
-      setRefs("");
+        if (tags.find((tag) => tag.toLowerCase() === val.toLowerCase())) {
+            return;
+        }
+        updatePostTags([...tags, val]);
+        setInput("")
     }
-    // else if (e.key === "Backspace" && !val) {
-    //   removeTag(tags.length - 1);
-    // }
   };
+    const  handleAddClick=(e:any)=>{
+        const val = input.trim();
 
+        if (tags.find((tag) => tag.toLowerCase() === val.toLowerCase()) || !val) {
+            return;
+        }
+        updatePostTags([...tags, val]);
+        setInput("")
+    };
   return (
     <>
       <TextField
@@ -39,8 +44,16 @@ const TagsInput: React.FC<ITagsInputProps> = ({ tags, updatePostTags }) => {
         label="Tags"
         variant="outlined"
         onKeyDown={inputKeyDown}
-        inputRef={(c) => {
-          setRefs(c);
+        value={input}
+        onChange={e => setInput(e.target.value)}
+        InputProps={{
+            endAdornment: (
+                <InputAdornment position="end">
+                    <Button  variant="contained" onClick={(e) => handleAddClick(e)}>
+                        Add
+                    </Button>
+                </InputAdornment>
+            ),
         }}
       />
       <ul
