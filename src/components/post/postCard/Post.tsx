@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import theme from "../theme";
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
@@ -8,36 +8,41 @@ import Typography from "@mui/material/Typography";
 import { Button, CardActionArea, CardActions } from "@mui/material";
 import "./style.css";
 import Box from '@mui/material/Box';
+import { PostClass } from "../postContainer/PostContainer"
 
-function Post() {
+interface IPostProps {
+  post: PostClass;
+}
+
+const Post: React.FC<IPostProps> = ({
+  post
+}) => {
+  // const [data, setData] = useState<PostClass>()
+
   return (
     <Card className="cardPost">
-      <Box>
+      <Box sx={{width: "14vw", height: "30vh"}}>
         <CardMedia
             component="img"
             className="media"
-            image="/images/dummy-post.png"
+            image={post.coverUrl}
             title="My Post"
-            // height="400vw"
+            height="100%"
+            width="100%"
           />
       </Box>
 
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>
           <Typography component="div" variant="h5">
-            My First Post
+            {post.title}
           </Typography>
           <Typography
             variant="subtitle1"
             color="text.secondary"
             component="div"
           >
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica Lizards are
-            a widespread group of squamate reptiles, with over 6,000 species,
-            ranging across all continents except Antarctica Lizards are a
-            widespread group of squamate reptiles, with over 6,000 species,
-            ranging across all continents except Antarctica
+            {post.tagline}
           </Typography>
         </CardContent>
         <Box sx={{ display: "flex", alignItems: "center", pl: 1, pb: 1 }}>

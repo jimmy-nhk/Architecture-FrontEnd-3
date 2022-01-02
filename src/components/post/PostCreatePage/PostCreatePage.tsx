@@ -77,6 +77,7 @@ const PostCreatePage = () => {
             // console.log("postCover update: ", postCoverUrl);
         }, [postTitle, postTagline, postContent, postContributors, postCoverUrl, postCategory, postTags]);
 
+        console.log("PostCreatePage coverUrl=", postCoverUrl)
         const addPostAsync = () => {
             const postObject = {
                 title: postTitle.trim(),

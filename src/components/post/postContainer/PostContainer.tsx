@@ -23,7 +23,8 @@ export type PostClass = {
   bodyText: string;
   category: string;
   directors: string;
-  thumbnailURL: string;
+  coverUrl: string;
+  tags: string;
   likedCount: number;
   tagline: string;
   likedUserList: Array<LikedUserClass> | null;
@@ -91,7 +92,7 @@ function PostContainer() {
     const children = [];
     let i;
     for (i = 0; i < 10; i++) {
-      children.push(<Post key={i} />);
+      // children.push(<Post key={i} />);
     }
 
     console.log(posts);
@@ -114,7 +115,7 @@ function PostContainer() {
                   to="/post"
                   style={{ textDecoration: "none" }}
                 >
-                  <Post key={post.id} />
+                  <Post key={post.id} post={post} />
                 </Link>
               </Grid>
             ))}
