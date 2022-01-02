@@ -1,5 +1,7 @@
 export class AppConstants{
     private static API_BASE_URL = "http://localhost:8080/";
+    private static API_BASE__COMMENT_URL = "http://localhost:8085/";
+
     private static OAUTH2_URL = AppConstants.API_BASE_URL + "oauth2/authorization/";
     private static REDIRECT_URL = "?redirect_uri=http://localhost:3000/login";
     public static API_URL = AppConstants.API_BASE_URL + "api/";
@@ -8,5 +10,5 @@ export class AppConstants{
     public static FACEBOOK_AUTH_URL = AppConstants.OAUTH2_URL + "facebook" + AppConstants.REDIRECT_URL;
     public static GITHUB_AUTH_URL = AppConstants.OAUTH2_URL + "github" + AppConstants.REDIRECT_URL;
     public static LINKEDIN_AUTH_URL = AppConstants.OAUTH2_URL + "linkedin" + AppConstants.REDIRECT_URL;
-    public static COMMENT_URL =  AppConstants.API_BASE_URL + "comments/";
+    public static COMMENT_URL =  AppConstants.API_BASE__COMMENT_URL + "crud/";
 }
