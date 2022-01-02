@@ -146,7 +146,6 @@ function Comments({ currentUserId, postId }: CommentsProp) {
       />
       <div className="comments-container">
 
-        {rootCommentUsers.length}
         {rootCommentUsers.map((rootCommentUser) => (
           <Comment
             key={rootCommentUser.commentDTO.id}

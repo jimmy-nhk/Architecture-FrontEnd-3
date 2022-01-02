@@ -5,6 +5,7 @@ import BodySection from "./BodySection";
 import HeaderSection from "./HeaderSection";
 import HeroSection from "./HeroSection";
 import axios, {AxiosResponse} from "axios";
+import Comments from "../../comment/Comments";
 
 interface IPost {
     pid: number;
@@ -64,6 +65,7 @@ const PostPage = () => {
                     />
                     <BodySection bodyText={postBody}/>
                 </Container>
+                <Comments currentUserId={1} postId={1}/>
             </>
         </DefaultLayout>
     );
