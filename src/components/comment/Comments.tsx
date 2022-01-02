@@ -20,35 +20,55 @@ export type CommentClass = {
   body: string;
 };
 
+export type UserClass = {
+  id: number,
+  email: string,
+  displayName: string,
+  imageUrl: string
+}
+
+export type CommentUserClass = {
+    commentDTO: CommentClass,
+    userDTO: UserClass
+}
+
 export type ActiveCommentClass = {
   id: number;
   type: "replying" | "editing";
 };
 
 function Comments({ currentUserId, postId }: CommentsProp) {
-  const [backendComments, setBackendComments] = useState<CommentClass[]>([]);
+  const [backendCommentUsers, setBackendCommentUsers] = useState<CommentUserClass[]>([]);
   const [isReloaded, setIsReloaded] = useState(false);
   const [activeComment, setActiveComment] = useState<ActiveCommentClass | null>(
     null
   );
 
+
+
   // this variable below shows the roots comments without parent id
-  const rootComments = backendComments.filter(
-    (backendComment) => backendComment.parentId === 0
+  const rootCommentUsers = backendCommentUsers.filter(
+    
+    (backendCommentUser) => {
+      return backendCommentUser.commentDTO.parentId === 0
+    }
   );
 
   const getReplies = (commentId: number) => {
-    return backendComments
-      .filter((backendComment) => backendComment.parentId === commentId)
-      .sort(
-        (a: CommentClass, b: CommentClass) =>
-          new Date(a.datePosted).getTime() - new Date(b.datePosted).getTime()
-      );
+
+    return backendCommentUsers
+    .filter((backendCommentUser) => backendCommentUser.commentDTO.parentId === commentId)
+    .sort(
+      (a: CommentUserClass, b: CommentUserClass) =>
+        new Date(a.commentDTO.datePosted).getTime() - new Date(b.commentDTO.datePosted).getTime()
+    );
   };
-  var getAllCommentsAPI = AppConstants.COMMENT_URL + "getAllComments/postId=" + 1;
+
+  var getAllCommentsAPI = AppConstants.COMMENT_URL + "getAllComments/postId=" + postId;
   var createCommentAPI = AppConstants.COMMENT_URL + "createComment";
-  var deleteCommentAPI = AppConstants.COMMENT_URL + "deleteComments/commentId=";
-  var updateCommentAPI = AppConstants.COMMENT_URL + "updateComment/commentId=";
+  var deleteCommentAPI = AppConstants.COMMENT_URL + "deleteComment/id=";
+  var updateCommentAPI = AppConstants.COMMENT_URL + "updateComment/id=";
+
   useEffect(() => {
     if (isReloaded) {
       return;
@@ -56,7 +76,7 @@ function Comments({ currentUserId, postId }: CommentsProp) {
 
     axios.get(getAllCommentsAPI).then((res) => {
       console.log(res.data);
-      setBackendComments(res.data);
+      setBackendCommentUsers(res.data)
     });
 
     setIsReloaded(true);
@@ -68,14 +88,14 @@ function Comments({ currentUserId, postId }: CommentsProp) {
     var commentObj = {
       parentId: parentId,
       userId: currentUserId,
-      postId: 1,
+      postId: postId,
       datePosted: "date",
       body: text,
     };
 
     // create comment
     axios.post(createCommentAPI, commentObj).then((res) => {
-      setBackendComments([res.data, ...backendComments]);
+      setBackendCommentUsers([{commentDTO: res.data.commentDTO , userDTO: res.data.userDTO }, ... backendCommentUsers])
       setIsReloaded(false);
       setActiveComment(null);
     });
@@ -93,14 +113,18 @@ function Comments({ currentUserId, postId }: CommentsProp) {
   const updateComment = (text: string, commentId: number) => {
     axios.put(updateCommentAPI + commentId + "/body=" + text).then((res) => {
       console.log(res.data);
-      var updatedBackendComments: CommentClass[];
-      updatedBackendComments = backendComments.map((backendComment) => {
-        if (backendComment.id === commentId) {
-          return { ...backendComment, body: text };
+
+
+      var updatedBackendCommentUsers: CommentUserClass[];
+
+      updatedBackendCommentUsers = backendCommentUsers.map((backendCommentUser) => {
+        if (backendCommentUser.commentDTO.id === commentId) {
+          return { commentDTO: { ... backendCommentUser.commentDTO, body: text }, userDTO: {... backendCommentUser.userDTO}};
         }
-        return backendComment;
+        return backendCommentUser;
       });
-      setBackendComments(updatedBackendComments);
+
+      setBackendCommentUsers(updatedBackendCommentUsers);
       setActiveComment(null);
     });
   };
@@ -121,18 +145,20 @@ function Comments({ currentUserId, postId }: CommentsProp) {
         handleCancel={() => setActiveComment(null)}
       />
       <div className="comments-container">
-        {rootComments.map((rootComment) => (
+
+        {rootCommentUsers.length}
+        {rootCommentUsers.map((rootCommentUser) => (
           <Comment
-            key={rootComment.id}
-            comment={rootComment}
-            replies={getReplies(rootComment.id)}
-            backendComments={backendComments}
+            key={rootCommentUser.commentDTO.id}
+            commentUser={rootCommentUser}
+            replies={getReplies(rootCommentUser.commentDTO.id)}
+            backendCommentUsers={backendCommentUsers}
             currentUserId={currentUserId}
             deleteComment={deleteComment}
             updateComment={updateComment}
             activeComment={activeComment}
             setActiveComment={setActiveComment}
-            parentId={rootComment.id}
+            parentId={rootCommentUser.commentDTO.id}
             addComment={addComment}
           />
         ))}

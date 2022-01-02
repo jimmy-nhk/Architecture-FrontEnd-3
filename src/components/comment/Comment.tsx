@@ -1,24 +1,28 @@
 import React from "react";
-import Comments, { CommentClass, ActiveCommentClass } from "./Comments";
+import Comments, { CommentClass, ActiveCommentClass , CommentUserClass } from "./Comments";
 import image from "../comment/user-icon.png";
 import { useState, useEffect } from "react";
 import CommentForm from "./CommentForm";
 
 function Comment(props: {
-  comment: CommentClass;
-  replies: CommentClass[];
-  backendComments: CommentClass[];
+  commentUser: CommentUserClass;
+  replies: CommentUserClass[];
+  backendCommentUsers: CommentUserClass[];
+
   currentUserId?: number;
-  deleteComment: (commentId: number) => void;
-  updateComment: (text: string, commentId: number) => void;
+  deleteComment: (id: number) => void;
+  updateComment: (text: string, id: number) => void;
   activeComment: ActiveCommentClass | null;
   setActiveComment: (activeComment: ActiveCommentClass | null) => void;
   parentId: number;
   addComment: (text: string, parentId: number) => void;
 }) {
-  var comment = props.comment;
+  var commentUser = props.commentUser;
   var replies = props.replies;
-  var backendComments = props.backendComments;
+
+
+  var backendCommentUsers = props.backendCommentUsers;
+
   var currentUserId = props.currentUserId;
   var deleteComment = props.deleteComment;
   var activeComment = props.activeComment;
@@ -29,37 +33,39 @@ function Comment(props: {
   var isReplying =
     activeComment &&
     activeComment.type === "replying" &&
-    activeComment.id === comment.id;
+    activeComment.id === commentUser.commentDTO.id;
 
   var isEditing =
     activeComment &&
     activeComment.type === "editing" &&
-    activeComment.id === comment.id;
+    activeComment.id === commentUser.commentDTO.id;
 
   // check parentId null
-  const replyId = parentId == 0 ? parentId : comment.id;
+  const replyId = parentId == 0 ? parentId : commentUser.commentDTO.id;
 
   // validate if this is null, that cannot reply
   const canReply = Boolean(currentUserId);
 
   // validate if the same user is editing the comment
-  const canEdit = currentUserId === comment.userId;
+  const canEdit = currentUserId === commentUser.commentDTO.userId;
 
   // validate if the same user is deleting the comment
-  const canDelete = currentUserId === comment.userId;
+  const canDelete = currentUserId === commentUser.commentDTO.userId;
 
-  const getReplies = (commentId: number) => {
-    return backendComments
-      .filter((backendComment) => backendComment.parentId === commentId)
-      .sort(
-        (a: CommentClass, b: CommentClass) =>
-          new Date(a.datePosted).getTime() - new Date(b.datePosted).getTime()
-      );
+  const getReplies = (id: number) => {
+
+
+    return backendCommentUsers
+    .filter((backendCommentUser) => backendCommentUser.commentDTO.parentId === id)
+    .sort(
+      (a: CommentUserClass, b: CommentUserClass) =>
+        new Date(a.commentDTO.datePosted).getTime() - new Date(b.commentDTO.datePosted).getTime()
+    );
   };
 
   return (
     <div className="comment">
-      {console.log(comment)}
+      {console.log(commentUser.commentDTO)}
       <div className="comment-image-container">
         <img src={image} />
       </div>
@@ -67,17 +73,17 @@ function Comment(props: {
         <div className="comment-content">
           <div className="comment-author">
             {/* TODO: change to user name */}
-            Username: {comment.userId}
+            Username: {commentUser.userDTO.displayName}
           </div>
-          <div style={{"paddingTop": "4px"}}>{comment.datePosted}</div>
+          <div style={{"paddingTop": "4px"}}>{commentUser.commentDTO.datePosted}</div>
         </div>
-        {!isEditing && <div className="comment-text">{comment.body}</div>}
+        {!isEditing && <div className="comment-text">{commentUser.commentDTO.body}</div>}
         {isEditing && (
           <CommentForm
             submitLabel="Update"
             hasCancelButton
-            initialText={comment.body}
-            handleSubmit={(text) => updateComment(text, comment.id)}
+            initialText={commentUser.commentDTO.body}
+            handleSubmit={(text) => updateComment(text, commentUser.commentDTO.id)}
             handleCancel={() => setActiveComment(null)}
           />
         )}
@@ -86,7 +92,7 @@ function Comment(props: {
             <div
               className="comment-action"
               onClick={() =>
-                setActiveComment({ id: comment.id, type: "replying" })
+                setActiveComment({ id: commentUser.commentDTO.id, type: "replying" })
               }
             >
               Reply
@@ -96,7 +102,7 @@ function Comment(props: {
             <div
               className="comment-action"
               onClick={() =>
-                setActiveComment({ id: comment.id, type: "editing" })
+                setActiveComment({ id: commentUser.commentDTO.id, type: "editing" })
               }
             >
               Edit
@@ -105,7 +111,7 @@ function Comment(props: {
           {canDelete && (
             <div
               className="comment-action"
-              onClick={() => deleteComment(comment.id)}
+              onClick={() => deleteComment(commentUser.commentDTO.id)}
             >
               Delete
             </div>
@@ -124,16 +130,16 @@ function Comment(props: {
           <div className="replies">
             {replies.map((reply) => (
               <Comment
-                key={reply.id}
-                comment={reply}
-                replies={getReplies(reply.id)}
-                backendComments={backendComments}
+                key={reply.commentDTO.id}
+                commentUser={reply}
+                replies={getReplies(reply.commentDTO.id)}
+                backendCommentUsers={backendCommentUsers}
                 currentUserId={currentUserId}
                 deleteComment={deleteComment}
                 updateComment={updateComment}
                 activeComment={activeComment}
                 setActiveComment={setActiveComment}
-                parentId={comment.id}
+                parentId={commentUser.commentDTO.id}
                 addComment={addComment}
               />
             ))}
