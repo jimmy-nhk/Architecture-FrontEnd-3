@@ -20,8 +20,6 @@ function MainPage({account, setAccount}: AccountProps) {
   return (
     <div>
       <Header account={account} setAccount={setAccount}/>
-      <MainBackground />
-
       <CategoryContainer />
       <Footer />
     </div>

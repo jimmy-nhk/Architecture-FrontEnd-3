@@ -42,7 +42,7 @@ function App() {
   }, [account])
 
   return (
-    <div style={{background: "#d9d9d9"}}>
+    <div>
       <Routes>
         <Route path="/" element={<MainPage account={account} setAccount={setAccount}/>} />
         <Route path="/posts" element={<PostsPage/>} />

@@ -2,6 +2,7 @@ import React from 'react'
 import Box from "@mui/material/Box";
 import CategoryPost from '../postCategory/CategoryPost';
 import {Link} from 'react-router-dom';
+import { Grid } from '@mui/material';
 
 function CategoryContainer() {
   
@@ -23,27 +24,24 @@ function CategoryContainer() {
     "description": "Public relation made compelling"
   }]
 
-    return (
-        <div  style={{marginLeft: "10%", marginRight: "15%" , marginTop:"2vw"}}>
-      <Box
-        sx={{
-          width:"100%",
-          display: 'flex',
-
-          flexDirection: 'row',
-          flexWrap: 'wrap',
-          alignContent: 'flex-start',
-        }}
-      >
-        {categories.map((category)=>(
-          <Link to='/posts'>
-            <CategoryPost category = {category} />
-          </Link>
-        ))}
-
-      </Box>
-        </div>
-    )
+  return (
+    <div  style={{backgroundColor:"gray"}}>
+      <div style={{width:"100%", maxWidth:"1280px", margin: "auto"}}>
+        <div style={{paddingTop: "150px", textAlign: "center", color: "white"}}>
+          <h1>Choose a school to view its projects:</h1>
+        </div>      
+        <Grid container style={{ padding: "0 0 50px 0"}}>
+          {categories.map((category)=>(
+            <Grid item xs={12} md={6} >
+              <Link to='/posts'>
+                <CategoryPost category = {category} />
+              </Link>
+            </Grid>
+          ))}
+        </Grid>
+      </div>
+    </div>
+   )
 }
 
 export default CategoryContainer

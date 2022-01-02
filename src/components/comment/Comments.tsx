@@ -131,7 +131,7 @@ function Comments({ currentUserId, postId }: CommentsProp) {
 
   return (
     <div className="comments">
-      <div style={{"paddingLeft" : "10%", "paddingRight" : "10%"}}>
+      <div>
 
       
       <h3 className="comments-title">Comments</h3>

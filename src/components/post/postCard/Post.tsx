@@ -11,14 +11,16 @@ import Box from '@mui/material/Box';
 
 function Post() {
   return (
-    <Card sx={{ display: "flex" }} className="cardPost" >
-      <CardMedia
-        component="img"
-          className="media"
-          image="/images/dummy-post.png"
-          title="My Post"
-          height="400vw"
-        />
+    <Card className="cardPost">
+      <Box>
+        <CardMedia
+            component="img"
+            className="media"
+            image="/images/dummy-post.png"
+            title="My Post"
+            // height="400vw"
+          />
+      </Box>
 
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         <CardContent sx={{ flex: "1 0 auto" }}>

@@ -4,7 +4,7 @@
   font-size: 100%;
   font-size: 16px;
   line-height: 1.5;
-  --primary-blue: #233975;
+  --primary-blue: #1976d2;
   --primary-red: #c92432;
 }
 
@@ -118,7 +118,7 @@ form input[type="password"] {
   border-radius: 5px;
   border: 1px solid #c4c4c4;
   padding: 1em;
-  margin-bottom: 1.25rem;
+  margin-bottom: 2rem;
   font-size: 0.875rem;
 }
 

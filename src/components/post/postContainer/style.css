@@ -1,11 +1,11 @@
 
-.post-container {
-    display: flex;
-    justify-content: center;
-    padding-top: 50px !important;
-    background-color: #262626
+.posts {
+    background-color: #171819;
+    padding: 20px 30px
 }
 
-.post-item{
-    margin-left: 20%;
+@media screen and (min-width: 600px) {
+    .posts {
+        padding: 50px 100px
+    }
 }

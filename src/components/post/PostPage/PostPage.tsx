@@ -51,7 +51,7 @@ const PostPage = () => {
     }, []);
 
     return (
-        <DefaultLayout>
+        <DefaultLayout style={{backgroundColor: "white"}}>
             <>
                 <HeroSection tagline={postTagline} coverUrl={postCoverUrl}/>
                 <Container maxWidth="lg" sx={{margin: "100px auto"}}>

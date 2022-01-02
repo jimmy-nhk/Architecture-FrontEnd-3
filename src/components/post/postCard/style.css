@@ -2,53 +2,17 @@
 .card {
     margin-bottom: 5px;
     text-align: center;
-}
-
-.cardPost{
-    margin-bottom: 50px;
-}
+}   
 
 .media {
-    height: 30vw !important;
-    width: 30vw !important;
+    height: 100%;
+    width: 100%;
 }
 
-@media screen and (max-width: 1600px){
-    .cardMedia {
-        height: "200vw";
-        
-    }
-
-    .cardPost{
-        flex-direction: column;
-    }
-}
-
-
-
-@media screen and (max-width: 1000px){
-    .cardMedia {
-        height: "200vw";
-        
-    }
-
-    .cardPost{
-        flex-direction: column;
-    }
-}
-
-@media screen and (max-width: 800px){
-    .cardMedia {
-        height: 200vw !important;
-        width: auto;
-        display: none;
-    }
-
-    .cardPost{
-        flex-direction: column;
-    }
-
-    .media {
-        display: none;
+@media screen and (min-width: 1200px) {
+    .cardPost {
+        display: flex;
+        align-items: stretch;
+        flex-direction: row;
     }
 }
