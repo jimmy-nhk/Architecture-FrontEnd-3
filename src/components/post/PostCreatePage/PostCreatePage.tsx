@@ -96,7 +96,8 @@ const PostCreatePage = () => {
             // console.log(postObject);
             // console.log(postURL);
 
-            axios.post(postURL, postObject,
+            // axios.post(postURL, postObject,
+            axios.post('http://localhost:8085/crud/createPost', postObject,
                 {headers: {
                         'Content-Type': 'application/json',
                         'Accept':'application/json'}
@@ -104,17 +105,16 @@ const PostCreatePage = () => {
                 .then((response: AxiosResponse) => {
                     console.log("Successfully posted to the server");
                     // Finish the web here
-
+                    // axios.get(getURL)
+                    axios.get('http://localhost:8085/crud/getPost/pageNo=0&pageSize=20&asc=true')
+                    .then((response: AxiosResponse) => {
+                        console.log(response.data);
+                    });
                 })
                 .catch(err => {
                     console.log(err.response.data)
                     console.log(err)
                 })
-            axios.get(getURL)
-                .then((response: AxiosResponse) => {
-                    console.log(response.data);
-                });
-
         };
         return (
             <DefaultLayout style={{backgroundColor: "#f3f3f4"}}>
