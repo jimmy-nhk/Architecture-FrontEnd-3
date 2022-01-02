@@ -38,65 +38,14 @@ function PostContainer() {
     axios
       .get("http://localhost:8085/crud/getPost/pageNo=0&pageSize=20&asc=true")
       .then((response: AxiosResponse) => {
-        // var data: PostClass[] = [];
-        // var post = {
-        //   id: 0,
-        //   userId: 0,
-        //   title: "",
-        //   bodyText: "",
-        //   category: "",
-        //   directors: "",
-        //   thumbnailURL: "",
-        //   likedCount: 0,
-        //   tagline: "",
-        //   likedUserList: null,
-        //   viewCount: 0,
-        // };
-        // // {id, userId, title, bodyText, category, directors, thumbnailURL, likedCount, tagline, likedUserList, viewCount}
-        // response.data.content.map((x: any) => {
-        //   post.id = x.id;
-        //   post.title = x.title;
-        //   post.userId = x.userId;
-        //   post.bodyText = x.bodyText;
-        //   post.category = x.category;
-        //   post.directors = x.directors;
-        //   post.thumbnailURL = x.thumbnailURL;
-        //   post.likedCount = x.likedCount;
-        //   post.tagline = x.tagline;
-        //   post.likedUserList = x.likedUserList;
-        //   post.viewCount = x.viewCount;
-        //   data.push(post);
-        //   console.log("post=", post);
-        // });
         setPosts(response.data.content)
       });
   };
 
   useEffect(() => {
-    // const children = [];
-    // var children:IPost[]
-    // children = getPosts();
-    // console.log(getPosts())
-    // let i;
-    // for (i = 0; i < 10; i++) {
-    //   children.push(<Post key={i} />);
-    // }
-
-    // setPosts(children);
-
     getPosts();
     console.log(posts);
   }, []);
-
-  useEffect(() => {
-    const children = [];
-    let i;
-    for (i = 0; i < 10; i++) {
-      // children.push(<Post key={i} />);
-    }
-
-    console.log(posts);
-  }, [posts]);
 
   return (
     <div>

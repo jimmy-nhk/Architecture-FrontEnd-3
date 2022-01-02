@@ -17,8 +17,6 @@ interface IPostProps {
 const Post: React.FC<IPostProps> = ({
   post
 }) => {
-  // const [data, setData] = useState<PostClass>()
-
   return (
     <Card className="cardPost">
       <Box sx={{width: "14vw", height: "30vh"}}>
