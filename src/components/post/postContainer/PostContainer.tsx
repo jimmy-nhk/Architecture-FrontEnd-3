@@ -3,7 +3,7 @@ import Post from "../postCard/Post";
 import "./style.css";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
-import { Box } from "@mui/material";
+import { Pagination } from "@mui/material";
 import axios, { AxiosResponse } from "axios";
 
 export type LikedUserClass = {
@@ -11,10 +11,6 @@ export type LikedUserClass = {
   uid: number;
 };
 
-// export type CommentUserClass = {
-//   commentDTO: CommentClass,
-//   userDTO: UserClass
-// }
 export type PostClass = {
   // {id, userId, title, bodyText, category, directors, thumbnailURL, likedCount, tagline, likedUserList, viewCount}
   id: number;
@@ -32,20 +28,29 @@ export type PostClass = {
 };
 
 function PostContainer() {
+  const PAGE_SIZE = 1
+  const [totalPages, setTotalPages] = useState(1);
+  const [page, setPage] = useState(1);
   const [posts, setPosts] = useState<PostClass[]>([]);
 
-  const getPosts = () => {
+  const getPosts = (pageNo:number, pageSize:number) => {
     axios
-      .get("http://localhost:8085/crud/getPost/pageNo=0&pageSize=20&asc=true")
+      .get(`http://localhost:8085/crud/getPost/pageNo=${pageNo}&pageSize=${pageSize}&asc=true`)
       .then((response: AxiosResponse) => {
+        setTotalPages(response.data.totalPages)
         setPosts(response.data.content)
       });
   };
 
   useEffect(() => {
-    getPosts();
+    getPosts(0, PAGE_SIZE);
     console.log(posts);
   }, []);
+
+  useEffect(() => {
+    console.log("page=", page)
+    getPosts(page - 1, PAGE_SIZE)
+  }, [page])
 
   return (
     <div>
@@ -69,6 +74,18 @@ function PostContainer() {
               </Grid>
             ))}
       </Grid>
+      <Pagination
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          margin: "0px auto 20px auto",
+        }}
+        count={totalPages}
+        page={page}
+        showFirstButton
+        showLastButton
+        onChange={(e:any, value:number) => setPage(value)}
+      />
     </div>
   );
 }
