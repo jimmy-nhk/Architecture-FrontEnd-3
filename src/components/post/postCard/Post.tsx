@@ -19,7 +19,7 @@ const Post: React.FC<IPostProps> = ({
 }) => {
   return (
     <Card className="cardPost">
-      <Box sx={{width: "14vw", height: "30vh"}}>
+      <Box sx={{width: "30%", height: "30%"}}>
         <CardMedia
             component="img"
             className="media"

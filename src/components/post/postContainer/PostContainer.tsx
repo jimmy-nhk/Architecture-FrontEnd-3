@@ -44,11 +44,9 @@ function PostContainer() {
 
   useEffect(() => {
     getPosts(0, PAGE_SIZE);
-    console.log(posts);
   }, []);
 
   useEffect(() => {
-    console.log("page=", page)
     getPosts(page - 1, PAGE_SIZE)
   }, [page])
 
