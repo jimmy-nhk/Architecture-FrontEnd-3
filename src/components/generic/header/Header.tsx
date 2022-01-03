@@ -1,22 +1,20 @@
 import { Logout, Search } from "@mui/icons-material";
 import { join } from "path";
-import React, { useState, useEffect, useRef  } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import {Account} from "../../../App"
+import { Account } from "../../../App";
 import { TokenStorageService } from "../../../app/service/token-storage.service";
 import "./style.css";
 
 // FIXME: @jimmy, please convert all the js code (ones with the "!") into ts
 
 type HeaderProps = {
-  account ?: Account | null,
-  setAccount?: (account: Account) => void
+  account?: Account | null;
+  setAccount?: (account: Account) => void;
+};
 
-}
-
-function Header({account, setAccount} : HeaderProps) {
-
+function Header({ account, setAccount }: HeaderProps) {
   const navigate = useNavigate();
   // open navigation bar
   const [isNavActive, setIsNavActive] = useState(false);
@@ -24,22 +22,20 @@ function Header({account, setAccount} : HeaderProps) {
   // state for open the search text
   const [isSearched, setIsSearched] = useState(false);
 
-  var join_logout = useRef<HTMLAnchorElement | null>(null)
-  var nav_list = useRef<HTMLUListElement | null>(null)
-  var engineering = useRef<HTMLAnchorElement | null>(null)
+  var create_post = useRef<HTMLAnchorElement | null>(null);
+  var join_logout = useRef<HTMLAnchorElement | null>(null);
+  var nav_list = useRef<HTMLUListElement | null>(null);
+  var engineering = useRef<HTMLAnchorElement | null>(null);
   var computer = useRef<HTMLAnchorElement | null>(null);
-  var scd = useRef<HTMLAnchorElement | null>(null)
-  var searchText = useRef<HTMLInputElement |null>(null)
+  var scd = useRef<HTMLAnchorElement | null>(null);
+  var searchText = useRef<HTMLInputElement | null>(null);
 
-  var tokenStorage = new TokenStorageService()
+  var tokenStorage = new TokenStorageService();
 
   const searchedClick = () => {
-    
-    console.log("Before: "+isSearched);
-    
-    setIsSearched(isSearched ? false : true)
-  
+    console.log("Before: " + isSearched);
 
+    setIsSearched(isSearched ? false : true);
   };
 
   useEffect(() => {
@@ -60,8 +56,7 @@ function Header({account, setAccount} : HeaderProps) {
       scd.current!.style.display = "block";
       join_logout.current!.style.display = "block";
     }
-
-  }, [isSearched])
+  }, [isSearched]);
 
   const burgerClicked = () => {
     const nav = document.querySelector(".nav-list");
@@ -71,7 +66,7 @@ function Header({account, setAccount} : HeaderProps) {
 
     if (isNavActive === false) {
       nav!.classList.add("nav-active");
-      nav!.classList.remove("nav-inactive"); 
+      nav!.classList.remove("nav-inactive");
       searchText.current!.style.display! = "block";
       // isNavActive = true;
       setIsNavActive(true);
@@ -96,7 +91,6 @@ function Header({account, setAccount} : HeaderProps) {
   };
 
   const joinUser = () => {
-
     // if(account === null){
     //   navigate('/login')
     // } else{
@@ -115,31 +109,30 @@ function Header({account, setAccount} : HeaderProps) {
     //   }
     // }
 
-    if (tokenStorage.getToken()){
+    if (tokenStorage.getToken()) {
       logout();
-    } else{
-      navigate('/login');
+    } else {
+      navigate("/login");
     }
-  }
+  };
 
-  let logout = () =>{
+  let logout = () => {
     tokenStorage.signOut();
     window.location.reload();
-  }
+  };
 
   // This useEffect is used for setting up the textInput
   useEffect(() => {
     console.log("Check if user is logged in...");
 
-    if (tokenStorage.getToken()){
-      console.log("User is logged in")
-      console.log("User info:", tokenStorage.getUser())
-      join_logout!.current!.innerHTML = "Sign out"
-    } else{
-      console.log("User is not logged in")
-      join_logout!.current!.innerHTML = "JOIN"
+    if (tokenStorage.getToken()) {
+      console.log("User is logged in");
+      console.log("User info:", tokenStorage.getUser());
+      join_logout!.current!.innerHTML = "Sign out";
+    } else {
+      console.log("User is not logged in");
+      join_logout!.current!.innerHTML = "JOIN";
     }
-
 
     // if(account === null){
     //   join_logout!.current!.innerHTML = "JOIN"
@@ -147,16 +140,13 @@ function Header({account, setAccount} : HeaderProps) {
     //   join_logout!.current!.innerHTML = "Sign out"
 
     // }
-
-    
-
   }, []);
 
   return (
     <header>
       <div className="container">
-        <div className="nav-container" >
-          <Link to="/">          
+        <div className="nav-container">
+          <Link to="/">
             <a id="logo-text" className="logo">
               Showcase
             </a>
@@ -190,14 +180,28 @@ function Header({account, setAccount} : HeaderProps) {
                 Sign In
               </a>
             </li> */}
+            <Link to="/postCreate">
+              <a id="join-logout" ref={create_post}>
+                Create
+              </a>
+            </Link>
 
             <a onClick={joinUser} id="join-logout" ref={join_logout}>
               Join
             </a>
 
-            <input ref={searchText} type="text" placeholder="Search…" id="searchText" />
+            <input
+              ref={searchText}
+              type="text"
+              placeholder="Search…"
+              id="searchText"
+            />
 
-            <Search id="searchIcon" style={{"display" : "block"}} onClick={searchedClick} />
+            <Search
+              id="searchIcon"
+              style={{ display: "block" }}
+              onClick={searchedClick}
+            />
           </ul>
 
           <div className="burger" onClick={burgerClicked}>
