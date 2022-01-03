@@ -50,6 +50,7 @@ function PostContainer() {
     getPosts(page - 1, PAGE_SIZE)
   }, [page])
 
+
   return (
     <div>
       <Grid
@@ -64,7 +65,7 @@ function PostContainer() {
               <Grid item xs={12} md={6} key={post.id}>
                 <Link
                   className="post-item"
-                  to="/post"
+                  to={`/post/${post.id}`}
                   style={{ textDecoration: "none" }}
                 >
                   <Post key={post.id} post={post} />

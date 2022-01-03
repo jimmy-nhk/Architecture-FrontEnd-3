@@ -45,8 +45,8 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<MainPage account={account} setAccount={setAccount}/>} />
-        <Route path="/posts" element={<PostsPage/>} />
-        <Route path="/post" element={<PostPage/>}/>
+        <Route path="/posts/:category" element={<PostsPage/>} />
+        <Route path="/post/:id" element={<PostPage/>}/>
         <Route path="/postCreate"  element={<PostCreatePage/>}/>
         <Route path="/login" element={<LoginPage setAccount={setAccount}/>}  />
 

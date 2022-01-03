@@ -65,7 +65,7 @@ function Comment(props: {
 
   return (
     <div className="comment">
-      {console.log(commentUser.commentDTO)}
+      {/* {console.log(commentUser.commentDTO)} */}
       <div className="comment-image-container">
         <img src={image} />
       </div>

@@ -9,6 +9,7 @@ import { Button, CardActionArea, CardActions } from "@mui/material";
 import "./style.css";
 import Box from '@mui/material/Box';
 import { PostClass } from "../postContainer/PostContainer"
+import { useParams } from "react-router";
 
 interface IPostProps {
   post: PostClass;
@@ -17,6 +18,11 @@ interface IPostProps {
 const Post: React.FC<IPostProps> = ({
   post
 }) => {
+
+  let { id } = useParams();
+
+  console.log("test id: " + id)
+
   return (
     <Card className="cardPost">
       <Box sx={{width: "30%", height: "30%"}}>
@@ -40,6 +46,7 @@ const Post: React.FC<IPostProps> = ({
             color="text.secondary"
             component="div"
           >
+            {id}
             {post.tagline}
           </Typography>
         </CardContent>

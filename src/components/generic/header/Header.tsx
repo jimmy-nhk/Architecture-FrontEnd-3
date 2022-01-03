@@ -142,6 +142,11 @@ function Header({ account, setAccount }: HeaderProps) {
     // }
   }, []);
 
+  const goToPosts = (id: string | undefined) => {
+
+    navigate('/posts/' + id)
+  }
+
   return (
     <header>
       <div className="container">
@@ -155,22 +160,23 @@ function Header({ account, setAccount }: HeaderProps) {
           {/* The list of category */}
           <ul className="nav-list" ref={nav_list}>
             <li>
-              <a id="engineering" className="nav-link major" ref={engineering}>
+              <a id="engineering" className="nav-link major" ref={engineering} onClick={() => goToPosts(engineering.current?.innerText)}>
                 Engineering
               </a>
             </li>
             <li>
               <a
                 id="computer"
-                href="../ServiceCategoryPage/serviceCategoryPage.html"
                 className="nav-link major"
                 ref={computer}
+                onClick={() => goToPosts(computer.current?.innerText)}
               >
                 Computer Science
               </a>
             </li>
             <li>
-              <a id="scd" className="nav-link major" ref={scd}>
+              <a id="scd" className="nav-link major" ref={scd}
+              onClick={() => goToPosts(scd.current?.innerText)}>
                 Design
               </a>
             </li>
