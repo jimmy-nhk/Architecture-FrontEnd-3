@@ -27,7 +27,7 @@ export type PostClass = {
   viewCount: number;
 };
 
-function PostContainer() {
+function PostContainer(props:any) {
   const PAGE_SIZE = 1
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
@@ -44,6 +44,7 @@ function PostContainer() {
 
   useEffect(() => {
     getPosts(0, PAGE_SIZE);
+    // console.log("PostContainer props category=", props.categoryId)
   }, []);
 
   useEffect(() => {
