@@ -13,19 +13,19 @@ const CATEGORY_DESCRIPTIONS = [
     id: 2,
     name: "Design",
     description: "Intelligence made visible",
-    backgroundImage: "url(/images/engineering.jpg)",
+    backgroundImage: "url(/images/design.jpg)",
   },
   {
     id: 3,
     name: "Business",
     description: "Entrepreneurship begins",
-    backgroundImage: "url(/images/engineering.jpg)",
+    backgroundImage: "url(/images/business.jpg)",
   },
   {
     id: 4,
     name: "Professional Communication",
     description: "Public relation made compelling",
-    backgroundImage: "url(/images/engineering.jpg)",
+    backgroundImage: "url(/images/professional_communication.jpg)",
   },
 ];
 
