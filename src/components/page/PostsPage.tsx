@@ -10,11 +10,10 @@ function PostsPage() {
 
   return (
     <div>
-      {console.log(category)}
       <Header />
-      <MainBackground />
+      <MainBackground categoryId={category} />
 
-      <PostContainer />
+      <PostContainer categoryId={category} />
       <Footer />
     </div>
   );

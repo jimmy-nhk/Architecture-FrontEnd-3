@@ -80,6 +80,7 @@ const TinyEditor: React.FC<IRichTextEditorProps> = ({
         // async magic goes here...
     };
 
+    tinymce.remove();  
     tinymce.init({
         selector: "#tinyEditor",
         placeholder: "Enter your post content here...",
