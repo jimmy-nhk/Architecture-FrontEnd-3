@@ -9,6 +9,7 @@ import { useState, useEffect} from 'react'
 import axios from 'axios';
 import { TokenStorageService } from './app/service/token-storage.service';
 import Comments from './components/comment/Comments';
+import ProfilePage from './components/user/ProfilePage/ProfilePage';
 
 export type Account = {
   gmail: string,
