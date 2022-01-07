@@ -49,6 +49,7 @@ function App() {
         <Route path="/posts/:category" element={<PostsPage/>} />
         <Route path="/post/:id" element={<PostPage/>}/>
         <Route path="/postCreate"  element={<PostCreatePage/>}/>
+        <Route path="/user/:id"  element={<ProfilePage/>}/>
         <Route path="/login" element={<LoginPage setAccount={setAccount}/>}  />
 
         <Route path="/signup" element={<SignupPage />} />
