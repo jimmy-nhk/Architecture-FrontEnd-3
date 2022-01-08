@@ -48,6 +48,8 @@ function PostContainer({category} : PostContainerProp) {
   };
 
   useEffect(() => {
+    console.log("PostContainer: " + category)
+
     getPosts(0, PAGE_SIZE);
     // console.log("PostContainer props category=", props.categoryId)
   }, []);

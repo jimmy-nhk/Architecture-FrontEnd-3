@@ -9,22 +9,22 @@ function CategoryContainer() {
   const categories = [
     {
       id: 1,
-      name: "Engineering",
+      name: "Engineering".toUpperCase(),
       description: "The most innovative minds",
     },
     {
       id: 2,
-      name: "Design",
+      name: "Design".toUpperCase(),
       description: "Intelligence made visible",
     },
     {
       id: 3,
-      name: "Business",
+      name: "Business".toUpperCase(),
       description: "Entrepreneurship begins",
     },
     {
       id: 4,
-      name: "Professional Communication",
+      name: "Professional Communication".toUpperCase(),
       description: "Public relation made compelling",
     },
   ];
@@ -40,7 +40,7 @@ function CategoryContainer() {
         <Grid container style={{ padding: "0 0 50px 0" }}>
           {categories.map((category) => ( 
             <Grid item xs={12} md={6}>
-              <Link to={`/posts/` + category.id}>
+              <Link to={`/posts/` + category.name}>
                 <CategoryPost category={category} />
               </Link>
             </Grid>

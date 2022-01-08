@@ -9,7 +9,7 @@ import { Button, CardActionArea, CardActions } from "@mui/material";
 import "./style.css";
 import Box from '@mui/material/Box';
 import { PostClass } from "../postContainer/PostContainer"
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 
 interface IPostProps {
   post: PostClass;

@@ -11,4 +11,5 @@ export class AppConstants{
     public static GITHUB_AUTH_URL = AppConstants.OAUTH2_URL + "github" + AppConstants.REDIRECT_URL;
     public static LINKEDIN_AUTH_URL = AppConstants.OAUTH2_URL + "linkedin" + AppConstants.REDIRECT_URL;
     public static COMMENT_URL =  AppConstants.API_BASE__COMMENT_URL + "crud/";
+    public static POST_URL =  AppConstants.API_BASE__COMMENT_URL + "crud/";
 }
