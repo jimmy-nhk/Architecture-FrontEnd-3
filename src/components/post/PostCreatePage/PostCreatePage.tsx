@@ -7,14 +7,28 @@ import TitleAndContentCard from "./cards/TitleAndContentCard";
 import UploadImageCard from "./cards/UploadImageCard";
 import axios, { AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
+import { TokenStorageService } from "../../../app/service/token-storage.service";
 
 const CATEGORIES = [
-    "Engineering",
-    "Computer Science",
-    "Design",
-    "Business",
-    "Professional Communication",
+    "Engineering".toUpperCase(),
+    "Computer Science".toUpperCase(),
+    "Design".toUpperCase(),
+    "Business".toUpperCase(),
+    "Professional Communication".toUpperCase(),
   ];
+
+export type Post = {
+  userId: number,
+  title: string,
+  tagline: string,
+  bodyText: string,
+  category:  string,
+  directors:  string,
+  coverUrl:  string,
+  likedCount: number,
+  viewCount: number,
+  tags:  string,
+}
 
 export interface Contributor {
   id: number;
@@ -100,6 +114,7 @@ const PostCreatePage = () => {
   console.log("PostCreatePage coverUrl=", postCoverUrl);
   const addPostAsync = () => {
     const postObject = {
+      userId: new TokenStorageService().getUser().id,
       title: postTitle.trim(),
       tagline: postTagline.trim(),
       bodyText: postContent.trim(),
@@ -119,12 +134,7 @@ const PostCreatePage = () => {
 
     // axios.post(postURL, postObject,
     axios
-      .post("http://localhost:8085/crud/createPost", postObject, {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      })
+      .post("http://localhost:8085/crud/createPost", postObject)
       .then((response: AxiosResponse) => {
         console.log("Successfully posted to the server");
         // Finish the web here

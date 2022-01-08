@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router';
+import { Route, Routes } from 'react-router-dom';
 import LoginPage from './components/page/LoginPage/LoginPage';
 import MainPage from './components/page/MainPage';
 import PostsPage from './components/page/PostsPage';
@@ -42,16 +42,21 @@ function App() {
 
   }, [account])
 
+  const  randomGen = () : number => {
+    var number = Math.random()
+    console.log(number)
+    return number
+  }
+
   return (
     <div>
       <Routes>
         <Route path="/" element={<MainPage account={account} setAccount={setAccount}/>} />
-        <Route path="/posts/:category" element={<PostsPage/>} />
-        <Route path="/post/:id" element={<PostPage/>}/>
+        <Route path="/posts/:category" element={<PostsPage />} />
+        <Route path="/post/:id" element={<PostPage/>} />
         <Route path="/postCreate"  element={<PostCreatePage/>}/>
         <Route path="/user/:id"  element={<ProfilePage/>}/>
         <Route path="/login" element={<LoginPage setAccount={setAccount}/>}  />
-
         <Route path="/signup" element={<SignupPage />} />
        </Routes>
       

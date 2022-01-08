@@ -25,6 +25,9 @@ import {
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
+import { TokenStorageService } from "../../../app/service/token-storage.service";
+import { AppConstants } from "../../../app/common/app.constants";
+
 
 //Firebase config
 const firebaseConfig = {
@@ -45,12 +48,22 @@ const SmallAvatar = styled(Avatar)(({ theme }) => ({
   border: `2px solid ${theme.palette.background.paper}`,
 }));
 
+
+export type User = {
+  displayName: string,
+  email: string,
+  id: number,
+  imageUrl: string
+}
+
 function ProfilePage() {
-  const PAGE_SIZE = 1;
+  const PAGE_SIZE = 2;
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<User>();
   const [posts, setPosts] = useState<PostClass[]>([]);
+
+
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
@@ -96,31 +109,61 @@ function ProfilePage() {
     return url;
   };
 
-  const getUserInformation = (userId: string) => {
-    axios
-      .get(`USER_INFORMATION_FETCHING_API`)
-      .then((response: AxiosResponse) => {
-        // setUser()
-      });
-  };
+  const USER_POSTS_FETCH_API = AppConstants.POST_URL 
 
   const getPosts = (pageNo: number, pageSize: number) => {
-    axios.get(`USER_POSTS_FETCH_API`).then((response: AxiosResponse) => {
-      setTotalPages(response.data.totalPages);
-      setPosts(response.data.content);
-    });
+    try {
+      axios.get(`${USER_POSTS_FETCH_API}` + `getPost/userId=${user?.id}/pageNo=${pageNo}&pageSize=${pageSize}&sortby=id`).then((response: AxiosResponse) => {
+        setTotalPages(response.data.totalPages);
+        setPosts(response.data.content);
+        console.log(response)
+      })
+      .catch(e => console.log(e));
+    } catch (error) {
+      console.log(error)
+    }
+
+
   };
 
   const handleChangeProfilePicture = () => {};
 
+
+  // get user 
+  useEffect(()=> {
+
+    console.log(new TokenStorageService().getUser().id) 
+
+    // var user : User;
+
+    // user.displayName =new TokenStorageService().getUser().displayName;
+    // user.id = new TokenStorageService().getUser().id;
+    // user.email =  new TokenStorageService().getUser().email;
+    // user.imageUrl = new TokenStorageService().getUser().imageUrl;
+    
+
+    setUser({
+      id: new TokenStorageService().getUser().id,
+      email :  new TokenStorageService().getUser().email,
+      imageUrl: new TokenStorageService().getUser().imageUrl,
+      displayName: new TokenStorageService().getUser().displayName
+    })
+    console.log(user?.displayName)
+  }, [])
+
   useEffect(() => {
     // getUser() // please pass user id in
     getPosts(0, PAGE_SIZE);
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     getPosts(page - 1, PAGE_SIZE);
+
   }, [page]);
+
+
+
+
 
   const coverImageUploadHandler = async function (
     e: React.ChangeEvent<HTMLInputElement>

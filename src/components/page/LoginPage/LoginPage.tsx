@@ -8,7 +8,7 @@ import axios from "axios";
 import { Account } from "../../../App";
 import { AppConstants } from "../../../app/common/app.constants";
 import { TokenStorageService } from "../../../app/service/token-storage.service";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 
 // import { Account } from "../../../App"; 
 // style for modal

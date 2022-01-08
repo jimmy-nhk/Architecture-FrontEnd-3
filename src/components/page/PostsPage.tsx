@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import Footer from "../generic/footer/Footer";
 import Header from "../generic/header/Header";
 import MainBackground from "../generic/mainBackground/MainBackground";
@@ -10,6 +10,7 @@ function PostsPage() {
 
   return (
     <div>
+      {console.log("PostsPage: params category: " + category)}
       <Header />
       <MainBackground category={category} />
 

@@ -3,6 +3,7 @@ import { join } from "path";
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+
 import { Account } from "../../../App";
 import { TokenStorageService } from "../../../app/service/token-storage.service";
 import "./style.css";
@@ -142,9 +143,10 @@ function Header({ account, setAccount }: HeaderProps) {
     // }
   }, []);
 
-  const goToPosts = (id: string | undefined) => {
+  const goToPosts = (category: string | undefined) => {
 
-    navigate('/posts/' + id)
+    navigate('/posts/' + category)
+
   }
 
   return (
@@ -160,25 +162,35 @@ function Header({ account, setAccount }: HeaderProps) {
           {/* The list of category */}
           <ul className="nav-list" ref={nav_list}>
             <li>
-              <a id="engineering" className="nav-link major" ref={engineering} onClick={() => goToPosts(engineering.current?.innerText)}>
+              <Link
+                to={`/posts/Engineering`}
+
+               id="engineering" className="nav-link major" ref={engineering} 
+              //  onClick={() => goToPosts(engineering.current?.innerText)}
+               >
                 Engineering
-              </a>
+              </Link>
             </li>
             <li>
-              <a
+              <Link
+                to={`/posts/Computer Science`}
                 id="computer"
                 className="nav-link major"
                 ref={computer}
-                onClick={() => goToPosts(computer.current?.innerText)}
+                // onClick={() => goToPosts(computer.current?.innerText)}
               >
                 Computer Science
-              </a>
+              </Link>
             </li>
             <li>
-              <a id="scd" className="nav-link major" ref={scd}
-              onClick={() => goToPosts(scd.current?.innerText)}>
+              <Link
+              to={`/posts/Designe`}
+
+              id="scd" className="nav-link major" ref={scd}
+              // onClick={() => goToPosts(scd.current?.innerText)}
+              >
                 Design
-              </a>
+              </Link>
             </li>
 
             {/* <li>
