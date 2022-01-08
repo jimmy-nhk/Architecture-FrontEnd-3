@@ -6,7 +6,7 @@ import MetadataCard from "./cards/MetadataCard";
 import TitleAndContentCard from "./cards/TitleAndContentCard";
 import UploadImageCard from "./cards/UploadImageCard";
 import axios, { AxiosResponse } from "axios";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { TokenStorageService } from "../../../app/service/token-storage.service";
 
 const CATEGORIES = [
@@ -111,6 +111,8 @@ const PostCreatePage = () => {
     postTags,
   ]);
 
+  const navigate = useNavigate()
+
   console.log("PostCreatePage coverUrl=", postCoverUrl);
   const addPostAsync = () => {
     const postObject = {
@@ -133,19 +135,14 @@ const PostCreatePage = () => {
     // console.log(postURL);
 
     // axios.post(postURL, postObject,
+    console.log("postObject: " + postObject)
     axios
       .post("http://localhost:8085/crud/createPost", postObject)
       .then((response: AxiosResponse) => {
         console.log("Successfully posted to the server");
         // Finish the web here
-        // axios.get(getURL)
-        axios
-          .get(
-            "http://localhost:8085/crud/getPost/pageNo=0&pageSize=20&asc=true"
-          )
-          .then((response: AxiosResponse) => {
-            console.log(response.data);
-          });
+        navigate('/')
+        
       })
       .catch((err) => {
         console.log(err.response.data);

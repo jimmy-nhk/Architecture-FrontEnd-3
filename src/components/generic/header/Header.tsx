@@ -27,7 +27,7 @@ function Header({ account, setAccount }: HeaderProps) {
   var join_logout = useRef<HTMLAnchorElement | null>(null);
   var nav_list = useRef<HTMLUListElement | null>(null);
   var engineering = useRef<HTMLAnchorElement | null>(null);
-  var computer = useRef<HTMLAnchorElement | null>(null);
+  var business = useRef<HTMLAnchorElement | null>(null);
   var scd = useRef<HTMLAnchorElement | null>(null);
   var searchText = useRef<HTMLInputElement | null>(null);
 
@@ -45,7 +45,7 @@ function Header({ account, setAccount }: HeaderProps) {
       searchText.current!.style.display! = "block";
       nav_list.current!.classList.add(".nav-list-search");
       engineering.current!.style.display = "none";
-      computer.current!.style.display = "none";
+      business.current!.style.display = "none";
       scd.current!.style.display = "none";
       join_logout.current!.style.display = "none";
     } else {
@@ -53,7 +53,7 @@ function Header({ account, setAccount }: HeaderProps) {
       nav_list.current!.style.display = "flex";
       nav_list.current!.classList.remove(".nav-list-search");
       engineering.current!.style.display = "block";
-      computer.current!.style.display = "block";
+      business.current!.style.display = "block";
       scd.current!.style.display = "block";
       join_logout.current!.style.display = "block";
     }
@@ -163,7 +163,7 @@ function Header({ account, setAccount }: HeaderProps) {
           <ul className="nav-list" ref={nav_list}>
             <li>
               <Link
-                to={`/posts/Engineering`}
+                to={`/posts/ENGINEERING`}
 
                id="engineering" className="nav-link major" ref={engineering} 
               //  onClick={() => goToPosts(engineering.current?.innerText)}
@@ -173,18 +173,18 @@ function Header({ account, setAccount }: HeaderProps) {
             </li>
             <li>
               <Link
-                to={`/posts/Computer Science`}
-                id="computer"
+                to={`/posts/BUSINESS`}
+                id="business"
                 className="nav-link major"
-                ref={computer}
-                // onClick={() => goToPosts(computer.current?.innerText)}
+                ref={business}
+                // onClick={() => goToPosts(business.current?.innerText)}
               >
-                Computer Science
+                Business
               </Link>
             </li>
             <li>
               <Link
-              to={`/posts/Designe`}
+              to={`/posts/DESIGN`}
 
               id="scd" className="nav-link major" ref={scd}
               // onClick={() => goToPosts(scd.current?.innerText)}
@@ -193,16 +193,31 @@ function Header({ account, setAccount }: HeaderProps) {
               </Link>
             </li>
 
+            <li>
+              <Link
+              to={`/posts/PROFESSIONAL COMMUNICATION`}
+
+              id="scd" className="nav-link major" ref={scd}
+              // onClick={() => goToPosts(scd.current?.innerText)}
+              >
+                Professional Communication
+              </Link>
+            </li>
+
             {/* <li>
               <a id="signin-profile" className="nav-link">
                 Sign In
               </a>
             </li> */}
-            <Link to="/postCreate">
+            {
+              tokenStorage.getToken() &&
+              <Link to="/postCreate">
               <a id="join-logout" ref={create_post}>
                 Create
               </a>
             </Link>
+            }
+
 
             <a onClick={joinUser} id="join-logout" ref={join_logout}>
               Join
