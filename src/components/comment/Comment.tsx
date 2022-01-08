@@ -1,5 +1,5 @@
 import React from "react";
-import Comments, { CommentClass, ActiveCommentClass , CommentUserClass } from "./Comments";
+import {  ActiveCommentClass , CommentUserClass } from "./Comments";
 import image from "../comment/user-icon.png";
 import { useState, useEffect } from "react";
 import CommentForm from "./CommentForm";
@@ -43,21 +43,23 @@ function Comment(props: {
 
   // check parentId null
   const replyId = parentId == 0 ? parentId : commentUser.commentDTO.id;
-
   // validate if this is null, that cannot reply
   const canReply = Boolean(currentUserId);
 
+  
+
   // validate if the same user is editing the comment
-  const canEdit = currentUserId === commentUser.commentDTO.userId;
+  const canEdit = (currentUserId == commentUser.commentDTO.userId);
+
 
   // validate if the same user is deleting the comment
-  const canDelete = currentUserId === commentUser.commentDTO.userId;
+  const canDelete = currentUserId == commentUser.commentDTO.userId;
 
   const getReplies = (id: number) => {
 
 
     return backendCommentUsers
-    .filter((backendCommentUser) => backendCommentUser.commentDTO?.parentId === id)
+    .filter((backendCommentUser) => backendCommentUser.commentDTO?.parentId == id)
     .sort(
       (a: CommentUserClass, b: CommentUserClass) =>
         new Date(a.commentDTO.datePosted).getTime() - new Date(b.commentDTO.datePosted).getTime()
@@ -66,7 +68,13 @@ function Comment(props: {
 
   return (
     <div className="comment">
-      {/* {console.log(commentUser.commentDTO)} */}
+      {/* {console.log(commentUser.commentDTO)}
+
+      {  console.log(" parent comment id : " + replyId)}
+      {console.log(" can reply comment  : " + canReply)}
+      {  console.log(" can edit comment  : " + canEdit + " with current user id: " + currentUserId )}
+      {  console.log("commentUser comment id: " + commentUser.commentDTO.userId )}
+      {  console.log("canEdit comment : " + (commentUser.commentDTO.userId == currentUserId)  )} */}
       <div className="comment-image-container">
         <img src={image} />
       </div>

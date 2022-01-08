@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import React, { DragEvent, FormEvent, useState } from "react";
 import { EventType } from "react-hook-form";
+import { TokenStorageService } from "../../app/service/token-storage.service";
 
 type CommentFormProps = {
   submitLabel: string;
@@ -21,11 +22,10 @@ function CommentForm({
   const isTextareaDisable = text.length === 0;
 
   const onSubmit = (event: FormEvent) => {
-    console.log("Handle submit")
+    console.log("Handle submit");
     handleSubmit(text, 0);
-    setText("")
+    setText("");
     event.preventDefault();
-
   };
 
   return (
@@ -36,14 +36,28 @@ function CommentForm({
         placeholder="Leave a comment..."
         onChange={(e) => setText(e.target.value)}
       />
-      <br/>
+      <br />
 
-      <Button onClick={onSubmit} variant="contained" size="large" className="comment-form-button" disabled={isTextareaDisable}>
-        Submit comment
-      </Button>
+      {new TokenStorageService().getToken() && (
+        <Button
+          onClick={onSubmit}
+          variant="contained"
+          size="large"
+          className="comment-form-button"
+          disabled={isTextareaDisable}
+          style={{marginRight: "10px"}}
+        >
+          Submit
+        </Button>
+      )}
 
       {hasCancelButton && (
-        <Button variant="contained" size="large" className="comment-form-button comment-form-cancel-button" onClick={handleCancel}>
+        <Button
+          variant="contained"
+          size="large"
+          className="comment-form-button comment-form-cancel-button"
+          onClick={handleCancel}
+        >
           Cancel
         </Button>
       )}

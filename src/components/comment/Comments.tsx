@@ -64,7 +64,7 @@ function Comments({ currentUserId, postId }: CommentsProp) {
   };
 
   var getAllCommentsAPI = AppConstants.COMMENT_URL + "getAllComments/postId=" + postId;
-  var createCommentAPI = AppConstants.COMMENT_URL + "publish/createComment"; //using kafka
+  var createCommentAPI = AppConstants.COMMENT_URL + "createComment";
   var deleteCommentAPI = AppConstants.COMMENT_URL + "deleteComment/id=";
   var updateCommentAPI = AppConstants.COMMENT_URL + "updateComment/id=";
 
@@ -74,7 +74,7 @@ function Comments({ currentUserId, postId }: CommentsProp) {
     }
 
     axios.get(getAllCommentsAPI).then((res) => {
-      console.log(res.data);
+      console.log("load comment again: "+res.data);
       setBackendCommentUsers(res.data)
     });
 
@@ -96,6 +96,7 @@ function Comments({ currentUserId, postId }: CommentsProp) {
     console.log("commentObJ before axios: " + commentObj)
     // create comment
     axios.post(createCommentAPI, commentObj).then((res) => {
+      console.log("Added comment successfully!")
       setBackendCommentUsers([{commentDTO: res.data.commentDTO , userDTO: res.data.userDTO }, ... backendCommentUsers])
       setIsReloaded(false);
       setActiveComment(null);
@@ -146,7 +147,6 @@ function Comments({ currentUserId, postId }: CommentsProp) {
         handleCancel={() => setActiveComment(null)}
       />
       <div className="comments-container">
-        {backendCommentUsers.length}
         {rootCommentUsers.map((rootCommentUser) => (
           <Comment
             key={rootCommentUser.commentDTO.id}
