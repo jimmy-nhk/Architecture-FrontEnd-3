@@ -28,6 +28,7 @@ import {
 import { TokenStorageService } from "../../../app/service/token-storage.service";
 import { AppConstants } from "../../../app/common/app.constants";
 
+
 //Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyDgrrJN3aVUu4zLjQ_go6cUtfcPAOyR0bE",
@@ -47,6 +48,7 @@ const SmallAvatar = styled(Avatar)(({ theme }) => ({
   border: `2px solid ${theme.palette.background.paper}`,
 }));
 
+
 export type User = {
   displayName: string,
   email: string,
@@ -60,6 +62,7 @@ function ProfilePage() {
   const [page, setPage] = useState(1);
   const [user, setUser] = useState<User>();
   const [posts, setPosts] = useState<PostClass[]>([]);
+
 
 
   // Initialize Firebase
@@ -120,6 +123,7 @@ function ProfilePage() {
       console.log(error)
     }
 
+
   };
 
   const handleChangeProfilePicture = () => {};
@@ -156,6 +160,7 @@ function ProfilePage() {
     getPosts(page - 1, PAGE_SIZE);
 
   }, [page]);
+
 
 
 

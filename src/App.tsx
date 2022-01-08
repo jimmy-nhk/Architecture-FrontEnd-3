@@ -9,6 +9,7 @@ import { useState, useEffect} from 'react'
 import axios from 'axios';
 import { TokenStorageService } from './app/service/token-storage.service';
 import Comments from './components/comment/Comments';
+import ProfilePage from './components/user/ProfilePage/ProfilePage';
 
 export type Account = {
   gmail: string,
@@ -54,6 +55,7 @@ function App() {
         <Route path="/posts/:category" element={<PostsPage />} />
         <Route path="/post/:id" element={<PostPage/>} />
         <Route path="/postCreate"  element={<PostCreatePage/>}/>
+        <Route path="/user/:id"  element={<ProfilePage/>}/>
         <Route path="/login" element={<LoginPage setAccount={setAccount}/>}  />
         <Route path="/signup" element={<SignupPage />} />
        </Routes>
