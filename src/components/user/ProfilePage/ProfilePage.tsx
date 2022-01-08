@@ -205,7 +205,7 @@ function ProfilePage() {
                       badgeContent={
                         <SmallAvatar
                           alt="Change Profile Picture"
-                          src="https://firebasestorage.googleapis.com/v0/b/sead-c470a.appspot.com/o/icons%2F271214630_606617177300066_6516707039279016194_n.png?alt=media&token=87c8a84f-b90c-4ce0-ac3f-d6eaeb72b6c8"
+                          src={"https://firebasestorage.googleapis.com/v0/b/sead-c470a.appspot.com/o/icons%2F271214630_606617177300066_6516707039279016194_n.png?alt=media&token=87c8a84f-b90c-4ce0-ac3f-d6eaeb72b6c8"}
                           sx={{ width: "30px", height: "30px" }}
                         />
                       }
