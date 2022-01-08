@@ -11,9 +11,9 @@ function PostsPage() {
   return (
     <div>
       <Header />
-      <MainBackground categoryId={category} />
+      <MainBackground category={category} />
 
-      <PostContainer categoryId={category} />
+      <PostContainer category={category} />
       <Footer />
     </div>
   );

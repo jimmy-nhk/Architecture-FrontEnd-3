@@ -27,16 +27,21 @@ export type PostClass = {
   viewCount: number;
 };
 
-function PostContainer(props:any) {
-  const PAGE_SIZE = 1
+type PostContainerProp = {
+  category: string | undefined
+}
+
+function PostContainer({category} : PostContainerProp) {
+  const PAGE_SIZE = 10
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState<PostClass[]>([]);
 
   const getPosts = (pageNo:number, pageSize:number) => {
     axios
-      .get(`http://localhost:8085/crud/getPost/pageNo=${pageNo}&pageSize=${pageSize}&asc=true`)
+      .get(`http://localhost:8085/crud/getPost/category=${category}/pageNo=${pageNo}&pageSize=${pageSize}&sortby=id`)
       .then((response: AxiosResponse) => {
+        console.log(response.data)
         setTotalPages(response.data.totalPages)
         setPosts(response.data.content)
       });
