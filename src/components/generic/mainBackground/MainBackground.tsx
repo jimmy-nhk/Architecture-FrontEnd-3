@@ -2,53 +2,67 @@ import { Skeleton } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import "./style.css";
 
-const CATEGORY_DESCRIPTIONS = [
+type CategoryDescription = {
+  id: number,
+  name: string,
+  description: string,
+  backgroundImage: string
+}
+
+const CATEGORY_DESCRIPTIONS : Array<CategoryDescription> = [
   {
     id: 1,
-    name: "Engineering",
+    name: "ENGINEERING",
     description: "The most innovative minds",
-    backgroundImage: "url(/images/engineering.jpg)",
+    backgroundImage: "url(/images/engineering.jpg)"
   },
   {
     id: 2,
-    name: "Design",
+    name: "DESIGN",
     description: "Intelligence made visible",
     backgroundImage: "url(/images/design.jpg)",
   },
   {
     id: 3,
-    name: "Business",
+    name: "BUSINESS",
     description: "Entrepreneurship begins",
     backgroundImage: "url(/images/business.jpg)",
   },
   {
     id: 4,
-    name: "Professional Communication",
+    name: "Professional Communication".toUpperCase(),
     description: "Public relation made compelling",
     backgroundImage: "url(/images/professional_communication.jpg)",
   },
 ];
 
 interface IMainBackgroundProps {
-  categoryId: string | undefined
+  category: string | undefined
 }
 
 const MainBackground: React.FC<IMainBackgroundProps> = ({
-  categoryId: categoryId
+  category: category
 }) => {
-  const [categoryNum, setCategoryNum] = useState(2)
+  const [categoryDescription, setCategoryDescription] = useState<CategoryDescription |undefined>()
 
   useEffect(() => {
-    setCategoryNum(Number(categoryId) - 1)
-  }, [categoryId])
+    let categoryDescription = CATEGORY_DESCRIPTIONS.find(categoryDescription => categoryDescription.name === category);
+
+    console.log(categoryDescription)
+    setCategoryDescription(categoryDescription)
+
+    console.log("useEffect")
+  }, [])
 
   return (
     <div>
-      <div style={{backgroundImage: CATEGORY_DESCRIPTIONS[categoryNum].backgroundImage}} className="main-background-container">
+      <div 
+        style={{backgroundImage: `${categoryDescription?.backgroundImage}` }} 
+        className="main-background-container">
         <div className="overlay"></div>
         <div className="text-container">
-          <h2>{CATEGORY_DESCRIPTIONS[categoryNum].name}</h2>
-          <p>{CATEGORY_DESCRIPTIONS[categoryNum].description}</p>
+          <h2>{categoryDescription?.name}</h2>
+          <p>{categoryDescription?.description}</p>
         </div>
       </div>
     </div>
