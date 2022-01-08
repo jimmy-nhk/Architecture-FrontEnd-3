@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import Tag from "./Tag";
 import Fade from "@mui/material/Fade";
 import Zoom from "@mui/material/Zoom";
+import axios, { AxiosResponse } from "axios";
 
 interface IHeaderSectionProps {
     title: string;
@@ -11,13 +12,30 @@ interface IHeaderSectionProps {
     tags: string;
     contributors: string;
     likedCount: number;
+    userId: number | undefined;
+    postId: string | undefined;
 }
 
 const HeaderSection: React.FC<IHeaderSectionProps> = ({
-        title, category, tags, contributors, likedCount
+        title, category, tags, contributors, likedCount, userId, postId
     }) => {
     const [tagArr, setTagArr] = useState<string[]>(['', ''])
     const [contributorArr, setContributorArr] = useState<string[]>(['', ''])
+    const [isLiked, setIsLiked] = useState(false)
+
+    const handleLikeClick = () => {
+        var likeAction = isLiked ? 'unlike' : 'like'
+        console.log("likeAction=", likeAction)
+        axios
+        .post(`http://localhost:8085/crud/${likeAction}/pid=${postId}&uid=${userId}`)
+        .then((response: AxiosResponse) => {
+          console.log("Successfully LIKED");
+          setIsLiked(!isLiked)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
 
     useEffect(() => {
         var arr = tags.split(';');
@@ -30,7 +48,7 @@ const HeaderSection: React.FC<IHeaderSectionProps> = ({
         arr = arr.map((x) => x.trim())
         setContributorArr(arr)
     }, [contributors])
-
+    // console.log("HeaderSector userId=", userId)
     return (
         <>
             <Box sx={{display: "flex"}}>
@@ -43,8 +61,9 @@ const HeaderSection: React.FC<IHeaderSectionProps> = ({
                     </Typography>
                 </Box>
                 <Box sx={{display: "flex", flexDirection: "column", flexShrink: 1}}>
-                    <IconButton size="large" color="secondary">
-                        <FavoriteOutlined/>
+                    <IconButton size="large" color="secondary" onClick={handleLikeClick}>
+                        {userId ? (isLiked ? <FavoriteOutlined/> : <FavoriteOutlined style={{ color: 'grey' }}/>) : <FavoriteOutlined style={{ color: 'grey' }}/>}
+                        
                     </IconButton>
                     <Typography variant="button" sx={{
                         fontWeight: "bold",
