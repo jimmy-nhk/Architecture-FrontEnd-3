@@ -26,7 +26,6 @@ const MetadataCard: React.FC<IMetadataCardProps> = ({
 }) => {
   const CATEGORIES = [
     "Engineering",
-    "Computer Science",
     "Design",
     "Business",
     "Professional Communication",

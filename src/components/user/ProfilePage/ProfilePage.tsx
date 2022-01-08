@@ -232,20 +232,23 @@ function ProfilePage() {
                 </FormControl>
               </Stack>
             }
-            title={"John Doe"}
-            subheader={"BH120 - Software Engineering"}
+            title={user?.displayName}
+            subheader={user?.email}
           />
         </Card>
         <Grid
-          rowSpacing={4}
-          columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          // rowSpacing={4}
+          // columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+          sx={{backgroundColor: "#B8B8B8", padding: "10px"}}
           className="posts"
+          direction="row"
+          container
         >
           {!posts ? (
             <p>Loading...</p>
           ) : (
             posts.map((post) => (
-              <Grid item xs={12} md={6} key={post.id}>
+              <Grid item xs={12} md={6} key={post.id} sx={{padding: "6px"}}>
                 <Link
                   className="post-item"
                   to={`/post/${post.id}`}
