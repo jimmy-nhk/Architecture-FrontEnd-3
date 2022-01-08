@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {initializeApp} from "firebase/app";
 import {getDownloadURL, getStorage, ref, uploadBytesResumable,} from "firebase/storage";
 import tinymce from "tinymce/tinymce";
@@ -80,7 +80,10 @@ const TinyEditor: React.FC<IRichTextEditorProps> = ({
         // async magic goes here...
     };
 
-    tinymce.remove();  
+    useEffect(() => {
+        tinymce.remove();  
+    }, [])
+
     tinymce.init({
         selector: "#tinyEditor",
         placeholder: "Enter your post content here...",
