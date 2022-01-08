@@ -11,6 +11,7 @@ import {
   Badge,
   Stack,
   FormControl,
+  Pagination
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import DefaultLayout from "../../generic/layout/DefaultLayout";
@@ -26,7 +27,6 @@ import {
 } from "firebase/storage";
 import { TokenStorageService } from "../../../app/service/token-storage.service";
 import { AppConstants } from "../../../app/common/app.constants";
-
 
 //Firebase config
 const firebaseConfig = {
@@ -47,22 +47,19 @@ const SmallAvatar = styled(Avatar)(({ theme }) => ({
   border: `2px solid ${theme.palette.background.paper}`,
 }));
 
-
 export type User = {
-  displayName: string,
-  email: string,
-  id: number,
-  imageUrl: string
-}
+  displayName: string;
+  email: string;
+  id: number;
+  imageUrl: string;
+};
 
 function ProfilePage() {
-  const PAGE_SIZE = 2;
+  const PAGE_SIZE = 10;
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
   const [user, setUser] = useState<User>();
   const [posts, setPosts] = useState<PostClass[]>([]);
-
-
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
@@ -108,30 +105,29 @@ function ProfilePage() {
     return url;
   };
 
-  const USER_POSTS_FETCH_API = AppConstants.POST_URL 
+  const USER_POSTS_FETCH_API = AppConstants.POST_URL;
 
   const getPosts = (pageNo: number, pageSize: number) => {
     try {
-      axios.get(`${USER_POSTS_FETCH_API}` + `getPost/userId=${user?.id}/pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id`).then((response: AxiosResponse) => {
-        setTotalPages(response.data.totalPages);
-        setPosts(response.data.content);
-        console.log(response)
-      })
-      .catch(e => console.log(e));
+      axios
+        .get(
+          `${USER_POSTS_FETCH_API}` +
+            `getPost/userId=${user?.id}/pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id`
+        )
+        .then((response: AxiosResponse) => {
+          setTotalPages(response.data.totalPages);
+          setPosts(response.data.content);
+          console.log(response);
+        })
+        .catch((e) => console.log(e));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-
-
   };
 
-  const handleChangeProfilePicture = () => {};
-
-
-  // get user 
-  useEffect(()=> {
-
-    console.log(new TokenStorageService().getUser().id) 
+  // get user
+  useEffect(() => {
+    console.log(new TokenStorageService().getUser().id);
 
     // var user : User;
 
@@ -139,16 +135,15 @@ function ProfilePage() {
     // user.id = new TokenStorageService().getUser().id;
     // user.email =  new TokenStorageService().getUser().email;
     // user.imageUrl = new TokenStorageService().getUser().imageUrl;
-    
 
     setUser({
       id: new TokenStorageService().getUser().id,
-      email :  new TokenStorageService().getUser().email,
+      email: new TokenStorageService().getUser().email,
       imageUrl: new TokenStorageService().getUser().imageUrl,
-      displayName: new TokenStorageService().getUser().displayName
-    })
-    console.log(user?.displayName)
-  }, [])
+      displayName: new TokenStorageService().getUser().displayName,
+    });
+    console.log(user?.displayName);
+  }, []);
 
   useEffect(() => {
     // getUser() // please pass user id in
@@ -157,12 +152,7 @@ function ProfilePage() {
 
   useEffect(() => {
     getPosts(page - 1, PAGE_SIZE);
-
   }, [page]);
-
-
-
-
 
   const coverImageUploadHandler = async function (
     e: React.ChangeEvent<HTMLInputElement>
@@ -173,12 +163,20 @@ function ProfilePage() {
       // upload file to server
       uploadImage(file) //Promise here
         .then((url) => {
-          setImageUrl(url + "")
+          setImageUrl(url + "");
           console.log("cover url = ", url);
+          // axios
+          //   .post(`https://jsonplaceholder.typicode.com/users`, { user })
+          //   .then((res) => {
+          //     console.log(res);
+          //     console.log(res.data);
+          //   });
         });
     }
   };
-  const [imageUrl, setImageUrl] = useState<string>("/static/images/avatar/2.jpg");
+  const [imageUrl, setImageUrl] = useState<string>(
+    "/static/images/avatar/2.jpg"
+  );
   return (
     <DefaultLayout style={{ backgroundColor: "#f3f3f4" }}>
       <Container maxWidth="lg" sx={{ padding: "6.5rem 0", margin: "0 auto" }}>
@@ -211,7 +209,7 @@ function ProfilePage() {
                           sx={{ width: "30px", height: "30px" }}
                         />
                       }
-                      sx={{cursor: "pointer"}}
+                      sx={{ cursor: "pointer" }}
                     >
                       {/* <Button
                         sx={{
@@ -239,7 +237,7 @@ function ProfilePage() {
         <Grid
           // rowSpacing={4}
           // columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-          sx={{backgroundColor: "#B8B8B8", padding: "10px"}}
+          sx={{ backgroundColor: "#B8B8B8", padding: "10px" }}
           className="posts"
           direction="row"
           container
@@ -248,7 +246,7 @@ function ProfilePage() {
             <p>Loading...</p>
           ) : (
             posts.map((post) => (
-              <Grid item xs={12} md={6} key={post.id} sx={{padding: "6px"}}>
+              <Grid item xs={12} md={6} key={post.id} sx={{ padding: "6px" }}>
                 <Link
                   className="post-item"
                   to={`/post/${post.id}`}
@@ -260,6 +258,18 @@ function ProfilePage() {
             ))
           )}
         </Grid>
+        <Pagination
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            margin: "0px auto 20px auto",
+          }}
+          count={totalPages}
+          page={page}
+          showFirstButton
+          showLastButton
+          onChange={(e: any, value: number) => setPage(value)}
+        />
       </Container>
     </DefaultLayout>
   );
