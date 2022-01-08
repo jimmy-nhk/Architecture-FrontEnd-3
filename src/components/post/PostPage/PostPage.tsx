@@ -6,6 +6,9 @@ import HeaderSection from "./HeaderSection";
 import HeroSection from "./HeroSection";
 import axios, {AxiosResponse} from "axios";
 import Comments from "../../comment/Comments";
+import { useParams } from "react-router-dom";
+import { TokenStorageService } from "../../../app/service/token-storage.service";
+import { AppConstants } from "../../../app/common/app.constants";
 
 interface IPost {
     pid: number;
@@ -20,10 +23,18 @@ interface IPost {
     tags: string;
 }
 
-const URL = "https://sead-back-postservice.herokuapp.com/";
-const postId = 2;
+// const URL = "https://sead-back-postservice.herokuapp.com/" + "post/";
+const URL = AppConstants.POST_URL + "getPost/id="
+type PostParam = {
+    id: string
+}
 
 const PostPage = () => {
+    var postId = useParams();
+    var {id} = postId
+
+    // var postIdInt = parseInt(postId)
+
     var post: IPost | undefined = undefined;
     const [postTitle, setPostTitle] = useState("");
     const [postTagline, setPostTagline] = useState("");
@@ -36,7 +47,7 @@ const PostPage = () => {
     const [postTags, setPostTags] = useState("");
 
     useEffect(() => {
-        axios.get(URL + "post/" + postId).then((response: AxiosResponse) => {
+        axios.get(URL  + postId.id).then((response: AxiosResponse) => {
             post = response.data as IPost;
             // console.log("fetch post=", post);
             setPostTitle(post.title);
@@ -65,7 +76,7 @@ const PostPage = () => {
                     />
                     <BodySection bodyText={postBody}/>
                 </Container>
-                <Comments currentUserId={1} postId={1}/>
+                <Comments currentUserId={new TokenStorageService().getUser().id} postId={id}/>
             </>
         </DefaultLayout>
     );

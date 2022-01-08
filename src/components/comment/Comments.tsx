@@ -1,5 +1,4 @@
 import axios from "axios";
-import { type } from "os";
 import React, { useState, useEffect } from "react";
 import { AppConstants } from "../../app/common/app.constants";
 import Comment from "./Comment";
@@ -8,14 +7,14 @@ import "./style.css";
 //
 type CommentsProp = {
   currentUserId?: number;
-  postId: number;
+  postId: string | undefined;
 };
 
 export type CommentClass = {
   id: number;
   parentId: number;
   userId: number;
-  postId: number;
+  postId: string;
   datePosted: string;
   body: string;
 };
@@ -50,14 +49,14 @@ function Comments({ currentUserId, postId }: CommentsProp) {
   const rootCommentUsers = backendCommentUsers.filter(
     
     (backendCommentUser) => {
-      return backendCommentUser.commentDTO.parentId === 0
+      return backendCommentUser.commentDTO?.parentId === 0
     }
   );
 
   const getReplies = (commentId: number) => {
 
     return backendCommentUsers
-    .filter((backendCommentUser) => backendCommentUser.commentDTO.parentId === commentId)
+    .filter((backendCommentUser) => backendCommentUser.commentDTO?.parentId === commentId)
     .sort(
       (a: CommentUserClass, b: CommentUserClass) =>
         new Date(a.commentDTO.datePosted).getTime() - new Date(b.commentDTO.datePosted).getTime()
@@ -65,7 +64,7 @@ function Comments({ currentUserId, postId }: CommentsProp) {
   };
 
   var getAllCommentsAPI = AppConstants.COMMENT_URL + "getAllComments/postId=" + postId;
-  var createCommentAPI = AppConstants.COMMENT_URL + "createComment";
+  var createCommentAPI = AppConstants.COMMENT_URL + "publish/createComment"; //using kafka
   var deleteCommentAPI = AppConstants.COMMENT_URL + "deleteComment/id=";
   var updateCommentAPI = AppConstants.COMMENT_URL + "updateComment/id=";
 
@@ -93,6 +92,8 @@ function Comments({ currentUserId, postId }: CommentsProp) {
       body: text,
     };
 
+    console.log(commentObj)
+    console.log("commentObJ before axios: " + commentObj)
     // create comment
     axios.post(createCommentAPI, commentObj).then((res) => {
       setBackendCommentUsers([{commentDTO: res.data.commentDTO , userDTO: res.data.userDTO }, ... backendCommentUsers])
@@ -145,7 +146,7 @@ function Comments({ currentUserId, postId }: CommentsProp) {
         handleCancel={() => setActiveComment(null)}
       />
       <div className="comments-container">
-
+        {backendCommentUsers.length}
         {rootCommentUsers.map((rootCommentUser) => (
           <Comment
             key={rootCommentUser.commentDTO.id}

@@ -10,11 +10,11 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { TokenStorageService } from "../../../app/service/token-storage.service";
 
 const CATEGORIES = [
-    "Engineering".toUpperCase(),
-    "Computer Science".toUpperCase(),
-    "Design".toUpperCase(),
-    "Business".toUpperCase(),
-    "Professional Communication".toUpperCase(),
+    "Engineering",
+    "Computer Science",
+    "Design",
+    "Business",
+    "Professional Communication",
   ];
 
 export type Post = {
@@ -102,13 +102,7 @@ const PostCreatePage = () => {
     // console.log("postCover update: ", postCoverUrl);
     setPostCategoryId(CATEGORIES.indexOf(postCategory))
   }, [
-    postTitle,
-    postTagline,
-    postContent,
-    postContributors,
-    postCoverUrl,
     postCategory,
-    postTags,
   ]);
 
   const navigate = useNavigate()
@@ -135,7 +129,7 @@ const PostCreatePage = () => {
     // console.log(postURL);
 
     // axios.post(postURL, postObject,
-    console.log("postObject: " + postObject)
+    console.log(postObject)
     axios
       .post("http://localhost:8085/crud/createPost", postObject)
       .then((response: AxiosResponse) => {

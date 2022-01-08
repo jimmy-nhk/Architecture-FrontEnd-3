@@ -163,7 +163,7 @@ function Header({ account, setAccount }: HeaderProps) {
           <ul className="nav-list" ref={nav_list}>
             <li>
               <Link
-                to={`/posts/ENGINEERING`}
+                to={`/posts/Engineering`}
 
                id="engineering" className="nav-link major" ref={engineering} 
               //  onClick={() => goToPosts(engineering.current?.innerText)}
@@ -173,7 +173,7 @@ function Header({ account, setAccount }: HeaderProps) {
             </li>
             <li>
               <Link
-                to={`/posts/BUSINESS`}
+                to={`/posts/Business`}
                 id="business"
                 className="nav-link major"
                 ref={business}
@@ -184,7 +184,7 @@ function Header({ account, setAccount }: HeaderProps) {
             </li>
             <li>
               <Link
-              to={`/posts/DESIGN`}
+              to={`/posts/Design`}
 
               id="scd" className="nav-link major" ref={scd}
               // onClick={() => goToPosts(scd.current?.innerText)}

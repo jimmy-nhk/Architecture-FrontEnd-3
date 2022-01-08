@@ -21,13 +21,15 @@ function CommentForm({
   const isTextareaDisable = text.length === 0;
 
   const onSubmit = (event: FormEvent) => {
-    event.preventDefault();
+    console.log("Handle submit")
     handleSubmit(text, 0);
     setText("")
+    event.preventDefault();
+
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <>
       <textarea
         className="comment-form-textarea"
         value={text}
@@ -36,7 +38,7 @@ function CommentForm({
       />
       <br/>
 
-      <Button variant="contained" size="large" className="comment-form-button" disabled={isTextareaDisable}>
+      <Button onClick={onSubmit} variant="contained" size="large" className="comment-form-button" disabled={isTextareaDisable}>
         Submit comment
       </Button>
 
@@ -45,7 +47,7 @@ function CommentForm({
           Cancel
         </Button>
       )}
-    </form>
+    </>
   );
 }
 

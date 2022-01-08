@@ -37,9 +37,11 @@ function PostContainer({category} : PostContainerProp) {
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState<PostClass[]>([]);
 
+  console.log("PostContainer: " + category)
   const getPosts = (pageNo:number, pageSize:number) => {
+
     axios
-      .get(`http://localhost:8085/crud/getPost/category=${category}/pageNo=${pageNo}&pageSize=${pageSize}&sortby=id`)
+      .get(`http://localhost:8085/crud/getPost/category=${category}/pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id`)
       .then((response: AxiosResponse) => {
         console.log(response.data)
         setTotalPages(response.data.totalPages)

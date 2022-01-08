@@ -9,22 +9,22 @@ function CategoryContainer() {
   const categories = [
     {
       id: 1,
-      name: "Engineering".toUpperCase(),
+      name: "Engineering",
       description: "The most innovative minds",
     },
     {
       id: 2,
-      name: "Design".toUpperCase(),
+      name: "Design",
       description: "Intelligence made visible",
     },
     {
       id: 3,
-      name: "Business".toUpperCase(),
+      name: "Business",
       description: "Entrepreneurship begins",
     },
     {
       id: 4,
-      name: "Professional Communication".toUpperCase(),
+      name: "Professional Communication",
       description: "Public relation made compelling",
     },
   ];

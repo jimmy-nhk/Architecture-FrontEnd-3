@@ -12,25 +12,25 @@ type CategoryDescription = {
 const CATEGORY_DESCRIPTIONS : Array<CategoryDescription> = [
   {
     id: 1,
-    name: "ENGINEERING",
+    name: "Engineering",
     description: "The most innovative minds",
     backgroundImage: "url(/images/engineering.jpg)"
   },
   {
     id: 2,
-    name: "DESIGN",
+    name: "Design",
     description: "Intelligence made visible",
     backgroundImage: "url(/images/design.jpg)",
   },
   {
     id: 3,
-    name: "BUSINESS",
+    name: "Business",
     description: "Entrepreneurship begins",
     backgroundImage: "url(/images/business.jpg)",
   },
   {
     id: 4,
-    name: "Professional Communication".toUpperCase(),
+    name: "Professional Communication",
     description: "Public relation made compelling",
     backgroundImage: "url(/images/professional_communication.jpg)",
   },

@@ -16,6 +16,7 @@ function Comment(props: {
   setActiveComment: (activeComment: ActiveCommentClass | null) => void;
   parentId: number;
   addComment: (text: string, parentId: number) => void;
+
 }) {
   var commentUser = props.commentUser;
   var replies = props.replies;
@@ -56,7 +57,7 @@ function Comment(props: {
 
 
     return backendCommentUsers
-    .filter((backendCommentUser) => backendCommentUser.commentDTO.parentId === id)
+    .filter((backendCommentUser) => backendCommentUser.commentDTO?.parentId === id)
     .sort(
       (a: CommentUserClass, b: CommentUserClass) =>
         new Date(a.commentDTO.datePosted).getTime() - new Date(b.commentDTO.datePosted).getTime()

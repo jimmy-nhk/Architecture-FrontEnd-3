@@ -113,7 +113,7 @@ function ProfilePage() {
 
   const getPosts = (pageNo: number, pageSize: number) => {
     try {
-      axios.get(`${USER_POSTS_FETCH_API}` + `getPost/userId=${user?.id}/pageNo=${pageNo}&pageSize=${pageSize}&sortby=id`).then((response: AxiosResponse) => {
+      axios.get(`${USER_POSTS_FETCH_API}` + `getPost/userId=${user?.id}/pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id`).then((response: AxiosResponse) => {
         setTotalPages(response.data.totalPages);
         setPosts(response.data.content);
         console.log(response)
