@@ -27,13 +27,10 @@ const Post: React.FC<IPostProps> = ({
     <Card className="cardPost">
       <Box sx={{width: "30%", height: "30%"}}>
         <CardMedia
-            component="img"
             className="media"
-            image={post.coverUrl}
-            title="My Post"
-            height="100%"
-            width="100%"
-          />
+            title="My Post">
+            <img src={post.coverUrl} style={{width: "150px", height: "150px", margin: "10px"}} />
+          </CardMedia>
       </Box>
 
       <Box sx={{ display: "flex", flexDirection: "column" }}>

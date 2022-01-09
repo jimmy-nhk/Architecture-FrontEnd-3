@@ -11,7 +11,7 @@ import {
   Badge,
   Stack,
   FormControl,
-  Pagination
+  Pagination,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import DefaultLayout from "../../generic/layout/DefaultLayout";
@@ -169,22 +169,20 @@ function ProfilePage() {
           var updateUser = {
             id: Number(user?.id),
             displayName: user?.displayName,
-            // email: user?.email,
-            imageUrl: url
+            email: user?.email,
+            imageUrl: url,
           };
-          
+
           setImageUrl(url + "");
-          console.log("cover url = ", url);
-          console.log("updateUser = ", updateUser);
+
           axios
-            .post('http://localhost:8085/crud/updateUser', updateUser)
+            .put("http://localhost:8085/crud/updateUser", updateUser)
             .then((res: AxiosResponse) => {
-              console.log(res);
-              console.log(res.data);
+              console.log("put response=", res.data);
+              // new TokenStorageService().saveUser(updateUser);
             })
             .catch((e) => {
-              console.log(e)
-              console.log("error=", updateUser)
+              console.log("put error=", e);
             });
         });
     }
@@ -196,11 +194,6 @@ function ProfilePage() {
         <Card sx={{ marginTop: "3rem" }}>
           <CardHeader
             avatar={
-              // <Avatar
-              //   src={
-              //     "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&fm=jpg&crop=faces&fit=crop&h=32&w=32"
-              //   }
-              // ></Avatar>
               <Stack direction="row" spacing={2}>
                 <FormControl>
                   <label htmlFor="cover-image-upload">
@@ -217,7 +210,9 @@ function ProfilePage() {
                       badgeContent={
                         <SmallAvatar
                           alt="Change Profile Picture"
-                          src={"https://firebasestorage.googleapis.com/v0/b/sead-c470a.appspot.com/o/icons%2F271214630_606617177300066_6516707039279016194_n.png?alt=media&token=87c8a84f-b90c-4ce0-ac3f-d6eaeb72b6c8"}
+                          src={
+                            "https://firebasestorage.googleapis.com/v0/b/sead-c470a.appspot.com/o/icons%2F271214630_606617177300066_6516707039279016194_n.png?alt=media&token=87c8a84f-b90c-4ce0-ac3f-d6eaeb72b6c8"
+                          }
                           sx={{ width: "30px", height: "30px" }}
                         />
                       }
