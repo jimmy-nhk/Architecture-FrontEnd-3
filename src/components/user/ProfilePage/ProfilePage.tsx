@@ -60,6 +60,9 @@ function ProfilePage() {
   const [page, setPage] = useState(1);
   const [user, setUser] = useState<User>();
   const [posts, setPosts] = useState<PostClass[]>([]);
+  const [imageUrl, setImageUrl] = useState<string>(
+    "/static/images/avatar/2.jpg"
+  );
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
@@ -142,11 +145,11 @@ function ProfilePage() {
       imageUrl: new TokenStorageService().getUser().imageUrl,
       displayName: new TokenStorageService().getUser().displayName,
     });
-    console.log(user?.displayName);
   }, []);
 
   useEffect(() => {
     // getUser() // please pass user id in
+    console.log("user=", user);
     getPosts(0, PAGE_SIZE);
   }, [user]);
 
@@ -163,20 +166,30 @@ function ProfilePage() {
       // upload file to server
       uploadImage(file) //Promise here
         .then((url) => {
+          var updateUser = {
+            id: Number(user?.id),
+            displayName: user?.displayName,
+            // email: user?.email,
+            imageUrl: url
+          };
+          
           setImageUrl(url + "");
           console.log("cover url = ", url);
-          // axios
-          //   .post(`https://jsonplaceholder.typicode.com/users`, { user })
-          //   .then((res) => {
-          //     console.log(res);
-          //     console.log(res.data);
-          //   });
+          console.log("updateUser = ", updateUser);
+          axios
+            .post('http://localhost:8085/crud/updateUser', updateUser)
+            .then((res: AxiosResponse) => {
+              console.log(res);
+              console.log(res.data);
+            })
+            .catch((e) => {
+              console.log(e)
+              console.log("error=", updateUser)
+            });
         });
     }
   };
-  const [imageUrl, setImageUrl] = useState<string>(
-    "/static/images/avatar/2.jpg"
-  );
+
   return (
     <DefaultLayout style={{ backgroundColor: "#f3f3f4" }}>
       <Container maxWidth="lg" sx={{ padding: "6.5rem 0", margin: "0 auto" }}>
@@ -194,7 +207,6 @@ function ProfilePage() {
                     <input
                       style={{ display: "none" }}
                       onChange={(e) => coverImageUploadHandler(e)}
-                      onClick={() => console.log("AAA")}
                       accept="image/*"
                       id="cover-image-upload"
                       type="file"
