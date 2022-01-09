@@ -21,20 +21,25 @@ const HeaderSection: React.FC<IHeaderSectionProps> = ({
     }) => {
     const [tagArr, setTagArr] = useState<string[]>(['', ''])
     const [contributorArr, setContributorArr] = useState<string[]>(['', ''])
-    const [isLiked, setIsLiked] = useState(false)
+    const [isLiked, setIsLiked] = useState(true)
 
     const handleLikeClick = () => {
+        if (!userId) 
+            return
+        
         var likeAction = isLiked ? 'unlike' : 'like'
         console.log("likeAction=", likeAction)
-        axios
-        .post(`http://localhost:8085/crud/${likeAction}/pid=${postId}&uid=${userId}`)
-        .then((response: AxiosResponse) => {
-          console.log("Successfully LIKED");
-          setIsLiked(!isLiked)
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        console.log("crud=", `http://localhost:8085/crud/${likeAction}/pid=${postId}&uid=${userId}`)
+
+        // axios
+        // .post(`http://localhost:8085/crud/${likeAction}/pid=${postId}&uid=${userId}`)
+        // .then((response: AxiosResponse) => {
+        //   console.log("Successfully LIKED");
+        //   setIsLiked(!isLiked)
+        // })
+        // .catch((err) => {
+        //   console.log(err);
+        // });
     }
 
     useEffect(() => {

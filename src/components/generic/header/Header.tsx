@@ -222,7 +222,7 @@ function Header({ account, setAccount }: HeaderProps) {
             <a onClick={joinUser} id="join-logout" ref={join_logout}>
               Join
             </a>
-
+            {new TokenStorageService().getUser().id ? 
             <Link
                   to={`/user`}
                   style={{ textDecoration: "none" }}
@@ -232,7 +232,9 @@ function Header({ account, setAccount }: HeaderProps) {
                   "https://firebasestorage.googleapis.com/v0/b/sead-c470a.appspot.com/o/icons%2F270046958_615379902860003_6138128603524470268_n.png?alt=media&token=209cab2f-d198-42e3-8c41-dd1e93deef0b"
                 }
               />
-              </Link>
+              </Link> :
+              null
+            }
 
             <input
               ref={searchText}
