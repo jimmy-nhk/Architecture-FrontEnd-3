@@ -52,6 +52,7 @@ export type User = {
   email: string;
   id: number;
   imageUrl: string;
+  roles: string[]
 };
 
 function ProfilePage() {
@@ -132,24 +133,20 @@ function ProfilePage() {
   useEffect(() => {
     console.log(new TokenStorageService().getUser().id);
 
-    // var user : User;
-
-    // user.displayName =new TokenStorageService().getUser().displayName;
-    // user.id = new TokenStorageService().getUser().id;
-    // user.email =  new TokenStorageService().getUser().email;
-    // user.imageUrl = new TokenStorageService().getUser().imageUrl;
-
     setUser({
       id: new TokenStorageService().getUser().id,
       email: new TokenStorageService().getUser().email,
       imageUrl: new TokenStorageService().getUser().imageUrl,
       displayName: new TokenStorageService().getUser().displayName,
+      roles: new TokenStorageService().getUser().roles
     });
+    // Set profile photo
+    setImageUrl(new TokenStorageService().getUser().imageUrl)
   }, []);
 
   useEffect(() => {
     // getUser() // please pass user id in
-    console.log("user=", user);
+    // console.log("user=", user);
     getPosts(0, PAGE_SIZE);
   }, [user]);
 
@@ -178,8 +175,16 @@ function ProfilePage() {
           axios
             .put("http://localhost:8085/crud/updateUser", updateUser)
             .then((res: AxiosResponse) => {
-              console.log("put response=", res.data);
-              new TokenStorageService().saveUser(updateUser);
+              var storageUser = {
+                id: Number(user?.id),
+                displayName: user?.displayName,
+                email: user?.email,
+                imageUrl: url,
+                roles: user?.roles
+              }
+
+              new TokenStorageService().saveUser(storageUser);
+              console.log("storageUser=", new TokenStorageService().getUser());
             })
             .catch((e) => {
               console.log("put error=", e);
@@ -218,20 +223,11 @@ function ProfilePage() {
                       }
                       sx={{ cursor: "pointer" }}
                     >
-                      {/* <Button
-                        sx={{
-                          borderRadius: "30px",
-                          width: "60px",
-                          height: "60px",
-                        }}
-                      > */}
                       <Avatar
                         alt="Travis Howard"
-                        // src="/static/images/avatar/2.jpg"
                         src={imageUrl}
                         sx={{ width: "60px", height: "60px" }}
                       />
-                      {/* </Button> */}
                     </Badge>
                   </label>
                 </FormControl>
