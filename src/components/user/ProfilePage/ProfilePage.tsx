@@ -250,7 +250,7 @@ function ProfilePage() {
           ) : (
             posts.map((post) => (
               <Grid item xs={12} md={6} key={post.id} sx={{ padding: "6px" }}>
-                  <Post key={post.id} post={post} />
+                  <Post key={post.id} post={post} userId={user?.id} />
               </Grid>
             ))
           )}

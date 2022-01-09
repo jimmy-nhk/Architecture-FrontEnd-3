@@ -3,8 +3,10 @@ import Post from "../postCard/Post";
 import "./style.css";
 import Grid from "@mui/material/Grid";
 import { Link } from "react-router-dom";
+import { User } from "../../user/ProfilePage/ProfilePage";
 import { Pagination } from "@mui/material";
 import axios, { AxiosResponse } from "axios";
+import { TokenStorageService } from "../../../app/service/token-storage.service";
 
 export type LikedUserClass = {
   id: number;
@@ -36,6 +38,7 @@ function PostContainer({category} : PostContainerProp) {
   const [totalPages, setTotalPages] = useState(1);
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState<PostClass[]>([]);
+  const [user, setUser] = useState<User>();
 
   console.log("PostContainer: " + category)
   const getPosts = (pageNo:number, pageSize:number) => {
@@ -52,6 +55,15 @@ function PostContainer({category} : PostContainerProp) {
   useEffect(() => {
     console.log("PostContainer: " + category)
 
+    // Get user
+    setUser({
+      id: new TokenStorageService().getUser().id,
+      email: new TokenStorageService().getUser().email,
+      imageUrl: new TokenStorageService().getUser().imageUrl,
+      displayName: new TokenStorageService().getUser().displayName,
+      roles: new TokenStorageService().getUser().roles
+    });
+
     getPosts(0, PAGE_SIZE);
     // console.log("PostContainer props category=", props.categoryId)
   }, []);
@@ -59,7 +71,6 @@ function PostContainer({category} : PostContainerProp) {
   useEffect(() => {
     getPosts(page - 1, PAGE_SIZE)
   }, [page])
-
 
   return (
     <div>
@@ -73,7 +84,7 @@ function PostContainer({category} : PostContainerProp) {
           ? null
           : posts.map((post) => (
               <Grid item xs={12} md={6} key={post.id}>
-                <Post key={post.id} post={post} />
+                <Post key={post.id} post={post} userId={user?.id} />
               </Grid>
             ))}
       </Grid>
