@@ -10,6 +10,10 @@ import { useParams } from "react-router-dom";
 import { TokenStorageService } from "../../../app/service/token-storage.service";
 import { AppConstants } from "../../../app/common/app.constants";
 
+interface ILikedUser {
+  uid: number
+}
+
 interface IPost {
   pid: number;
   title: string;
@@ -21,6 +25,7 @@ interface IPost {
   likedCount: number;
   viewCount: number;
   tags: string;
+  likedUserList: ILikedUser[];
 }
 
 // const URL = "https://sead-back-postservice.herokuapp.com/" + "post/";
@@ -47,11 +52,13 @@ const PostPage = () => {
   const [postViewCount, setPostViewCount] = useState(0);
   const [postTags, setPostTags] = useState("");
   const [userId, setUserId] = useState(undefined);
+  const [likedUserList, setLikedUserList] = useState<ILikedUser[]>([]);
+  const [isLikedByUser, setIsLikedByUser] = useState(false);
 
   useEffect(() => {
     axios.get(URL + postId.id).then((response: AxiosResponse) => {
       post = response.data as IPost;
-      // console.log("fetch post=", post);
+      // console.log("fetch post=", response.data);
       setPostTitle(post.title);
       setPostTagline(post.tagline);
       setPostBody(post.bodyText);
@@ -61,12 +68,37 @@ const PostPage = () => {
       setPostLikedCount(post.likedCount);
       setPostViewCount(post.viewCount);
       setPostTags(post.tags);
+      setLikedUserList(post.likedUserList)
     });
 
     // Get user id
     setUserId(new TokenStorageService().getUser().id);
-    // console.log("PostPage user=", userId);
   }, []);
+
+  useEffect(() => {
+    likedUserList?.map((x) => {
+      if (x.uid === Number(userId)) 
+        setIsLikedByUser(true)
+    })
+  }, [likedUserList])
+
+  useEffect(() => {
+    // console.log("isLikedByUser=", isLikedByUser)
+    axios.get(URL + postId.id).then((response: AxiosResponse) => {
+      post = response.data as IPost;
+      setPostTitle(post.title);
+      setPostTagline(post.tagline);
+      setPostBody(post.bodyText);
+      setPostCategory(post.category);
+      setPostContributors(post.directors);
+      setPostCoverUrl(post.coverUrl);
+      setPostLikedCount(post.likedCount);
+      setPostViewCount(post.viewCount);
+      setPostTags(post.tags);
+
+      setLikedUserList(post.likedUserList)
+    });
+  }, [isLikedByUser])
 
   return (
     <DefaultLayout style={{ backgroundColor: "white" }}>
@@ -81,6 +113,8 @@ const PostPage = () => {
             likedCount={postLikedCount}
             userId={userId}
             postId={id}
+            isLikedByUser={isLikedByUser}
+            setIsLikedByUser={setIsLikedByUser}
           />
           <BodySection bodyText={postBody} />
         </Container>
