@@ -1,9 +1,10 @@
 import {FavoriteOutlined} from "@mui/icons-material";
-import {Avatar, AvatarGroup, Box, IconButton, Link, Typography,Tooltip} from "@mui/material";
+import {Avatar, AvatarGroup, Box, IconButton, Typography,Tooltip} from "@mui/material";
 import {useEffect, useState} from "react";
 import Tag from "./Tag";
 import Fade from "@mui/material/Fade";
 import Zoom from "@mui/material/Zoom";
+import { Link } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 
 interface IHeaderSectionProps {
@@ -113,7 +114,10 @@ const HeaderSection: React.FC<IHeaderSectionProps> = ({
                         Category
                     </Typography>
                     <div>
-                        <Link sx={{marginTop: "10px"}} underline="hover" href="#">
+                        {/* <Link sx={{marginTop: "10px"}} underline="hover" href="#">
+                            {category}
+                        </Link> */}
+                        <Link to={`/posts/${category}`}>
                             {category}
                         </Link>
                     </div>
