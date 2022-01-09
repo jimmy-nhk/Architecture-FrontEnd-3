@@ -76,10 +76,13 @@ const PostPage = () => {
   }, []);
 
   useEffect(() => {
-    likedUserList?.map((x) => {
-      if (x.uid === Number(userId)) 
-        setIsLikedByUser(true)
-    })
+    if (likedUserList?.some(x => x.uid === Number(userId))) 
+      setIsLikedByUser(true)
+    
+    // likedUserList?.map((x) => {
+    //   if (x.uid === Number(userId)) 
+    //     setIsLikedByUser(true)
+    // })
   }, [likedUserList])
 
   useEffect(() => {

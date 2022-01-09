@@ -11,7 +11,7 @@ import {
   Badge,
   Stack,
   FormControl,
-  Pagination
+  Pagination,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import DefaultLayout from "../../generic/layout/DefaultLayout";
@@ -52,6 +52,7 @@ export type User = {
   email: string;
   id: number;
   imageUrl: string;
+  roles: string[]
 };
 
 function ProfilePage() {
@@ -60,6 +61,9 @@ function ProfilePage() {
   const [page, setPage] = useState(1);
   const [user, setUser] = useState<User>();
   const [posts, setPosts] = useState<PostClass[]>([]);
+  const [imageUrl, setImageUrl] = useState<string>(
+    "/static/images/avatar/2.jpg"
+  );
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
@@ -129,24 +133,20 @@ function ProfilePage() {
   useEffect(() => {
     console.log(new TokenStorageService().getUser().id);
 
-    // var user : User;
-
-    // user.displayName =new TokenStorageService().getUser().displayName;
-    // user.id = new TokenStorageService().getUser().id;
-    // user.email =  new TokenStorageService().getUser().email;
-    // user.imageUrl = new TokenStorageService().getUser().imageUrl;
-
     setUser({
       id: new TokenStorageService().getUser().id,
       email: new TokenStorageService().getUser().email,
       imageUrl: new TokenStorageService().getUser().imageUrl,
       displayName: new TokenStorageService().getUser().displayName,
+      roles: new TokenStorageService().getUser().roles
     });
-    console.log(user?.displayName);
+    // Set profile photo
+    setImageUrl(new TokenStorageService().getUser().imageUrl)
   }, []);
 
   useEffect(() => {
     // getUser() // please pass user id in
+    // console.log("user=", user);
     getPosts(0, PAGE_SIZE);
   }, [user]);
 
@@ -163,38 +163,48 @@ function ProfilePage() {
       // upload file to server
       uploadImage(file) //Promise here
         .then((url) => {
+          var updateUser = {
+            id: Number(user?.id),
+            displayName: user?.displayName,
+            email: user?.email,
+            imageUrl: url,
+          };
+
           setImageUrl(url + "");
-          console.log("cover url = ", url);
-          // axios
-          //   .post(`https://jsonplaceholder.typicode.com/users`, { user })
-          //   .then((res) => {
-          //     console.log(res);
-          //     console.log(res.data);
-          //   });
+
+          axios
+            .put("http://localhost:8085/crud/updateUser", updateUser)
+            .then((res: AxiosResponse) => {
+              var storageUser = {
+                id: Number(user?.id),
+                displayName: user?.displayName,
+                email: user?.email,
+                imageUrl: url,
+                roles: user?.roles
+              }
+
+              new TokenStorageService().saveUser(storageUser);
+              console.log("storageUser=", new TokenStorageService().getUser());
+            })
+            .catch((e) => {
+              console.log("put error=", e);
+            });
         });
     }
   };
-  const [imageUrl, setImageUrl] = useState<string>(
-    "/static/images/avatar/2.jpg"
-  );
+
   return (
     <DefaultLayout style={{ backgroundColor: "#f3f3f4" }}>
       <Container maxWidth="lg" sx={{ padding: "6.5rem 0", margin: "0 auto" }}>
         <Card sx={{ marginTop: "3rem" }}>
           <CardHeader
             avatar={
-              // <Avatar
-              //   src={
-              //     "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&fm=jpg&crop=faces&fit=crop&h=32&w=32"
-              //   }
-              // ></Avatar>
               <Stack direction="row" spacing={2}>
                 <FormControl>
                   <label htmlFor="cover-image-upload">
                     <input
                       style={{ display: "none" }}
                       onChange={(e) => coverImageUploadHandler(e)}
-                      onClick={() => console.log("AAA")}
                       accept="image/*"
                       id="cover-image-upload"
                       type="file"
@@ -205,26 +215,19 @@ function ProfilePage() {
                       badgeContent={
                         <SmallAvatar
                           alt="Change Profile Picture"
-                          src={"https://firebasestorage.googleapis.com/v0/b/sead-c470a.appspot.com/o/icons%2F271214630_606617177300066_6516707039279016194_n.png?alt=media&token=87c8a84f-b90c-4ce0-ac3f-d6eaeb72b6c8"}
+                          src={
+                            "https://firebasestorage.googleapis.com/v0/b/sead-c470a.appspot.com/o/icons%2F271214630_606617177300066_6516707039279016194_n.png?alt=media&token=87c8a84f-b90c-4ce0-ac3f-d6eaeb72b6c8"
+                          }
                           sx={{ width: "30px", height: "30px" }}
                         />
                       }
                       sx={{ cursor: "pointer" }}
                     >
-                      {/* <Button
-                        sx={{
-                          borderRadius: "30px",
-                          width: "60px",
-                          height: "60px",
-                        }}
-                      > */}
                       <Avatar
                         alt="Travis Howard"
-                        // src="/static/images/avatar/2.jpg"
                         src={imageUrl}
                         sx={{ width: "60px", height: "60px" }}
                       />
-                      {/* </Button> */}
                     </Badge>
                   </label>
                 </FormControl>
