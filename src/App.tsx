@@ -57,7 +57,7 @@ function App() {
         <Route path="/postCreate"  element={<PostCreatePage/>} />
         
 
-        <Route path="/user/:id"  element={<ProfilePage/>}/>
+        <Route path="/user"  element={<ProfilePage/>}/>
         <Route path="/login" element={<LoginPage setAccount={setAccount}/>}  />
         <Route path="/signup" element={<SignupPage />} />
        </Routes>

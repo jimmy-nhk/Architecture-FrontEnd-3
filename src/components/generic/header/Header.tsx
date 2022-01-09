@@ -1,4 +1,5 @@
 import { Logout, Search } from "@mui/icons-material";
+import { Avatar } from "@mui/material";
 import { join } from "path";
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
@@ -144,10 +145,8 @@ function Header({ account, setAccount }: HeaderProps) {
   }, []);
 
   const goToPosts = (category: string | undefined) => {
-
-    navigate('/posts/' + category)
-
-  }
+    navigate("/posts/" + category);
+  };
 
   return (
     <header>
@@ -164,10 +163,11 @@ function Header({ account, setAccount }: HeaderProps) {
             <li>
               <Link
                 to={`/posts/Engineering`}
-
-               id="engineering" className="nav-link major" ref={engineering} 
-              //  onClick={() => goToPosts(engineering.current?.innerText)}
-               >
+                id="engineering"
+                className="nav-link major"
+                ref={engineering}
+                //  onClick={() => goToPosts(engineering.current?.innerText)}
+              >
                 Engineering
               </Link>
             </li>
@@ -184,10 +184,11 @@ function Header({ account, setAccount }: HeaderProps) {
             </li>
             <li>
               <Link
-              to={`/posts/Design`}
-
-              id="scd" className="nav-link major" ref={scd}
-              // onClick={() => goToPosts(scd.current?.innerText)}
+                to={`/posts/Design`}
+                id="scd"
+                className="nav-link major"
+                ref={scd}
+                // onClick={() => goToPosts(scd.current?.innerText)}
               >
                 Design
               </Link>
@@ -195,10 +196,11 @@ function Header({ account, setAccount }: HeaderProps) {
 
             <li>
               <Link
-              to={`/posts/PROFESSIONAL COMMUNICATION`}
-
-              id="scd" className="nav-link major" ref={scd}
-              // onClick={() => goToPosts(scd.current?.innerText)}
+                to={`/posts/Professional Communication`}
+                id="scd"
+                className="nav-link major"
+                ref={scd}
+                // onClick={() => goToPosts(scd.current?.innerText)}
               >
                 Professional Communication
               </Link>
@@ -209,19 +211,30 @@ function Header({ account, setAccount }: HeaderProps) {
                 Sign In
               </a>
             </li> */}
-            {
-              tokenStorage.getToken() &&
+            {tokenStorage.getToken() && (
               <Link to="/postCreate">
-              <a id="join-logout" ref={create_post}>
-                Create
-              </a>
-            </Link>
-            }
-
+                <a id="join-logout" ref={create_post}>
+                  Create
+                </a>
+              </Link>
+            )}
 
             <a onClick={joinUser} id="join-logout" ref={join_logout}>
               Join
             </a>
+            {new TokenStorageService().getUser().id ? 
+            <Link
+                  to={`/user`}
+                  style={{ textDecoration: "none" }}
+                >
+              <Avatar
+                src={
+                  "https://firebasestorage.googleapis.com/v0/b/sead-c470a.appspot.com/o/icons%2F270046958_615379902860003_6138128603524470268_n.png?alt=media&token=209cab2f-d198-42e3-8c41-dd1e93deef0b"
+                }
+              />
+              </Link> :
+              null
+            }
 
             <input
               ref={searchText}

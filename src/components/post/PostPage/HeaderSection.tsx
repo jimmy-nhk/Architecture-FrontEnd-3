@@ -1,9 +1,11 @@
 import {FavoriteOutlined} from "@mui/icons-material";
-import {Avatar, AvatarGroup, Box, IconButton, Link, Typography,Tooltip} from "@mui/material";
+import {Avatar, AvatarGroup, Box, IconButton, Typography,Tooltip} from "@mui/material";
 import {useEffect, useState} from "react";
 import Tag from "./Tag";
 import Fade from "@mui/material/Fade";
 import Zoom from "@mui/material/Zoom";
+import { Link } from "react-router-dom";
+import axios, { AxiosResponse } from "axios";
 
 interface IHeaderSectionProps {
     title: string;
@@ -11,13 +13,42 @@ interface IHeaderSectionProps {
     tags: string;
     contributors: string;
     likedCount: number;
+    userId: number | undefined;
+    postId: string | undefined;
+    isLikedByUser: boolean;
+    setIsLikedByUser: (arg: boolean) => void;
 }
 
 const HeaderSection: React.FC<IHeaderSectionProps> = ({
-        title, category, tags, contributors, likedCount
+        title, category, tags, contributors, likedCount, userId, postId, isLikedByUser, setIsLikedByUser
     }) => {
     const [tagArr, setTagArr] = useState<string[]>(['', ''])
     const [contributorArr, setContributorArr] = useState<string[]>(['', ''])
+
+    const handleLikeClick = () => {
+        if (!userId) 
+            return
+        
+        if (isLikedByUser) {
+            axios.delete(`http://localhost:8085/crud/unlike/pid=${postId}&uid=${userId}`)
+            .then((response: AxiosResponse) => {
+                console.log("Successfully UNLIKED");
+                setIsLikedByUser(false)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        } else {
+            axios.post(`http://localhost:8085/crud/like/pid=${postId}&uid=${userId}`)
+            .then((response: AxiosResponse) => {
+                console.log("Successfully LIKED");
+                setIsLikedByUser(true)
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+        }
+    }
 
     useEffect(() => {
         var arr = tags.split(';');
@@ -30,7 +61,6 @@ const HeaderSection: React.FC<IHeaderSectionProps> = ({
         arr = arr.map((x) => x.trim())
         setContributorArr(arr)
     }, [contributors])
-
     return (
         <>
             <Box sx={{display: "flex"}}>
@@ -43,14 +73,15 @@ const HeaderSection: React.FC<IHeaderSectionProps> = ({
                     </Typography>
                 </Box>
                 <Box sx={{display: "flex", flexDirection: "column", flexShrink: 1}}>
-                    <IconButton size="large" color="secondary">
-                        <FavoriteOutlined/>
+                    <IconButton size="large" color="secondary" onClick={handleLikeClick}>
+                        {userId ? (isLikedByUser ? <FavoriteOutlined/> : <FavoriteOutlined style={{ color: 'grey' }}/>) : <FavoriteOutlined style={{ color: 'grey' }}/>}
+                        
                     </IconButton>
                     <Typography variant="button" sx={{
                         fontWeight: "bold",
                         textAlign: "center",
                     }}>
-                        {likedCount} likes
+                        {likedCount} {likedCount === 1 ? 'like' : 'likes'}
                     </Typography>
                 </Box>
             </Box>
@@ -83,7 +114,10 @@ const HeaderSection: React.FC<IHeaderSectionProps> = ({
                         Category
                     </Typography>
                     <div>
-                        <Link sx={{marginTop: "10px"}} underline="hover" href="#">
+                        {/* <Link sx={{marginTop: "10px"}} underline="hover" href="#">
+                            {category}
+                        </Link> */}
+                        <Link to={`/posts/${category}`}>
                             {category}
                         </Link>
                     </div>
