@@ -179,7 +179,7 @@ function ProfilePage() {
             .put("http://localhost:8085/crud/updateUser", updateUser)
             .then((res: AxiosResponse) => {
               console.log("put response=", res.data);
-              // new TokenStorageService().saveUser(updateUser);
+              new TokenStorageService().saveUser(updateUser);
             })
             .catch((e) => {
               console.log("put error=", e);
