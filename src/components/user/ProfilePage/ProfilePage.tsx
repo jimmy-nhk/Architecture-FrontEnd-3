@@ -250,13 +250,7 @@ function ProfilePage() {
           ) : (
             posts.map((post) => (
               <Grid item xs={12} md={6} key={post.id} sx={{ padding: "6px" }}>
-                <Link
-                  className="post-item"
-                  to={`/post/${post.id}`}
-                  style={{ textDecoration: "none" }}
-                >
                   <Post key={post.id} post={post} />
-                </Link>
               </Grid>
             ))
           )}

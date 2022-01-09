@@ -73,13 +73,7 @@ function PostContainer({category} : PostContainerProp) {
           ? null
           : posts.map((post) => (
               <Grid item xs={12} md={6} key={post.id}>
-                <Link
-                  className="post-item"
-                  to={`/post/${post.id}`}
-                  style={{ textDecoration: "none" }}
-                >
-                  <Post key={post.id} post={post} />
-                </Link>
+                <Post key={post.id} post={post} />
               </Grid>
             ))}
       </Grid>
