@@ -52,7 +52,7 @@ const MainBackground: React.FC<IMainBackgroundProps> = ({
     setCategoryDescription(categoryDescription)
 
     console.log("useEffect")
-  }, [])
+  }, [category])
 
   return (
     <div>
