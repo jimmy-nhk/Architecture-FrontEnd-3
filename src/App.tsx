@@ -4,6 +4,7 @@ import MainPage from './components/page/MainPage';
 import PostsPage from './components/page/PostsPage';
 import SignupPage from './components/page/SigupPage/SignupPage';
 import PostCreatePage from './components/post/PostCreatePage/PostCreatePage';
+import PostEditPage from './components/post/PostEditPage/PostEditPage';
 import PostPage from './components/post/PostPage/PostPage';
 import { useState, useEffect} from 'react'
 import axios from 'axios';
@@ -55,6 +56,7 @@ function App() {
         <Route path="/post/:id" element={<PostPage/>} />
         
         <Route path="/postCreate"  element={<PostCreatePage/>} />
+        <Route path="/postEdit/:id"  element={<PostEditPage/>} />
         
 
         <Route path="/user"  element={<ProfilePage/>}/>

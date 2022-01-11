@@ -102,6 +102,16 @@ const Post: React.FC<IPostProps> = ({ post, userId }) => {
                 Learn More
               </Button>
             </Link>
+            
+            <Link
+              className="post-item"
+              to={`/postEdit/${post?.id}`}
+              style={{ textDecoration: "none" }}
+            >
+              <Button size="small" color="primary">
+                Edit
+              </Button>
+            </Link>
           </CardActions>
         </Box>
       </Box>
