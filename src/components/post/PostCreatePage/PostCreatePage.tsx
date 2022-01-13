@@ -8,6 +8,7 @@ import UploadImageCard from "./cards/UploadImageCard";
 import axios, { AxiosResponse } from "axios";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { TokenStorageService } from "../../../app/service/token-storage.service";
+import { AppConstants } from "../../../app/common/app.constants";
 
 const CATEGORIES = [
     "Engineering",
@@ -131,7 +132,8 @@ const PostCreatePage = () => {
     // axios.post(postURL, postObject,
     console.log(postObject)
     axios
-      .post("http://localhost:8085/crud/createPost", postObject)
+      // .post("http://localhost:8085/crud/createPost", postObject)
+      .post(AppConstants.POST_URL_KAFKA, postObject)
       .then((response: AxiosResponse) => {
         console.log("Successfully posted to the server");
         // Finish the web here
