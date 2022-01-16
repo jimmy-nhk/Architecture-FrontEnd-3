@@ -1,9 +1,12 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { AppConstants } from "../../app/common/app.constants";
-import Comment from "./Comment";
-import CommentForm from "./CommentForm";
-import "./style.css";
+import './style.css';
+
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+
+import { AppConstants } from '../../app/common/app.constants';
+import Comment from './Comment';
+import CommentForm from './CommentForm';
+
 //
 type CommentsProp = {
   currentUserId?: number;

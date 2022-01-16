@@ -1,15 +1,15 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import DefaultLayout from "../../generic/layout/DefaultLayout";
-import axios, { AxiosResponse } from "axios";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { TokenStorageService } from "../../../app/service/token-storage.service";
-import TitleAndContentCard from "../PostCreatePage/cards/TitleAndContentCard";
-import AddContributorCard from "../PostCreatePage/cards/AddContributorCard";
-import UploadImageCard from "../PostCreatePage/cards/UploadImageCard";
-import MetadataCard from "../PostCreatePage/cards/MetadataCard";
-import { PostClass } from "../postContainer/PostContainer";
-import { useParams } from "react-router-dom";
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import axios, { AxiosResponse } from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { AppConstants } from '../../../app/common/app.constants';
+
+import { TokenStorageService } from '../../../app/service/token-storage.service';
+import DefaultLayout from '../../generic/layout/DefaultLayout';
+import AddContributorCard from '../PostCreatePage/cards/AddContributorCard';
+import MetadataCard from '../PostCreatePage/cards/MetadataCard';
+import TitleAndContentCard from '../PostCreatePage/cards/TitleAndContentCard';
+import UploadImageCard from '../PostCreatePage/cards/UploadImageCard';
 
 const CATEGORIES = [
     "Engineering",
@@ -105,14 +105,21 @@ const PostEditPage = () => {
 
   var post: IPost | undefined = undefined;
 
+  var getPostUrl =  AppConstants.POST_URL + `getPost/id=${id}`
   useEffect(() => {
+    console.log("postID: " , id)
     // console.log("isLikedByUser=", isLikedByUser)
-    axios.get(URL + id).then((response: AxiosResponse) => {
+    axios.get(getPostUrl).then((response: AxiosResponse) => {
+
+    // axios.get(URL + id).then((response: AxiosResponse) =>
+
       post = response.data as IPost;
       setPostTitle(post.title);
       setPostTagline(post.tagline);
+      console.log("post.bodyText: " , post.bodyText)
       setPostContent(post.bodyText);
       setPostCategory(post.category);
+      
 
       var arrDirectors = post.directors.split(';');
       arrDirectors.map((x, index) => {
@@ -131,8 +138,10 @@ const PostEditPage = () => {
     });
   }, [])
 
+  
+
   console.log("PostCreatePage coverUrl=", postCoverUrl);
-  const addPostAsync = () => {
+  const editPostAsync = () => {
     const postObject = {
       userId: new TokenStorageService().getUser().id,
       title: postTitle.trim(),
@@ -180,9 +189,9 @@ const PostEditPage = () => {
             <Button
               variant="contained"
               size="large"
-              onClick={() => addPostAsync()}
+              onClick={() => editPostAsync()}
             >
-              Create
+              Edit
             </Button>
           </Link>
         </Box>

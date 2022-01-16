@@ -1,7 +1,7 @@
-import { Button } from "@mui/material";
-import React, { DragEvent, FormEvent, useState } from "react";
-import { EventType } from "react-hook-form";
-import { TokenStorageService } from "../../app/service/token-storage.service";
+import { Button } from '@mui/material';
+import React, { DragEvent, FormEvent, useState } from 'react';
+
+import { TokenStorageService } from '../../app/service/token-storage.service';
 
 type CommentFormProps = {
   submitLabel: string;

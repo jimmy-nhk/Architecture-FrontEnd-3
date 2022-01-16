@@ -1,14 +1,15 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import DefaultLayout from "../../generic/layout/DefaultLayout";
-import AddContributorCard from "./cards/AddContributorCard";
-import MetadataCard from "./cards/MetadataCard";
-import TitleAndContentCard from "./cards/TitleAndContentCard";
-import UploadImageCard from "./cards/UploadImageCard";
-import axios, { AxiosResponse } from "axios";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { TokenStorageService } from "../../../app/service/token-storage.service";
-import { AppConstants } from "../../../app/common/app.constants";
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import axios, { AxiosResponse } from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
+import { AppConstants } from '../../../app/common/app.constants';
+import { TokenStorageService } from '../../../app/service/token-storage.service';
+import DefaultLayout from '../../generic/layout/DefaultLayout';
+import AddContributorCard from './cards/AddContributorCard';
+import MetadataCard from './cards/MetadataCard';
+import TitleAndContentCard from './cards/TitleAndContentCard';
+import UploadImageCard from './cards/UploadImageCard';
 
 const CATEGORIES = [
     "Engineering",
@@ -136,8 +137,9 @@ const PostCreatePage = () => {
       .post(AppConstants.POST_URL_KAFKA, postObject)
       .then((response: AxiosResponse) => {
         console.log("Successfully posted to the server");
+        console.log(response.data)
         // Finish the web here
-        navigate('/')
+        navigate(`/user`)
         
       })
       .catch((err) => {
@@ -154,7 +156,6 @@ const PostCreatePage = () => {
           <Typography variant="h4" sx={{ flexGrow: 1, alignSelf: "flex-end" }}>
             Create a post
           </Typography>
-          <Link to={`/posts/` + postCategoryId}>
             <Button
               variant="contained"
               size="large"
@@ -162,7 +163,6 @@ const PostCreatePage = () => {
             >
               Create
             </Button>
-          </Link>
         </Box>
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>

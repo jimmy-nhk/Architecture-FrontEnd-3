@@ -62,7 +62,7 @@ function App() {
         <Route path="/user"  element={<ProfilePage/>}/>
         <Route path="/login" element={<LoginPage setAccount={setAccount}/>}  />
         <Route path="/signup" element={<SignupPage />} />
-       </Routes>
+      </Routes>
       
     </div>
   );

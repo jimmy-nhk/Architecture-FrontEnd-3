@@ -12,16 +12,39 @@ interface ITitleAndContentCardProps {
     updatePostTagline: (arg: string) => void
 }
 
-const TitleAndContentCard: React.FC<ITitleAndContentCardProps> = ({title, content, tagline, updatePostTitle, updatePostContent,updatePostTagline}) => {
+const TitleAndContentCard: React.FC<ITitleAndContentCardProps> = ({title, updatePostTitle, content, updatePostContent,tagline ,updatePostTagline}) => {
     const [postTitle, setPostTitle] = useState<string>("")
-    const [postContent, setPostContent] = useState<string>("")
+    const [postContent, setPostContent] = useState<string>(content)
     const [postTagline, setPostTagline] = React.useState<string>("")
 
+    // useEffect(() => {
+    //     console.log("content in title and content card: " , content)
+    //     setPostTitle(title);
+    //     setPostContent(content);
+    //     setPostTagline(tagline);
+    // }, [title, content,tagline])
+
+    
     useEffect(() => {
+        console.log("content in title : " , content)
         setPostTitle(title);
+        // setPostContent(content);
+        // setPostTagline(tagline);
+    }, [title])
+
+    useEffect(() => {
+        console.log("content in content : " , content)
+        // setPostTitle(title);
         setPostContent(content);
+        // setPostTagline(tagline);
+    }, [ content])
+
+    useEffect(() => {
+        console.log("content in tag line: " , content)
+        // setPostTitle(title);
+        // setPostContent(content);
         setPostTagline(tagline);
-    }, [title, content,tagline])
+    }, [tagline])
     return (
         <Card>
             <CardContent>
@@ -33,7 +56,10 @@ const TitleAndContentCard: React.FC<ITitleAndContentCardProps> = ({title, conten
                            onChange={e => updatePostTagline(e.target.value)}
                            label="Tagline" variant="filled"/>
                 <Box sx={{height: "500px", marginTop: "1rem", border: "1px solid gray"}}>
+                    {console.log("content before in html: " , postContent)}
                     <TinyEditor content={postContent} updatePostContent={updatePostContent}/>
+                    {console.log("content after in html: " , postContent)}
+
                 </Box>
             </CardContent>
         </Card>

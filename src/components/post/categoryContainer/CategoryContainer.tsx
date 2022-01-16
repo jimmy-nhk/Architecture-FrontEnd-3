@@ -39,7 +39,7 @@ function CategoryContainer() {
         </div>
         <Grid container style={{ padding: "0 0 50px 0" }}>
           {categories.map((category) => ( 
-            <Grid item xs={12} md={6}>
+            <Grid key={category.id} item xs={12} md={6}>
               <Link to={`/posts/` + category.name}>
                 <CategoryPost category={category} />
               </Link>

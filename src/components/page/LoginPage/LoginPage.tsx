@@ -64,6 +64,9 @@ function LoginPage( {setAccount} : AccountProp) {
         }
         return request
       })
+
+      console.log("token in gg: " , tokenStorage.getUser())
+
       currentUser = tokenStorage.getUser()
       // Navigate to main page here
       navigate('/')
@@ -71,6 +74,8 @@ function LoginPage( {setAccount} : AccountProp) {
     // If user is not found, but there is token, store token and login
     } else if (token){
       console.log("User not found, but found token, should redirect to main page")
+      console.log("token in gg: " , token)
+
       tokenStorage.saveToken(token);
 
       axios.interceptors.request.use(request =>{
@@ -90,8 +95,8 @@ function LoginPage( {setAccount} : AccountProp) {
             'Content-Type':'application/json'
         }
       }).then(data =>{
-          console.log("user/me", data)
-          login(data)
+          console.log("user/me", data.data)
+          login(data.data)
       }, err=>{
           console.log("Log in failed")
           console.log(err)
@@ -111,6 +116,7 @@ function LoginPage( {setAccount} : AccountProp) {
     tokenStorage.saveUser(user)
     isLoggedIn = true
     currentUser = tokenStorage.getUser();
+    console.log(currentUser)
     // Navigate to main page here
     navigate('/')
   }

@@ -84,7 +84,7 @@ function PostContainer({category} : PostContainerProp) {
           ? null
           : posts.map((post) => (
               <Grid item xs={12} md={6} key={post.id}>
-                <Post key={post.id} post={post} userId={user?.id} />
+                <Post key={post.id} post={post} userId={user?.id} isProfilePage={false} />
               </Grid>
             ))}
       </Grid>

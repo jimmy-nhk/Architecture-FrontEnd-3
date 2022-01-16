@@ -1,8 +1,9 @@
-import React from "react";
-import {  ActiveCommentClass , CommentUserClass } from "./Comments";
-import image from "../comment/user-icon.png";
-import { useState, useEffect } from "react";
-import CommentForm from "./CommentForm";
+import React from 'react';
+import { useEffect, useState } from 'react';
+
+import image from '../comment/user-icon.png';
+import CommentForm from './CommentForm';
+import { ActiveCommentClass, CommentUserClass } from './Comments';
 
 function Comment(props: {
   commentUser: CommentUserClass;
