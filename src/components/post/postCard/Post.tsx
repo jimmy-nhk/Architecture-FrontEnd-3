@@ -11,15 +11,18 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { PostClass } from "../postContainer/PostContainer";
+import { AppConstants } from "../../../app/common/app.constants";
 
 // import theme from "../theme";
 interface IPostProps {
   post: PostClass;
   userId: number | undefined;
   isProfilePage: boolean;
+  setIsDeleted: React.Dispatch<React.SetStateAction<any>>;
+
 }
 
-const Post: React.FC<IPostProps> = ({ post, userId, isProfilePage }) => {
+const Post: React.FC<IPostProps> = ({ post, userId, isProfilePage , setIsDeleted }) => {
   const [isLikedByUser, setIsLikedByUser] = useState(false);
 
   useEffect(() => {
@@ -27,6 +30,17 @@ const Post: React.FC<IPostProps> = ({ post, userId, isProfilePage }) => {
     if (post.likedUserList?.some((x) => x.uid === Number(userId)))
       setIsLikedByUser(true);
   }, [post]);
+
+  var deleteURL = AppConstants.POST_URL + "deletePost/id="
+
+  const handleDeletePost = (id: number) => {
+    console.log("Delete", deleteURL + id)
+    axios.delete(deleteURL + id)
+    .then(res => {
+      console.log(res.data)
+      setIsDeleted(true)
+    })
+  }
 
   const handleLikeClick = () => {
     if (!userId) return;
@@ -130,7 +144,8 @@ const Post: React.FC<IPostProps> = ({ post, userId, isProfilePage }) => {
                 </Button>
               </Link>
 
-              <Button size="small" color="primary">
+              <Button size="small" color="primary"
+              onClick={() => handleDeletePost(post?.id)}>
                 Delete
               </Button>
             </CardActions>

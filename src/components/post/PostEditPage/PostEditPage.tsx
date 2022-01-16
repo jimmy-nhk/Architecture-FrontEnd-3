@@ -141,8 +141,11 @@ const PostEditPage = () => {
   
 
   console.log("PostCreatePage coverUrl=", postCoverUrl);
+  
+  var updatePostUrl = AppConstants.POST_URL + "updatePost"
   const editPostAsync = () => {
     const postObject = {
+      id: id,
       userId: new TokenStorageService().getUser().id,
       title: postTitle.trim(),
       tagline: postTagline.trim(),
@@ -164,15 +167,16 @@ const PostEditPage = () => {
     // axios.post(postURL, postObject,
     console.log(postObject)
     axios
-      .post("http://localhost:8085/crud/createPost", postObject)
+      .put(updatePostUrl, postObject)
       .then((response: AxiosResponse) => {
-        console.log("Successfully posted to the server");
+        console.log("Successfully updated to the server");
+        console.log(response.data)
         // Finish the web here
-        navigate('/')
+        navigate('/user')
 
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err.response);
         console.log(err);
       });
   };
@@ -185,15 +189,16 @@ const PostEditPage = () => {
           <Typography variant="h4" sx={{ flexGrow: 1, alignSelf: "flex-end" }}>
             Edit post {}
           </Typography>
-          <Link to={`/posts/` + postCategoryId}>
             <Button
               variant="contained"
               size="large"
-              onClick={() => editPostAsync()}
+              onClick={editPostAsync}
             >
               Edit
             </Button>
-          </Link>
+
+
+
         </Box>
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>

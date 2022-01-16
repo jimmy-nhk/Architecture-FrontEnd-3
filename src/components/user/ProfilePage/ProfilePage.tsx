@@ -47,6 +47,7 @@ function ProfilePage() {
   const [imageUrl, setImageUrl] = useState<string>(
     "/static/images/avatar/2.jpg"
   );
+  const [isDeleted, setIsDeleted] = useState(false)
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
@@ -143,8 +144,15 @@ function ProfilePage() {
   }, [user]);
 
   useEffect(() => {
+    
+    console.log("isDeleted", isDeleted)
+    if(!isDeleted)
+      return;
+
     getPosts(page - 1, PAGE_SIZE);
-  }, [page]);
+
+    setIsDeleted(false)
+  }, [page, isDeleted ]);
 
   const coverImageUploadHandler = async function (
     e: React.ChangeEvent<HTMLInputElement>
@@ -242,7 +250,7 @@ function ProfilePage() {
           ) : (
             posts.map((post) => (
               <Grid item xs={12} md={6} key={post.id} sx={{ padding: "6px" }}>
-                  <Post key={post.id} post={post} userId={user?.id} isProfilePage={true}/>
+                  <Post key={post.id} post={post} userId={user?.id} isProfilePage={true} setIsDeleted={setIsDeleted}/>
               </Grid>
             ))
           )}
