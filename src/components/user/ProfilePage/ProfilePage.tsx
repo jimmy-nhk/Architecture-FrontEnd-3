@@ -1,32 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { Avatar, Badge, Card, CardHeader, Container, FormControl, Grid, Pagination, Stack } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import axios, { AxiosResponse } from 'axios';
+import { initializeApp } from 'firebase/app';
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import React, { useEffect, useState } from 'react';
 
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import { Link } from "react-router-dom";
-import {
-  Avatar,
-  Card,
-  CardHeader,
-  Container,
-  Grid,
-  Badge,
-  Stack,
-  FormControl,
-  Pagination,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
-import DefaultLayout from "../../generic/layout/DefaultLayout";
-import { PostClass } from "../../post/postContainer/PostContainer";
-import axios, { AxiosResponse } from "axios";
-import Post from "../../post/postCard/Post";
-import { initializeApp } from "firebase/app";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { TokenStorageService } from "../../../app/service/token-storage.service";
-import { AppConstants } from "../../../app/common/app.constants";
+import { AppConstants } from '../../../app/common/app.constants';
+import { TokenStorageService } from '../../../app/service/token-storage.service';
+import DefaultLayout from '../../generic/layout/DefaultLayout';
+import Post from '../../post/postCard/Post';
+import { PostClass } from '../../post/postContainer/PostContainer';
 
 //Firebase config
 const firebaseConfig = {
@@ -64,6 +47,7 @@ function ProfilePage() {
   const [imageUrl, setImageUrl] = useState<string>(
     "/static/images/avatar/2.jpg"
   );
+  const [isDeleted, setIsDeleted] = useState(false)
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
@@ -113,17 +97,26 @@ function ProfilePage() {
 
   const getPosts = (pageNo: number, pageSize: number) => {
     try {
-      axios
-        .get(
-          `${USER_POSTS_FETCH_API}` +
-            `getPost/userId=${user?.id}/pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id`
-        )
-        .then((response: AxiosResponse) => {
-          setTotalPages(response.data.totalPages);
-          setPosts(response.data.content);
-          console.log(response);
-        })
-        .catch((e) => console.log(e));
+      console.log("userId: ",user?.id)
+      if(user !== null){
+        var userId = user!.id;
+        console.log("userId: ",userId)
+  
+        console.log("path: " ,  `${USER_POSTS_FETCH_API}` +
+        `getPost/userId=${userId}/pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id`)
+        axios
+          .get(
+            `${USER_POSTS_FETCH_API}` +
+              `getPost/userId=${userId}/pageNo=${pageNo}&pageSize=${pageSize}&sortBy=id`
+          )
+          .then((response: AxiosResponse) => {
+            setTotalPages(response.data.totalPages);
+            setPosts(response.data.content);
+            console.log(response);
+          })
+          .catch((e) => console.log(e));
+      }
+
     } catch (error) {
       console.log(error);
     }
@@ -151,8 +144,15 @@ function ProfilePage() {
   }, [user]);
 
   useEffect(() => {
+    
+    console.log("isDeleted", isDeleted)
+    if(!isDeleted)
+      return;
+
     getPosts(page - 1, PAGE_SIZE);
-  }, [page]);
+
+    setIsDeleted(false)
+  }, [page, isDeleted ]);
 
   const coverImageUploadHandler = async function (
     e: React.ChangeEvent<HTMLInputElement>
@@ -250,7 +250,7 @@ function ProfilePage() {
           ) : (
             posts.map((post) => (
               <Grid item xs={12} md={6} key={post.id} sx={{ padding: "6px" }}>
-                  <Post key={post.id} post={post} userId={user?.id} />
+                  <Post key={post.id} post={post} userId={user?.id} isProfilePage={true} setIsDeleted={setIsDeleted}/>
               </Grid>
             ))
           )}

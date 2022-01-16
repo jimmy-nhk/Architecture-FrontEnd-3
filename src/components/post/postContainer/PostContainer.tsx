@@ -39,6 +39,7 @@ function PostContainer({category} : PostContainerProp) {
   const [page, setPage] = useState(1);
   const [posts, setPosts] = useState<PostClass[]>([]);
   const [user, setUser] = useState<User>();
+  const [isDeleted, setIsDeleted] = useState(false)
 
   console.log("PostContainer: " + category)
   const getPosts = (pageNo:number, pageSize:number) => {
@@ -84,7 +85,7 @@ function PostContainer({category} : PostContainerProp) {
           ? null
           : posts.map((post) => (
               <Grid item xs={12} md={6} key={post.id}>
-                <Post key={post.id} post={post} userId={user?.id} />
+                <Post key={post.id} post={post} userId={user?.id} isProfilePage={false} setIsDeleted={setIsDeleted} />
               </Grid>
             ))}
       </Grid>

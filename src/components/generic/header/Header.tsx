@@ -222,6 +222,7 @@ function Header({ account, setAccount }: HeaderProps) {
             <a onClick={joinUser} id="join-logout" ref={join_logout}>
               Join
             </a>
+            {console.log( "token: ",new TokenStorageService().getUser())}
             {new TokenStorageService().getUser().id ? 
             <Link
                   to={`/user`}

@@ -1,10 +1,9 @@
-import React, {useEffect} from "react";
-import CategoryContainer from "../post/categoryContainer/CategoryContainer";
-import Footer from "../generic/footer/Footer";
-import Header from "../generic/header/Header";
-import MainBackground from "../generic/mainBackground/MainBackground";
-import CategoryPost from "../post/postCategory/CategoryPost";
-import { Account } from "../../App";
+import React, { useEffect } from 'react';
+
+import { Account } from '../../App';
+import Footer from '../generic/footer/Footer';
+import Header from '../generic/header/Header';
+import CategoryContainer from '../post/categoryContainer/CategoryContainer';
 
 type AccountProps = {
   account: Account | null

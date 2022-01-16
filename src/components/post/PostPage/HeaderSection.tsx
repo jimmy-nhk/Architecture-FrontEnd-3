@@ -1,11 +1,11 @@
-import {FavoriteOutlined} from "@mui/icons-material";
-import {Avatar, AvatarGroup, Box, IconButton, Typography,Tooltip} from "@mui/material";
-import {useEffect, useState} from "react";
-import Tag from "./Tag";
-import Fade from "@mui/material/Fade";
-import Zoom from "@mui/material/Zoom";
-import { Link } from "react-router-dom";
-import axios, { AxiosResponse } from "axios";
+import { FavoriteOutlined } from '@mui/icons-material';
+import { Avatar, AvatarGroup, Box, IconButton, Tooltip, Typography } from '@mui/material';
+import Zoom from '@mui/material/Zoom';
+import axios, { AxiosResponse } from 'axios';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import Tag from './Tag';
 
 interface IHeaderSectionProps {
     title: string;

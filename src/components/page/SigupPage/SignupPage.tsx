@@ -4,6 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { AppConstants } from "../../../app/common/app.constants";
 import { AuthService } from "../../../app/service/auth.service";
 import { TokenStorageService } from "../../../app/service/token-storage.service";
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+
 
 function SignupPage() {
   var url = "http://localhost:8080/";
@@ -86,6 +93,7 @@ function SignupPage() {
       password: passwordRef.current!.value,
     };
 
+
     // create account in backend
     // axios.post(url + database + "create", accountObject).then((res) => {
     //   console.log(res.data);
@@ -121,11 +129,21 @@ function SignupPage() {
         console.log(res)
         navigate('/login')
         
+    }).catch(res => {
+      console.log(res)
+      setOpen(true)
     })
 
     // authService.register(userCredential)
   };
 
+  const [open, setOpen] = React.useState(false);
+
+
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   // hide the error if validate the result
   const hideError = (field: HTMLElement, text: HTMLElement) => {
     text.innerHTML = "";
@@ -180,7 +198,7 @@ function SignupPage() {
               <p>
                 Already have an account?
                 <a href="/login">
-                  <strong>Login here</strong>
+                  {" "}<strong> Log in here</strong>
                 </a>
               </p>
             </div>
@@ -248,6 +266,29 @@ function SignupPage() {
           </button>
         </form>
       </div>
+
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <div style={{ backgroundColor : "#F5F5F5"}}>
+        <DialogTitle id="alert-dialog-title" style={{fontWeight: "bolder" ,width: "400px"}}>
+          Unable to sign up
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText style={{ fontSize: "20px"}} id="alert-dialog-description">
+            Email already exists
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}   variant="contained">
+            Ok
+          </Button>
+        </DialogActions>
+        </div>
+      </Dialog>
     </div>
   );
 }

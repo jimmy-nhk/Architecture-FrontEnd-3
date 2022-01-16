@@ -1,14 +1,15 @@
-import { Container } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import DefaultLayout from "../../generic/layout/DefaultLayout";
-import BodySection from "./BodySection";
-import HeaderSection from "./HeaderSection";
-import HeroSection from "./HeroSection";
-import axios, { AxiosResponse } from "axios";
-import Comments from "../../comment/Comments";
-import { useParams } from "react-router-dom";
-import { TokenStorageService } from "../../../app/service/token-storage.service";
-import { AppConstants } from "../../../app/common/app.constants";
+import { Container } from '@mui/material';
+import axios, { AxiosResponse } from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+
+import { AppConstants } from '../../../app/common/app.constants';
+import { TokenStorageService } from '../../../app/service/token-storage.service';
+import Comments from '../../comment/Comments';
+import DefaultLayout from '../../generic/layout/DefaultLayout';
+import BodySection from './BodySection';
+import HeaderSection from './HeaderSection';
+import HeroSection from './HeroSection';
 
 interface ILikedUser {
   uid: number

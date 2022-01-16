@@ -1,8 +1,9 @@
-import React from "react";
-import {  ActiveCommentClass , CommentUserClass } from "./Comments";
-import image from "../comment/user-icon.png";
-import { useState, useEffect } from "react";
-import CommentForm from "./CommentForm";
+import React from 'react';
+import { useEffect, useState } from 'react';
+
+import image from '../comment/user-icon.png';
+import CommentForm from './CommentForm';
+import { ActiveCommentClass, CommentUserClass } from './Comments';
 
 function Comment(props: {
   commentUser: CommentUserClass;
@@ -75,14 +76,19 @@ function Comment(props: {
       {  console.log(" can edit comment  : " + canEdit + " with current user id: " + currentUserId )}
       {  console.log("commentUser comment id: " + commentUser.commentDTO.userId )}
       {  console.log("canEdit comment : " + (commentUser.commentDTO.userId == currentUserId)  )} */}
+      
+      {/* TODO: image here */}
       <div className="comment-image-container">
-        <img src={image} />
+        <img src={commentUser.userDTO.imageUrl === null ? image : commentUser.userDTO.imageUrl}
+        style={{width: "48px", height: "48px", objectFit: "cover"}} />
       </div>
+
+
       <div className="comment-right-part">
         <div className="comment-content">
           <div className="comment-author">
             {/* TODO: change to user name */}
-            Username: {commentUser.userDTO.displayName}
+            {commentUser.userDTO.displayName}
           </div>
           <div style={{"paddingTop": "4px"}}>{commentUser.commentDTO.datePosted}</div>
         </div>

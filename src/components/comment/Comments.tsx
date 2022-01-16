@@ -1,9 +1,12 @@
-import axios from "axios";
-import React, { useState, useEffect } from "react";
-import { AppConstants } from "../../app/common/app.constants";
-import Comment from "./Comment";
-import CommentForm from "./CommentForm";
-import "./style.css";
+import './style.css';
+
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+
+import { AppConstants } from '../../app/common/app.constants';
+import Comment from './Comment';
+import CommentForm from './CommentForm';
+
 //
 type CommentsProp = {
   currentUserId?: number;
@@ -111,6 +114,10 @@ function Comments({ currentUserId, postId }: CommentsProp) {
       });
     }
   };
+
+  const [open, setOpen] = useState(false);
+
+
 
   const updateComment = (text: string, commentId: number) => {
     axios.put(updateCommentAPI + commentId + "/body=" + text).then((res) => {

@@ -1,15 +1,15 @@
 import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import axios, { AxiosResponse } from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { AppConstants } from '../../../app/common/app.constants';
+
 import { TokenStorageService } from '../../../app/service/token-storage.service';
 import DefaultLayout from '../../generic/layout/DefaultLayout';
-import AddContributorCard from './cards/AddContributorCard';
-import MetadataCard from './cards/MetadataCard';
-import TitleAndContentCard from './cards/TitleAndContentCard';
-import UploadImageCard from './cards/UploadImageCard';
+import AddContributorCard from '../PostCreatePage/cards/AddContributorCard';
+import MetadataCard from '../PostCreatePage/cards/MetadataCard';
+import TitleAndContentCard from '../PostCreatePage/cards/TitleAndContentCard';
+import UploadImageCard from '../PostCreatePage/cards/UploadImageCard';
 
 const CATEGORIES = [
     "Engineering",
@@ -19,7 +19,7 @@ const CATEGORIES = [
     "Professional Communication",
   ];
 
-export type Post = {
+export type IPost = {
   userId: number,
   title: string,
   tagline: string,
@@ -40,7 +40,10 @@ export interface Contributor {
 //API REQUESTS PARAMS
 const URL = "https://sead-back-postservice.herokuapp.com/";
 const postPath = "post";
-const PostCreatePage = () => {
+const PostEditPage = () => {
+
+  var postId = useParams();
+  var { id } = postId;
   // Declare hook of title and content card params
   // Post title
   const [postTitle, setPostTitle] = useState<string>("");
@@ -68,16 +71,7 @@ const PostCreatePage = () => {
     setPostTags(tags);
   };
   // Post directors
-  const [postContributors, setPostContributors] = useState<Contributor[]>([
-    {
-      id: 0,
-      name: "",
-    },
-    {
-      id: 1,
-      name: "",
-    },
-  ]);
+  const [postContributors, setPostContributors] = useState<Contributor[]>([]);
   const updatePostContributors = (contributorList: Contributor[]): void => {
     const arrayMap = contributorList.map((c) => ({
       id: c.id,
@@ -109,8 +103,49 @@ const PostCreatePage = () => {
 
   const navigate = useNavigate()
 
-  const addPostAsync = () => {
+  var post: IPost | undefined = undefined;
+
+  var getPostUrl =  AppConstants.POST_URL + `getPost/id=${id}`
+  useEffect(() => {
+    console.log("postID: " , id)
+    // console.log("isLikedByUser=", isLikedByUser)
+    axios.get(getPostUrl).then((response: AxiosResponse) => {
+
+    // axios.get(URL + id).then((response: AxiosResponse) =>
+
+      post = response.data as IPost;
+      setPostTitle(post.title);
+      setPostTagline(post.tagline);
+      console.log("post.bodyText: " , post.bodyText)
+      setPostContent(post.bodyText);
+      setPostCategory(post.category);
+      
+
+      var arrDirectors = post.directors.split(';');
+      arrDirectors.map((x, index) => {
+
+        postContributors.push({
+          id:index,
+          name:x.trim()
+        });
+        setPostContributors(postContributors);
+
+      });
+      setPostCoverUrl(post.coverUrl);
+      setPostCategory(post.category);
+      setPostTags(post.tags.split(';'));
+
+    });
+  }, [])
+
+  
+
+  console.log("PostCreatePage coverUrl=", postCoverUrl);
+  
+  var updatePostUrl = AppConstants.POST_URL + "updatePost"
+  const editPostAsync = () => {
     const postObject = {
+      id: id,
       userId: new TokenStorageService().getUser().id,
       title: postTitle.trim(),
       tagline: postTagline.trim(),
@@ -132,17 +167,16 @@ const PostCreatePage = () => {
     // axios.post(postURL, postObject,
     console.log(postObject)
     axios
-      // .post("http://localhost:8085/crud/createPost", postObject)
-      .post(AppConstants.POST_URL_KAFKA, postObject)
+      .put(updatePostUrl, postObject)
       .then((response: AxiosResponse) => {
-        console.log("Successfully posted to the server");
+        console.log("Successfully updated to the server");
         console.log(response.data)
         // Finish the web here
-        navigate(`/user`)
-        
+        navigate('/user')
+
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err.response);
         console.log(err);
       });
   };
@@ -153,15 +187,18 @@ const PostCreatePage = () => {
           sx={{ display: "flex", paddingTop: "50px", paddingBottom: "20px" }}
         >
           <Typography variant="h4" sx={{ flexGrow: 1, alignSelf: "flex-end" }}>
-            Create a post
+            Edit post {}
           </Typography>
             <Button
               variant="contained"
               size="large"
-              onClick={() => addPostAsync()}
+              onClick={editPostAsync}
             >
-              Create
+              Edit
             </Button>
+
+
+
         </Box>
         <Grid container spacing={4}>
           <Grid item xs={12} md={8}>
@@ -195,4 +232,4 @@ const PostCreatePage = () => {
     </DefaultLayout>
   );
 };
-export default PostCreatePage;
+export default PostEditPage;

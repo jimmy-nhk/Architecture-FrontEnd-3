@@ -1,7 +1,6 @@
-import React from "react";
-import Grid from "@mui/material/Grid";
+import './style.css';
 
-import "./style.css";
+import React from 'react';
 
 function CategoryPost(props:any) {
   let category = props['category']
