@@ -115,6 +115,10 @@ function Comments({ currentUserId, postId }: CommentsProp) {
     }
   };
 
+  const [open, setOpen] = useState(false);
+
+
+
   const updateComment = (text: string, commentId: number) => {
     axios.put(updateCommentAPI + commentId + "/body=" + text).then((res) => {
       console.log(res.data);

@@ -9,6 +9,12 @@ import { Account } from "../../../App";
 import { AppConstants } from "../../../app/common/app.constants";
 import { TokenStorageService } from "../../../app/service/token-storage.service";
 import { useLocation } from "react-router-dom";
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 // import { Account } from "../../../App"; 
 // style for modal
@@ -38,7 +44,6 @@ function LoginPage( {setAccount} : AccountProp) {
   var database = `accounts/`
 
   let navigate = useNavigate();
-  const [open, setOpen] = React.useState(false);
 
   var isLoggedIn = false;
   var isLoginFailed = false;
@@ -101,6 +106,9 @@ function LoginPage( {setAccount} : AccountProp) {
           console.log("Log in failed")
           console.log(err)
           isLoggedIn = false
+
+          // set dialog
+          setOpen(true)
       })
     } else{
       console.log("User not found, login page operate as normal")
@@ -189,6 +197,7 @@ function LoginPage( {setAccount} : AccountProp) {
         console.log("Log in failed")
         console.log(err)
         isLoggedIn = false
+        setOpen(true)
       })
 
       // fetch the data from the backend to check the result
@@ -218,6 +227,7 @@ function LoginPage( {setAccount} : AccountProp) {
     // navigate("/", { replace: true });
   };
 
+
     // hide the error if validate the result
     const hideError = (field: HTMLElement, text: HTMLElement) => {
       text.innerHTML = ""
@@ -246,6 +256,14 @@ function LoginPage( {setAccount} : AccountProp) {
     } else if (password.current?.type === "text") {
       password.current.type = "password";
     }
+  };
+
+  const [open, setOpen] = React.useState(false);
+
+
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const checkStorage = () =>{
@@ -344,6 +362,28 @@ function LoginPage( {setAccount} : AccountProp) {
           </form>
         </div>
       </div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <div style={{ backgroundColor : "#F5F5F5"}}>
+        <DialogTitle id="alert-dialog-title" style={{fontWeight: "bolder" , width: "400px", height: "80px"}}>
+          {"Unable to log in"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText style={{ fontSize: "20px"}} id="alert-dialog-description">
+            Incorrect email or password
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} variant="contained" >
+            Ok
+          </Button>
+        </DialogActions>
+        </div>
+      </Dialog>
     </div>
   );
 }
