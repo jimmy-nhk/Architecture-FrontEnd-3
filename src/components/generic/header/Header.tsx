@@ -43,14 +43,12 @@ function Header({ account, setAccount }: HeaderProps) {
   useEffect(() => {
     console.log("After: " + isSearched);
     if (isSearched === true) {
-      searchText.current!.style.display! = "block";
       nav_list.current!.classList.add(".nav-list-search");
       engineering.current!.style.display = "none";
       business.current!.style.display = "none";
       scd.current!.style.display = "none";
       join_logout.current!.style.display = "none";
     } else {
-      searchText.current!.style.display! = "none";
       nav_list.current!.style.display = "flex";
       nav_list.current!.classList.remove(".nav-list-search");
       engineering.current!.style.display = "block";
@@ -69,11 +67,11 @@ function Header({ account, setAccount }: HeaderProps) {
     if (isNavActive === false) {
       nav!.classList.add("nav-active");
       nav!.classList.remove("nav-inactive");
-      searchText.current!.style.display! = "block";
+      // searchText.current!.style.display! = "block";
       // isNavActive = true;
       setIsNavActive(true);
     } else {
-      searchText.current!.style.display! = "none";
+      // searchText.current!.style.display! = "none";
 
       nav!.classList.add("nav-inactive");
       nav!.classList.remove("nav-active");
@@ -237,18 +235,9 @@ function Header({ account, setAccount }: HeaderProps) {
               null
             }
 
-            <input
-              ref={searchText}
-              type="text"
-              placeholder="Search…"
-              id="searchText"
-            />
 
-            <Search
-              id="searchIcon"
-              style={{ display: "block" }}
-              onClick={searchedClick}
-            />
+
+
           </ul>
 
           <div className="burger" onClick={burgerClicked}>
