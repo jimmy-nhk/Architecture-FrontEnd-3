@@ -41,7 +41,7 @@ export interface Contributor {
 const URL = "https://sead-back-postservice.herokuapp.com/";
 const postPath = "post";
 const PostEditPage = () => {
-  
+
   var postId = useParams();
   var { id } = postId;
   // Declare hook of title and content card params
@@ -71,16 +71,7 @@ const PostEditPage = () => {
     setPostTags(tags);
   };
   // Post directors
-  const [postContributors, setPostContributors] = useState<Contributor[]>([
-    {
-      id: 0,
-      name: "",
-    },
-    {
-      id: 1,
-      name: "",
-    },
-  ]);
+  const [postContributors, setPostContributors] = useState<Contributor[]>([]);
   const updatePostContributors = (contributorList: Contributor[]): void => {
     const arrayMap = contributorList.map((c) => ({
       id: c.id,
@@ -124,11 +115,18 @@ const PostEditPage = () => {
       setPostCategory(post.category);
 
       var arrDirectors = post.directors.split(';');
-      arrDirectors = arrDirectors.map((x) => x.trim())
-      setPostContributors(arrDirectors);
+      arrDirectors.map((x, index) => {
+
+        postContributors.push({
+          id:index,
+          name:x.trim()
+        });
+        setPostContributors(postContributors);
+
+      });
       setPostCoverUrl(post.coverUrl);
       setPostCategory(post.category);
-      setPostTags(post.tags);
+      setPostTags(post.tags.split(';'));
 
     });
   }, [])
@@ -162,7 +160,7 @@ const PostEditPage = () => {
         console.log("Successfully posted to the server");
         // Finish the web here
         navigate('/')
-        
+
       })
       .catch((err) => {
         console.log(err.response.data);
