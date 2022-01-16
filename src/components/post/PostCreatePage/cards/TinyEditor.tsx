@@ -78,9 +78,7 @@ const TinyEditor: React.FC<IRichTextEditorProps> = ({
   content,
   updatePostContent,
 }) => {
-  console.log("first content", content);
 
-  const [firstContent, setFirstContent] = useState(content)
   //Firebase helper
   const handleFireBaseUpload = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -89,26 +87,14 @@ const TinyEditor: React.FC<IRichTextEditorProps> = ({
   };
 
   useEffect(() => {
-    // tinymce.activeEditor.setContent(content)
-
     tinymce.remove();
   }, []);
 
-  const [isInit, setIsInit] = useState(false)
-
   useEffect(() => {
-
-    console.log("isInit in tiny", isInit);
-
-    if(isInit === false)
-        return;
-
-    console.log("content in tiny", content);
-    tinymce.activeEditor.setContent(content)
-
-    setIsInit(false)
-
-  }, [isInit, content])
+    // console.log("first content=", content);
+    if (tinymce.activeEditor && tinymce.activeEditor.initialized)
+      tinymce.activeEditor.setContent(content)
+  }, [content])
 
   tinymce.init({
     selector: "#tinyEditor",
@@ -158,9 +144,6 @@ const TinyEditor: React.FC<IRichTextEditorProps> = ({
       input.click();
     },
     setup: function (ed: any) {
-      ed.on("init", function (e: any) {
-            setIsInit(true)
-      });
       ed.on("change", function (e: any) {
         updatePostContent(ed.getContent({ format: "raw" }));
       });

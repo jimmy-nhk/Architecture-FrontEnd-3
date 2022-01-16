@@ -26,21 +26,21 @@ const TitleAndContentCard: React.FC<ITitleAndContentCardProps> = ({title, update
 
     
     useEffect(() => {
-        console.log("content in title : " , content)
+        // console.log("content in title : " , content)
         setPostTitle(title);
         // setPostContent(content);
         // setPostTagline(tagline);
     }, [title])
 
     useEffect(() => {
-        console.log("content in content : " , content)
+        // console.log("content in content : " , content)
         // setPostTitle(title);
         setPostContent(content);
         // setPostTagline(tagline);
     }, [ content])
 
     useEffect(() => {
-        console.log("content in tag line: " , content)
+        // console.log("content in tag line: " , content)
         // setPostTitle(title);
         // setPostContent(content);
         setPostTagline(tagline);
@@ -56,9 +56,9 @@ const TitleAndContentCard: React.FC<ITitleAndContentCardProps> = ({title, update
                            onChange={e => updatePostTagline(e.target.value)}
                            label="Tagline" variant="filled"/>
                 <Box sx={{height: "500px", marginTop: "1rem", border: "1px solid gray"}}>
-                    {console.log("content before in html: " , postContent)}
+                    {/* {console.log("content before in html: " , postContent)} */}
                     <TinyEditor content={postContent} updatePostContent={updatePostContent}/>
-                    {console.log("content after in html: " , postContent)}
+                    {/* {console.log("content after in html: " , postContent)} */}
 
                 </Box>
             </CardContent>
