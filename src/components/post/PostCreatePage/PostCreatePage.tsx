@@ -109,7 +109,6 @@ const PostCreatePage = () => {
 
   const navigate = useNavigate()
 
-  console.log("PostCreatePage coverUrl=", postCoverUrl);
   const addPostAsync = () => {
     const postObject = {
       userId: new TokenStorageService().getUser().id,

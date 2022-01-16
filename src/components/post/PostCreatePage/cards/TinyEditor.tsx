@@ -91,9 +91,10 @@ const TinyEditor: React.FC<IRichTextEditorProps> = ({
   }, []);
 
   useEffect(() => {
-    // console.log("first content=", content);
-    if (tinymce.activeEditor && tinymce.activeEditor.initialized)
+    if (tinymce.activeEditor && tinymce.activeEditor.getContent().length == 0)  {
       tinymce.activeEditor.setContent(content)
+      // console.log("tinymce.activeEditor=", tinymce.activeEditor)
+    }
   }, [content])
 
   tinymce.init({
